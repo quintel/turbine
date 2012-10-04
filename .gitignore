@@ -1,0 +1,37 @@
+## MAC OS
+.DS_Store
+Icon*
+
+## RUBY
+*.gem
+*.rbc
+.bundle
+.config
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+
+## RUBINIUS
+*.rbc
+rakefile.compiled.rbc
+
+## PROJECT::GENERAL
+.bundle
+.yardoc
+_yardoc
+coverage
+docs
+Gemfile.lock
+measurements
+pkg
+rdoc
+tmp
+*.gem
+
+## PROJECT::SPECIFIC
