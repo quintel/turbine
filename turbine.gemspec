@@ -32,7 +32,8 @@ Gem::Specification.new do |s|
 
   s.require_path = 'lib'
 
-  s.add_development_dependency 'rake', '>= 0.9.0'
+  s.add_development_dependency 'rake',  '>= 0.9.0'
+  s.add_development_dependency 'rspec', '>= 2.11.0'
 
   s.rdoc_options     = ['--charset=UTF-8']
   s.extra_rdoc_files = %w[LICENSE README.md]
@@ -42,7 +43,12 @@ Gem::Specification.new do |s|
 
   # = MANIFEST =
   s.files = %w[
+    LICENSE
     README.md
+    Rakefile
+    lib/turbine.rb
+    lib/turbine/version.rb
+    turbine.gemspec
   ]
   # = MANIFEST =
 
