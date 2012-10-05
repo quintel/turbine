@@ -83,3 +83,11 @@ task :validate do
     exit!
   end
 end
+
+# Console --------------------------------------------------------------------
+
+desc 'Open a pry or irb session preloaded with Turbine'
+task :console do
+  command = system("which pry > /dev/null 2>&1") ? 'pry' : 'irb'
+  exec "#{ command } -I./lib -rubygems -r./lib/turbine.rb"
+end
