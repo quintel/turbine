@@ -3,6 +3,9 @@ module Turbine
   # formed: a directed graph consists of a set of vertices and a set of arcs
   # (ordered pairs of vertices).
   class Vertex
+    # Public: Returns the unique key which identifies the vertex.
+    attr_reader :key
+
     # Public: Returns edges which connect other vertices to this one.
     attr_reader :in_edges
 
@@ -10,7 +13,7 @@ module Turbine
     attr_reader :out_edges
 
     # Creates a new Vertex.
-    def initialize(key = nil)
+    def initialize(key)
       @key       = key
       @in_edges  = []
       @out_edges = []
