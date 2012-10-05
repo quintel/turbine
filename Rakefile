@@ -4,7 +4,7 @@ require 'rake/clean'
 $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 require 'turbine/version'
 
-CLOBBER.include %w( pkg *.gem docs coverage measurements )
+CLOBBER.include %w( pkg *.gem doc coverage measurements )
 
 # Helpers --------------------------------------------------------------------
 
@@ -81,6 +81,22 @@ task :validate do
   unless Dir['VERSION*'].empty?
     puts 'A VERSION file at root level violates Gem best practices'
     exit!
+  end
+end
+
+# Documentation --------------------------------------------------------------
+
+begin
+  require 'yard'
+  require 'yard-tomdoc'
+  YARD::Rake::YardocTask.new do |doc|
+    doc.options << '--no-highlight'
+  end
+rescue LoadError
+  desc 'yard task requires that the yard gem is installed'
+  task :yard do
+    abort 'YARD is not available. In order to run yard, you must: gem ' \
+          'install yard'
   end
 end
 
