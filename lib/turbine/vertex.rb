@@ -38,6 +38,8 @@ module Turbine
     #
     # target - The vertex to which you want to connect. The +target+ vertex
     #          will be the "out" end of the edge.
+    # label  - An optional label describing the relationship between the two
+    #          vertices.
     #
     # Example:
     #
@@ -47,8 +49,8 @@ module Turbine
     #   phil.connect_to(luke, :child)
     #
     # Returns the Edge which was created.
-    def connect_to(target)
-      Edge.new(self, target).tap do |edge|
+    def connect_to(target, label)
+      Edge.new(self, target, label).tap do |edge|
         self.connect_via(edge)
         target.connect_via(edge)
       end

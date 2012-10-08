@@ -47,7 +47,19 @@ describe 'Turbine::Vertex' do
       it 'returns the edge' do
         expect(result).to be_a(Turbine::Edge)
       end
+
+      it 'sets no label on the edge' do
+        expect(result.label).to be_nil
+      end
     end # when establishing a new connection
+
+    context 'with a label' do
+      let!(:result) { claire.connect_to(haley, :child) }
+
+      it 'sets the label on the edge' do
+        expect(result.label).to eql(:child)
+      end
+    end # with a label
 
     context 'when connecting to self' do
       let!(:result) { claire.connect_to(claire) }
