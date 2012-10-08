@@ -102,8 +102,18 @@ end
 
 # Console --------------------------------------------------------------------
 
-desc 'Open a pry or irb session preloaded with Turbine'
-task :console do
-  command = system("which pry > /dev/null 2>&1") ? 'pry' : 'irb'
-  exec "#{ command } -I./lib -rubygems -r./lib/turbine.rb"
+namespace :console do
+  task :run do
+    command = system("which pry > /dev/null 2>&1") ? 'pry' : 'irb'
+    exec "#{ command } -I./lib -r./lib/turbine.rb"
+  end
+
+  desc 'Open a pry or irb session with a stub graph on `Turbine.stub`'
+  task :stub do
+    command = system("which pry > /dev/null 2>&1") ? 'pry' : 'irb'
+    exec "#{ command } -I./lib -r./lib/turbine.rb -r./examples/family.rb"
+  end
 end
+
+desc 'Open a pry or irb session preloaded with Turbine'
+task console: ['console:run']
