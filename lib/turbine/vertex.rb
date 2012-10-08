@@ -15,8 +15,8 @@ module Turbine
     # Creates a new Vertex.
     def initialize(key)
       @key       = key
-      @in_edges  = []
-      @out_edges = []
+      @in_edges  = Set.new
+      @out_edges = Set.new
     end
 
     # Public: Returns vertices which have an outgoing edge to this vertex.
@@ -33,5 +33,54 @@ module Turbine
     def inspect
       "#<Turbine::Vertex key=#{ @key.inspect }>"
     end
+
+    # Public: Connects this vertex to another.
+    #
+    # target - The vertex to which you want to connect. The +target+ vertex
+    #          will be the "out" end of the edge.
+    #
+    # Example:
+    #
+    #   phil = Turbine::Vertex.new(:phil)
+    #   luke = Turbine::Vertex.new(:luke)
+    #
+    #   phil.connect_to(luke, :child)
+    #
+    # Returns the Edge which was created.
+    def connect_to(target)
+      Edge.new(self, target).tap do |edge|
+        self.connect_via(edge)
+        target.connect_via(edge)
+      end
+    end
+
+    # Internal: Given an Edge, establishes the connection for this vertex.
+    #
+    # Please note that you need to call +connect_via+ on both the "in" and
+    # "edge" vertices. Unless you need to create the connection using a
+    # subclass of Edge, you will likey prefer using the simpler +connect_to+.
+    #
+    # Example:
+    #
+    #   phil  = Turbine::Vertex.new(:phil)
+    #   haley = Turbine::Vertex.new(:haley)
+    #
+    #   edge  = Turbine::Edge.new(phil, haley, :child)
+    #
+    #   # Adds an +out+ link from "phil" to "haley".
+    #   phil.connect_via(edge)
+    #   haley.connect_via(edge)
+    #
+    # Raises a Turbine::CannotConnectError if this vertex is not the +in+ or
+    # +out+ vertex specified by the edge.
+    #
+    # Returns the given edge.
+    def connect_via(edge)
+      @in_edges.add(edge)  if edge.out == self
+      @out_edges.add(edge) if edge.in  == self
+
+      edge
+    end
+
   end # Vertex
 end # Turbine
