@@ -54,7 +54,7 @@ module Turbine
 
     # Public: Returns a human-readable version of the edge.
     def inspect
-      "#<Turbine::Edge " \
+      "#<#{ self.class.name } " \
         "#{ @in.key.inspect } --> #{ @out.key.inspect } " \
         "label=#{ @label.inspect }>"
     end

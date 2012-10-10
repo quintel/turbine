@@ -57,7 +57,7 @@ module Turbine
 
     # Public: Returns a human-readable version of the node.
     def inspect
-      "#<Turbine::Node key=#{ @key.inspect }>"
+      "#<#{ self.class.name } key=#{ @key.inspect }>"
     end
 
     # Public: Connects this node to another.
