@@ -11,13 +11,13 @@ module Turbine
     #
     # node - The node to be added.
     #
-    # Raises a DuplicateNode is the graph already contains a node with the
-    # same key.
+    # Raises a DuplicateNodeError if the graph already contains a node with
+    # the same key.
     #
     # Returns the node.
     def add_node(node)
       if @nodes.key?(node.key)
-        raise DuplicateNode.new(node.key)
+        raise DuplicateNodeError.new(node.key)
       end
 
       @nodes[node.key] = node

@@ -5,7 +5,7 @@ module Turbine
 
   # Raised when adding a node to a graph, when one already exists with the
   # same key.
-  class DuplicateNode < TurbineError
+  class DuplicateNodeError < TurbineError
     def initialize(key)
       @key = key
     end
@@ -13,7 +13,7 @@ module Turbine
     def message
       "Graph already has a node with the key #{ @key.inspect }"
     end
-  end # DuplicateNode
+  end # DuplicateNodeError
 
   # Raised when setting properties on an object, and the given object is not a
   # hash, or is invalid in some way.

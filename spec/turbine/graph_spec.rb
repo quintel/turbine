@@ -45,9 +45,9 @@ describe 'Turbine::Graph' do
     context 'when the key conflicts with an existing node' do
       before { graph.add_node(node) }
 
-      it 'should raise a DuplicateNode error' do
+      it 'should raise a DuplicateNodeError' do
         expect(->{ graph.add_node(Turbine::Node.new(:jay)) }).
-          to raise_error(Turbine::DuplicateNode)
+          to raise_error(Turbine::DuplicateNodeError)
       end
     end # when the key conflicts with an existing node
   end # adding a new node
