@@ -133,4 +133,22 @@ describe 'Turbine::Collection' do
     end
   end
 
+  # --------------------------------------------------------------------------
+
+  describe '#==' do
+    it 'should return true when both have identical members' do
+      other = Turbine::Collection.new([claire, phil])
+      expect(parent_collection == other).to be_true
+    end
+
+    it 'does not care about collection order' do
+      other = Turbine::Collection.new([phil, claire])
+      expect(parent_collection == other).to be_true
+    end
+
+    it 'should return false when the collections are different' do
+      expect(parent_collection == Turbine::Collection.new([phil])).to be_false
+    end
+  end
+
 end # Turbine::Collection

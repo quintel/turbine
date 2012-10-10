@@ -150,6 +150,16 @@ module Turbine
       Collection.new(super(*args, &block))
     end
 
+    # Equality and Identity
+    # ---------------------
+
+    # Public: Tests if the contents of +other+ is identical to +self+.
+    def equal?(other)
+      other.is_a?(Collection) && @collection == Set.new(other.to_a)
+    end
+
+    alias_method :==, :equal?
+
     # Methods For Performance
     # -----------------------
 
