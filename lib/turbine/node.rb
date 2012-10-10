@@ -22,7 +22,7 @@ module Turbine
     #
     # Returns an array of Node instances.
     def in(label = nil)
-      in_edges(label).map(&:in)
+      Collection.new(in_edges(label).map(&:in))
     end
 
     # Public: Returns verticies to which this node has outgoing edges.
@@ -32,7 +32,7 @@ module Turbine
     #
     # Returns an array of Node instances.
     def out(label = nil)
-      out_edges(label).map(&:out)
+      Collection.new(out_edges(label).map(&:out))
     end
 
     # Public: Returns this node's in edges.
@@ -42,7 +42,8 @@ module Turbine
     #
     # Returns an array of Edges.
     def in_edges(label = nil)
-      label.nil? ? @in_edges : @in_edges.select { |e| e.label == label }
+      Collection.new(
+        label.nil? ? @in_edges : @in_edges.select { |e| e.label == label })
     end
 
     # Public: Returns this node's out edges.
@@ -52,7 +53,8 @@ module Turbine
     #
     # Returns an array of Edges.
     def out_edges(label = nil)
-      label.nil? ? @out_edges : @out_edges.select { |e| e.label == label }
+      Collection.new(
+        label.nil? ? @out_edges : @out_edges.select { |e| e.label == label })
     end
 
     # Public: Returns a human-readable version of the node.

@@ -40,12 +40,16 @@ module Turbine
     #
     # Returns an array of nodes.
     def nodes
-      @nodes.values
+      Collection.new(@nodes.values)
     end
 
     # Public: A human-readable version of the graph.
     def inspect
-      "#<Turbine::Graph (#{ @nodes.length } nodes)>"
+      edge_count = @nodes.values.each_with_object(Set.new) do |node, edges|
+        edges.merge(node.out_edges)
+      end.length
+
+      "#<Turbine::Graph (#{ @nodes.length } nodes, #{ edge_count } edges)>"
     end
 
   end # Graph
