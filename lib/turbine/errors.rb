@@ -17,7 +17,7 @@ module Turbine
 
   # Raised when adding an edge between two nodes which is too similar to an
   # existing edge. See Edge#similar?
-  class EdgeTooSimilarError < TurbineError
+  class DuplicateEdgeError < TurbineError
     def initialize(node, edge)
       @node, @edge = node, edge
     end
@@ -41,14 +41,4 @@ module Turbine
         "#{ @model.inspect } - it must be a Hash, or subclass of Hash."
     end
   end # InvalidPropertiesError
-
-  # Raised when adding a second Edge from one Node to the Other.
-  class DuplicateEdgeError < TurbineError
-    def initialize
-    end
-
-    def message
-      "Graph already has this edge defined"
-    end
-  end
 end # Turbine

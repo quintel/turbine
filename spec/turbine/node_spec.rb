@@ -170,9 +170,9 @@ describe 'Turbine::Node' do
     context 'when an identical edge already exists' do
       let!(:original) { claire.connect_to(haley, :child) }
 
-      it 'raises EdgeTooSimilarError' do
+      it 'raises DuplicateEdgeError' do
         expect(-> { claire.connect_to(haley, :child) }).
-          to raise_error(Turbine::EdgeTooSimilarError)
+          to raise_error(Turbine::DuplicateEdgeError)
       end
     end # when an identical edge already exists
   end # connect_to
@@ -211,9 +211,9 @@ describe 'Turbine::Node' do
       context 'with identical labels' do
         let(:other) { Turbine::Edge.new(jay, gloria, :spouse) }
 
-        it 'raises a EdgeTooSimilarError' do
+        it 'raises a DuplicateEdgeError' do
           expect(->{ gloria.connect_via(other) }).
-            to raise_error(Turbine::EdgeTooSimilarError)
+            to raise_error(Turbine::DuplicateEdgeError)
         end
       end # with identical labels
     end # when the node is the edge's "in"
@@ -246,9 +246,9 @@ describe 'Turbine::Node' do
         context 'with identical labels' do
           let(:other) { Turbine::Edge.new(jay, gloria, :spouse) }
 
-          it 'raises a EdgeTooSimilarError' do
+          it 'raises a DuplicateEdgeError' do
             expect(->{ jay.connect_via(other) }).
-              to raise_error(Turbine::EdgeTooSimilarError)
+              to raise_error(Turbine::DuplicateEdgeError)
           end
         end # with identical labels
       end # and a duplicate edge already exists
@@ -273,9 +273,9 @@ describe 'Turbine::Node' do
       context 'and a duplicate edge already exists' do
         let(:other) { Turbine::Edge.new(jay, jay) }
 
-        it 'raises a EdgeTooSimilarError' do
+        it 'raises a DuplicateEdgeError' do
           expect(->{ jay.connect_via(other) }).
-            to raise_error(Turbine::EdgeTooSimilarError)
+            to raise_error(Turbine::DuplicateEdgeError)
         end
       end # and a duplicate edge already exists
     end # when the edge is a loop
