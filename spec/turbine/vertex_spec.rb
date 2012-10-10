@@ -20,14 +20,88 @@ describe 'Turbine::Vertex' do
   end
 
   describe '#in' do
-    subject { vertex.in }
+    let(:phil)   { Turbine::Vertex.new(:phil) }
+    let(:claire) { Turbine::Vertex.new(:claire) }
+    let(:haley)  { Turbine::Vertex.new(:haley) }
+    let(:alex)   { Turbine::Vertex.new(:alex) }
+    let(:luke)   { Turbine::Vertex.new(:luke) }
+
+    before do
+      claire.connect_to(luke, :child)
+      phil.connect_to(luke, :child)
+      haley.connect_to(luke,  :sibling)
+      alex.connect_to(luke)
+    end
+
+    subject { luke.in }
     it { should be_kind_of(Enumerable) }
+
+    context 'with no label' do
+      subject { luke.in }
+
+      it 'should return all in vertices' do
+        expect(subject).to have(4).members
+      end
+
+      it { should include(phil) }
+      it { should include(claire) }
+      it { should include(haley) }
+      it { should include(alex) }
+    end # with no label
+
+    context 'with a label' do
+      subject { luke.in(:child) }
+
+      it 'should return all in vertices' do
+        expect(subject).to have(2).members
+      end
+
+      it { should include(phil) }
+      it { should include(claire) }
+    end
   end
 
   describe '#out' do
-    subject { vertex.out }
+    let(:phil)   { Turbine::Vertex.new(:phil) }
+    let(:claire) { Turbine::Vertex.new(:claire) }
+    let(:haley)  { Turbine::Vertex.new(:haley) }
+    let(:alex)   { Turbine::Vertex.new(:alex) }
+    let(:luke)   { Turbine::Vertex.new(:luke) }
+
+    before do
+      luke.connect_to(claire, :parent)
+      luke.connect_to(phil,   :parent)
+      luke.connect_to(haley,  :sibling)
+      luke.connect_to(alex)
+    end
+
+    subject { luke.out }
     it { should be_kind_of(Enumerable) }
-  end
+
+    context 'with no label' do
+      subject { luke.out }
+
+      it 'should return all in vertices' do
+        expect(subject).to have(4).members
+      end
+
+      it { should include(phil) }
+      it { should include(claire) }
+      it { should include(haley) }
+      it { should include(alex) }
+    end # with no label
+
+    context 'with a label' do
+      subject { luke.out(:parent) }
+
+      it 'should return all in vertices' do
+        expect(subject).to have(2).members
+      end
+
+      it { should include(phil) }
+      it { should include(claire) }
+    end
+  end # #out
 
   describe '#connect_to' do
     let(:claire) { Turbine::Vertex.new(:claire) }

@@ -20,13 +20,21 @@ module Turbine
     end
 
     # Public: Returns vertices which have an outgoing edge to this vertex.
-    def in
-      @in_edges.map(&:in)
+    def in(label = nil)
+      if label
+        @in_edges.select { |edge| edge.label == label }.map(&:in)
+      else
+        @in_edges.map(&:in)
+      end
     end
 
     # Public: Returns verticies to which this vertex has outgoing edges.
-    def out
-      @out_edges.map(&:out)
+    def out(label = nil)
+      if label
+        @out_edges.select { |edge| edge.label == label }.map(&:out)
+      else
+        @out_edges.map(&:out)
+      end
     end
 
     # Public: Returns a human-readable version of the vertex.
