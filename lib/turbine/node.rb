@@ -3,14 +3,16 @@ module Turbine
   # formed: a directed graph consists of a set of nodes and a set of arcs
   # (ordered pairs of nodes).
   class Node
+    include Properties
+
     # Public: Returns the unique key which identifies the node.
     attr_reader :key
 
     # Creates a new Node.
     def initialize(key)
-      @key       = key
-      @in_edges  = Set.new
-      @out_edges = Set.new
+      @key        = key
+      @in_edges   = Set.new
+      @out_edges  = Set.new
     end
 
     # Public: Returns nodes which have an outgoing edge to this node.

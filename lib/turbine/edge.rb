@@ -28,6 +28,8 @@ module Turbine
   #   gloria.connect_via(gloria_married_to_jay)
   #
   class Edge
+    include Properties
+
     # Public: Returns the edge's in node.
     attr_reader :in
 

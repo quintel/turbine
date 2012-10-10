@@ -14,4 +14,18 @@ module Turbine
       "Graph already has a node with the key #{ @key.inspect }"
     end
   end # DuplicateNode
+
+  # Raised when setting properties on an object, and the given object is not a
+  # hash, or is invalid in some way.
+  class InvalidPropertiesError < TurbineError
+    def initialize(model, properties)
+      @model      = model
+      @properties = properties
+    end
+
+    def message
+      "Tried to assign properties #{ @properties.inspect } on " \
+        "#{ @model.inspect } - it must be a Hash, or subclass of Hash."
+    end
+  end # InvalidPropertiesError
 end # Turbine
