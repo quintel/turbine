@@ -49,7 +49,7 @@ module Turbine
     #   phil.connect_to(luke, :child)
     #
     # Returns the Edge which was created.
-    def connect_to(target, label)
+    def connect_to(target, label = nil)
       Edge.new(self, target, label).tap do |edge|
         self.connect_via(edge)
         target.connect_via(edge)
