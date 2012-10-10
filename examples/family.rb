@@ -1,3 +1,5 @@
+require 'turbine'
+
 module Turbine
   def self.stub
     graph    = Turbine::Graph.new
