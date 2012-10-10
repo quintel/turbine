@@ -29,7 +29,7 @@ module Turbine
   #
   #   # Remove the Luke's parents:
   #
-  #   grandparent_children = grandparent_children = luke.out(:parent)
+  #   grandparent_children = grandparent_children - luke.out(:parent)
   #
   #   # The collection now contains uncles and aunts who are direct relatives;
   #   # complete the list by adding their spouses:
