@@ -1,39 +1,39 @@
 module Turbine
-  # In graph theory, a vertex is the fundamental unit of which graphs are
-  # formed: a directed graph consists of a set of vertices and a set of arcs
-  # (ordered pairs of vertices).
-  class Vertex
-    # Public: Returns the unique key which identifies the vertex.
+  # In graph theory, a node is the fundamental unit of which graphs are
+  # formed: a directed graph consists of a set of nodes and a set of arcs
+  # (ordered pairs of nodes).
+  class Node
+    # Public: Returns the unique key which identifies the node.
     attr_reader :key
 
-    # Creates a new Vertex.
+    # Creates a new Node.
     def initialize(key)
       @key       = key
       @in_edges  = Set.new
       @out_edges = Set.new
     end
 
-    # Public: Returns vertices which have an outgoing edge to this vertex.
+    # Public: Returns nodes which have an outgoing edge to this node.
     #
     # label - An optional label by which to filter the in edges, before
-    #         fetching the matched vertices.
+    #         fetching the matched nodes.
     #
-    # Returns an array of Vertex instances.
+    # Returns an array of Node instances.
     def in(label = nil)
       in_edges(label).map(&:in)
     end
 
-    # Public: Returns verticies to which this vertex has outgoing edges.
+    # Public: Returns verticies to which this node has outgoing edges.
     #
     # label - An optional label by which to filter the out edges, before
-    #         fetching the matched vertices.
+    #         fetching the matched nodes.
     #
-    # Returns an array of Vertex instances.
+    # Returns an array of Node instances.
     def out(label = nil)
       out_edges(label).map(&:out)
     end
 
-    # Public: Returns this vertex's in edges.
+    # Public: Returns this node's in edges.
     #
     # label - An optional label; only edges with this label will be returned.
     #         Passing nil will return all in edges.
@@ -43,7 +43,7 @@ module Turbine
       label.nil? ? @in_edges : @in_edges.select { |e| e.label == label }
     end
 
-    # Public: Returns this vertex's out edges.
+    # Public: Returns this node's out edges.
     #
     # label - An optional label; only edges with this label will be returned.
     #         Passing nil will return all out edges.
@@ -53,22 +53,22 @@ module Turbine
       label.nil? ? @out_edges : @out_edges.select { |e| e.label == label }
     end
 
-    # Public: Returns a human-readable version of the vertex.
+    # Public: Returns a human-readable version of the node.
     def inspect
-      "#<Turbine::Vertex key=#{ @key.inspect }>"
+      "#<Turbine::Node key=#{ @key.inspect }>"
     end
 
-    # Public: Connects this vertex to another.
+    # Public: Connects this node to another.
     #
-    # target - The vertex to which you want to connect. The +target+ vertex
+    # target - The node to which you want to connect. The +target+ node
     #          will be the "out" end of the edge.
     # label  - An optional label describing the relationship between the two
-    #          vertices.
+    #          nodes.
     #
     # Example:
     #
-    #   phil = Turbine::Vertex.new(:phil)
-    #   luke = Turbine::Vertex.new(:luke)
+    #   phil = Turbine::Node.new(:phil)
+    #   luke = Turbine::Node.new(:luke)
     #
     #   phil.connect_to(luke, :child)
     #
@@ -80,16 +80,16 @@ module Turbine
       end
     end
 
-    # Internal: Given an Edge, establishes the connection for this vertex.
+    # Internal: Given an Edge, establishes the connection for this node.
     #
     # Please note that you need to call +connect_via+ on both the "in" and
-    # "edge" vertices. Unless you need to create the connection using a
+    # "edge" nodes. Unless you need to create the connection using a
     # subclass of Edge, you will likey prefer using the simpler +connect_to+.
     #
     # Example:
     #
-    #   phil  = Turbine::Vertex.new(:phil)
-    #   haley = Turbine::Vertex.new(:haley)
+    #   phil  = Turbine::Node.new(:phil)
+    #   haley = Turbine::Node.new(:haley)
     #
     #   edge  = Turbine::Edge.new(phil, haley, :child)
     #
@@ -97,8 +97,8 @@ module Turbine
     #   phil.connect_via(edge)
     #   haley.connect_via(edge)
     #
-    # Raises a Turbine::CannotConnectError if this vertex is not the +in+ or
-    # +out+ vertex specified by the edge.
+    # Raises a Turbine::CannotConnectError if this node is not the +in+ or
+    # +out+ node specified by the edge.
     #
     # Returns the given edge.
     def connect_via(edge)
@@ -108,5 +108,5 @@ module Turbine
       edge
     end
 
-  end # Vertex
+  end # Node
 end # Turbine

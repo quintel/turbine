@@ -1,54 +1,54 @@
 require 'spec_helper'
 
 describe 'Turbine::Graph' do
-  describe 'adding a new vertex' do
+  describe 'adding a new node' do
     let(:graph)  { Turbine::Graph.new }
-    let(:vertex) { Turbine::Vertex.new(:jay) }
+    let(:node) { Turbine::Node.new(:jay) }
 
     context 'when the graph is empty' do
-      before { graph.add_vertex(vertex) }
+      before { graph.add_node(node) }
 
-      it 'should add the vertex' do
-        expect(graph.vertex(:jay)).to eql(vertex)
+      it 'should add the node' do
+        expect(graph.node(:jay)).to eql(node)
       end
 
-      it 'should be included in the "vertices" enumerable' do
-        expect(graph.vertices).to include(vertex)
+      it 'should be included in the "nodes" enumerable' do
+        expect(graph.nodes).to include(node)
       end
     end # when the graph is empty
 
-    context 'when another non-conflicting vertex exists' do
-      let(:other) { Turbine::Vertex.new(:gloria) }
+    context 'when another non-conflicting node exists' do
+      let(:other) { Turbine::Node.new(:gloria) }
 
       before do
-        graph.add_vertex(other)
-        graph.add_vertex(vertex)
+        graph.add_node(other)
+        graph.add_node(node)
       end
 
-      it 'should add the vertex' do
-        expect(graph.vertex(:jay)).to eql(vertex)
+      it 'should add the node' do
+        expect(graph.node(:jay)).to eql(node)
       end
 
-      it 'should retain the other vertex' do
-        expect(graph.vertex(:gloria)).to eql(other)
+      it 'should retain the other node' do
+        expect(graph.node(:gloria)).to eql(other)
       end
 
-      it 'should be included in the "vertices" enumerable' do
-        expect(graph.vertices).to include(vertex)
+      it 'should be included in the "nodes" enumerable' do
+        expect(graph.nodes).to include(node)
       end
 
-      it 'should include the other vertex in the "vertices" enumerable' do
-        expect(graph.vertices).to include(other)
+      it 'should include the other node in the "nodes" enumerable' do
+        expect(graph.nodes).to include(other)
       end
-    end # when another non-conflicting vertex exists
+    end # when another non-conflicting node exists
 
-    context 'when the key conflicts with an existing vertex' do
-      before { graph.add_vertex(vertex) }
+    context 'when the key conflicts with an existing node' do
+      before { graph.add_node(node) }
 
-      it 'should raise a DuplicateVertex error' do
-        expect(->{ graph.add_vertex(Turbine::Vertex.new(:jay)) }).
-          to raise_error(Turbine::DuplicateVertex)
+      it 'should raise a DuplicateNode error' do
+        expect(->{ graph.add_node(Turbine::Node.new(:jay)) }).
+          to raise_error(Turbine::DuplicateNode)
       end
-    end # when the key conflicts with an existing vertex
-  end # adding a new vertex
+    end # when the key conflicts with an existing node
+  end # adding a new node
 end # Turbine::Graph

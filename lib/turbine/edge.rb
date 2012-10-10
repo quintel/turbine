@@ -1,22 +1,22 @@
 module Turbine
-  # Edges represent a connection between an +in+ vertex and an +out+ vertex.
+  # Edges represent a connection between an +in+ node and an +out+ node.
   #
   # Note that simply creating an Edge does not actually establish the
-  # connection between the two vertices. Rather than creating the Edge
-  # instance manually, Vertex can do this for you with +Vertex#connect_to+ and
-  # +Vertex#connect_via+:
+  # connection between the two nodes. Rather than creating the Edge
+  # instance manually, Node can do this for you with +Node#connect_to+ and
+  # +Node#connect_via+:
   #
-  #   jay    = Turbine::Vertex.new(:jay)
-  #   gloria = Turbine::Vertex.new(:gloria)
+  #   jay    = Turbine::Node.new(:jay)
+  #   gloria = Turbine::Node.new(:gloria)
   #
   #   jay.connect_to(gloria, :spouse)
   #   gloria.connect_to(jay, :spouse)
   #
   # However, if you want to do it manually (perhaps with a subclass of Edge),
-  # you should use +Vertex#connect_via+:
+  # you should use +Node#connect_via+:
   #
-  #   jay    = Turbine::Vertex.new(:jay)
-  #   gloria = Turbine::Vertex.new(:gloria)
+  #   jay    = Turbine::Node.new(:jay)
+  #   gloria = Turbine::Node.new(:gloria)
   #
   #   jay_married_to_gloria = Turbine::Edge.new(jay, gloria, :spouse)
   #   gloria_married_to_jay = Turbine::Edge.new(gloria, jay, :spouse)
@@ -28,10 +28,10 @@ module Turbine
   #   gloria.connect_via(gloria_married_to_jay)
   #
   class Edge
-    # Public: Returns the edge's in vertex.
+    # Public: Returns the edge's in node.
     attr_reader :in
 
-    # Public: Returns the edge's out vertex.
+    # Public: Returns the edge's out node.
     attr_reader :out
 
     # Public: Returns the optional label assigned to the edge.
@@ -39,14 +39,14 @@ module Turbine
 
     # Public: Creates a new Edge.
     #
-    # in_vertex  - The Vertex which is connected to the +out+ vertex.
-    # out_vertex - The Vertex which is being connected to by the +in+ vertex.
+    # in_node  - The Node which is connected to the +out+ node.
+    # out_node - The Node which is being connected to by the +in+ node.
     # label      - An optional label for describing the nature of the
-    #              relationship between the two vertices.
+    #              relationship between the two nodes.
     #
-    def initialize(in_vertex, out_vertex, label = nil)
-      @in    = in_vertex
-      @out   = out_vertex
+    def initialize(in_node, out_node, label = nil)
+      @in    = in_node
+      @out   = out_node
       @label = label
     end
 

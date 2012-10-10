@@ -4,19 +4,19 @@ module Turbine
   def self.stub
     graph    = Turbine::Graph.new
 
-    phil     = graph.add_vertex(Turbine::Vertex.new(:phil))
-    claire   = graph.add_vertex(Turbine::Vertex.new(:claire))
-    haley    = graph.add_vertex(Turbine::Vertex.new(:haley))
-    alex     = graph.add_vertex(Turbine::Vertex.new(:alex))
-    luke     = graph.add_vertex(Turbine::Vertex.new(:luke))
+    phil     = graph.add_node(Turbine::Node.new(:phil))
+    claire   = graph.add_node(Turbine::Node.new(:claire))
+    haley    = graph.add_node(Turbine::Node.new(:haley))
+    alex     = graph.add_node(Turbine::Node.new(:alex))
+    luke     = graph.add_node(Turbine::Node.new(:luke))
 
-    jay      = graph.add_vertex(Turbine::Vertex.new(:jay))
-    gloria   = graph.add_vertex(Turbine::Vertex.new(:gloria))
-    manny    = graph.add_vertex(Turbine::Vertex.new(:manny))
+    jay      = graph.add_node(Turbine::Node.new(:jay))
+    gloria   = graph.add_node(Turbine::Node.new(:gloria))
+    manny    = graph.add_node(Turbine::Node.new(:manny))
 
-    mitchell = graph.add_vertex(Turbine::Vertex.new(:mitchell))
-    cameron  = graph.add_vertex(Turbine::Vertex.new(:cameron))
-    lily     = graph.add_vertex(Turbine::Vertex.new(:lily))
+    mitchell = graph.add_node(Turbine::Node.new(:mitchell))
+    cameron  = graph.add_node(Turbine::Node.new(:cameron))
+    lily     = graph.add_node(Turbine::Node.new(:lily))
 
     # Dunphy -----------------------------------------------------------------
 

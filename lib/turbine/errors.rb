@@ -3,15 +3,15 @@ module Turbine
   # Turbine.
   TurbineError = Class.new(StandardError)
 
-  # Raised when adding a vertex to a graph, when one already exists with the
+  # Raised when adding a node to a graph, when one already exists with the
   # same key.
-  class DuplicateVertex < TurbineError
+  class DuplicateNode < TurbineError
     def initialize(key)
       @key = key
     end
 
     def message
-      "Graph already has a vertex with the key #{ @key.inspect }"
+      "Graph already has a node with the key #{ @key.inspect }"
     end
-  end # DuplicateVertex
+  end # DuplicateNode
 end # Turbine

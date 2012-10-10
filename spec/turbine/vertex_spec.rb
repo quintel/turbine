@@ -1,30 +1,30 @@
 require 'spec_helper'
 
-describe 'Turbine::Vertex' do
-  let(:vertex) { Turbine::Vertex.new(:phil) }
+describe 'Turbine::Node' do
+  let(:node) { Turbine::Node.new(:phil) }
 
-  context 'creating a new vertex' do
+  context 'creating a new node' do
     context 'without providing a key' do
-      it { expect(-> { Turbine::Vertex.new }).to raise_error(ArgumentError) }
+      it { expect(-> { Turbine::Node.new }).to raise_error(ArgumentError) }
     end
   end
 
   describe '#in_edges' do
-    subject { vertex.in_edges }
+    subject { node.in_edges }
     it { should be_kind_of(Enumerable) }
   end
 
   describe '#out_edges' do
-    subject { vertex.out_edges }
+    subject { node.out_edges }
     it { should be_kind_of(Enumerable) }
   end
 
   describe '#in' do
-    let(:phil)   { Turbine::Vertex.new(:phil) }
-    let(:claire) { Turbine::Vertex.new(:claire) }
-    let(:haley)  { Turbine::Vertex.new(:haley) }
-    let(:alex)   { Turbine::Vertex.new(:alex) }
-    let(:luke)   { Turbine::Vertex.new(:luke) }
+    let(:phil)   { Turbine::Node.new(:phil) }
+    let(:claire) { Turbine::Node.new(:claire) }
+    let(:haley)  { Turbine::Node.new(:haley) }
+    let(:alex)   { Turbine::Node.new(:alex) }
+    let(:luke)   { Turbine::Node.new(:luke) }
 
     before do
       claire.connect_to(luke, :child)
@@ -39,7 +39,7 @@ describe 'Turbine::Vertex' do
     context 'with no label' do
       subject { luke.in }
 
-      it 'should return all in vertices' do
+      it 'should return all in nodes' do
         expect(subject).to have(4).members
       end
 
@@ -56,7 +56,7 @@ describe 'Turbine::Vertex' do
     context 'with a label' do
       subject { luke.in(:child) }
 
-      it 'should return all in vertices' do
+      it 'should return all in nodes' do
         expect(subject).to have(2).members
       end
 
@@ -70,11 +70,11 @@ describe 'Turbine::Vertex' do
   end
 
   describe '#out' do
-    let(:phil)   { Turbine::Vertex.new(:phil) }
-    let(:claire) { Turbine::Vertex.new(:claire) }
-    let(:haley)  { Turbine::Vertex.new(:haley) }
-    let(:alex)   { Turbine::Vertex.new(:alex) }
-    let(:luke)   { Turbine::Vertex.new(:luke) }
+    let(:phil)   { Turbine::Node.new(:phil) }
+    let(:claire) { Turbine::Node.new(:claire) }
+    let(:haley)  { Turbine::Node.new(:haley) }
+    let(:alex)   { Turbine::Node.new(:alex) }
+    let(:luke)   { Turbine::Node.new(:luke) }
 
     before do
       luke.connect_to(claire, :parent)
@@ -89,7 +89,7 @@ describe 'Turbine::Vertex' do
     context 'with no label' do
       subject { luke.out }
 
-      it 'should return all in vertices' do
+      it 'should return all in nodes' do
         expect(subject).to have(4).members
       end
 
@@ -106,7 +106,7 @@ describe 'Turbine::Vertex' do
     context 'with a label' do
       subject { luke.out(:parent) }
 
-      it 'should return all in vertices' do
+      it 'should return all in nodes' do
         expect(subject).to have(2).members
       end
 
@@ -120,13 +120,13 @@ describe 'Turbine::Vertex' do
   end # #out
 
   describe '#connect_to' do
-    let(:claire) { Turbine::Vertex.new(:claire) }
-    let(:haley)  { Turbine::Vertex.new(:haley) }
+    let(:claire) { Turbine::Node.new(:claire) }
+    let(:haley)  { Turbine::Node.new(:haley) }
 
     context 'when establishing a new connection' do
       let!(:result) { claire.connect_to(haley) }
 
-      it 'sets up an "out" edge on the vertex' do
+      it 'sets up an "out" edge on the node' do
         expect(claire.out_edges).to include(result)
       end
 
@@ -154,11 +154,11 @@ describe 'Turbine::Vertex' do
     context 'when connecting to self' do
       let!(:result) { claire.connect_to(claire) }
 
-      it 'sets up an "out" edge on the vertex' do
+      it 'sets up an "out" edge on the node' do
         expect(claire.out_edges).to include(result)
       end
 
-      it 'sets up an "in" edge on the vertex' do
+      it 'sets up an "in" edge on the node' do
         expect(claire.in_edges).to include(result)
       end
 
@@ -178,14 +178,14 @@ describe 'Turbine::Vertex' do
   end # connect_to
 
   describe '#connect_via' do
-    let(:jay)    { Turbine::Vertex.new(:jay) }
-    let(:gloria) { Turbine::Vertex.new(:gloria) }
+    let(:jay)    { Turbine::Node.new(:jay) }
+    let(:gloria) { Turbine::Node.new(:gloria) }
     let(:edge)   { Turbine::Edge.new(jay, gloria) }
 
-    context %(when the vertex is the edge's "in") do
+    context %(when the node is the edge's "in") do
       let!(:result) { gloria.connect_via(edge) }
 
-      it %(adds the edge to the vertex's "in" edges) do
+      it %(adds the edge to the node's "in" edges) do
         expect(gloria.in_edges).to include(edge)
       end
 
@@ -205,12 +205,12 @@ describe 'Turbine::Vertex' do
           expect(gloria.in_edges).to include(other)
         end
       end # and a duplicate edge already exists
-    end # when the vertex is the edge's "in"
+    end # when the node is the edge's "in"
 
-    context %(when the vertex is the edge's "out") do
+    context %(when the node is the edge's "out") do
       let!(:result) { jay.connect_via(edge) }
 
-      it %(adds the edge to the vertex's "out" edges) do
+      it %(adds the edge to the node's "out" edges) do
         expect(jay.out_edges).to include(edge)
       end
 
@@ -230,17 +230,17 @@ describe 'Turbine::Vertex' do
           expect(jay.out_edges).to include(other)
         end
       end # and a duplicate edge already exists
-    end # when the vertex is the edge's "out"
+    end # when the node is the edge's "out"
 
     context 'when the edge is a loop' do
       let(:edge)    { Turbine::Edge.new(jay, jay) }
       let!(:result) { jay.connect_via(edge) }
 
-      it %(adds the edge to the vertex's "out" edges) do
+      it %(adds the edge to the node's "out" edges) do
         expect(jay.out_edges).to include(edge)
       end
 
-      it %(adds the edge to the vertex's "in" edges) do
+      it %(adds the edge to the node's "in" edges) do
         expect(jay.in_edges).to include(edge)
       end
 
