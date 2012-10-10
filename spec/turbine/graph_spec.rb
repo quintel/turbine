@@ -1,10 +1,11 @@
 require 'spec_helper'
 
 describe 'Turbine::Graph' do
-  describe 'adding a new node' do
-    let(:graph)  { Turbine::Graph.new }
-    let(:node) { Turbine::Node.new(:jay) }
+  let(:graph)  { Turbine::Graph.new         }
+  let(:node)   { Turbine::Node.new(:jay)    }
+  let(:other)  { Turbine::Node.new(:gloria) }
 
+  describe 'adding a new node' do
     context 'when the graph is empty' do
       before { graph.add_node(node) }
 
@@ -18,8 +19,6 @@ describe 'Turbine::Graph' do
     end # when the graph is empty
 
     context 'when another non-conflicting node exists' do
-      let(:other) { Turbine::Node.new(:gloria) }
-
       before do
         graph.add_node(other)
         graph.add_node(node)
@@ -39,6 +38,16 @@ describe 'Turbine::Graph' do
 
       it 'should include the other node in the "nodes" enumerable' do
         expect(graph.nodes).to include(other)
+      end
+
+      it 'should draw an edge between them' do
+        expect(graph.node(:jay).connect_to(other)).to be_an Turbine::Edge
+      end
+
+      it 'should raise DuplicateEdge Error when two nodes get two edges' do
+        graph.node(:jay).connect_to(other)
+        expect(->{ graph.node(:jay).connect_to(other) }).
+         to raise_error(Turbine::DuplicateEdgeError)
       end
     end # when another non-conflicting node exists
 

@@ -41,4 +41,14 @@ module Turbine
         "#{ @model.inspect } - it must be a Hash, or subclass of Hash."
     end
   end # InvalidPropertiesError
+
+  # Raised when adding a second Edge from one Node to the Other.
+  class DuplicateEdgeError < TurbineError
+    def initialize
+    end
+
+    def message
+      "Graph already has this edge defined"
+    end
+  end
 end # Turbine

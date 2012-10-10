@@ -75,7 +75,10 @@ module Turbine
     #   phil.connect_to(luke, :child)
     #
     # Returns the Edge which was created.
+    #
+    # Raises a Turbine::DuplicateEdgeError if the Edge already existed.
     def connect_to(target, label = nil)
+      raise Turbine::DuplicateEdgeError if has_edge_with?(target)
       Edge.new(self, target, label).tap do |edge|
         self.connect_via(edge)
         target.connect_via(edge)
@@ -127,6 +130,12 @@ module Turbine
       end
 
       collection.add(edge)
+    # tests whether this Node already has an Edge with another Node
+    #
+    # Returns true or false
+    def has_edge_with?(target)
+      @out_edges.any?{|e|e.out == target} ||
+        @in_edges.any?{|e|e.in == target}
     end
 
   end # Node
