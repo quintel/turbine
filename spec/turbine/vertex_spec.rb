@@ -47,6 +47,10 @@ describe 'Turbine::Vertex' do
       it { should include(claire) }
       it { should include(haley) }
       it { should include(alex) }
+
+      it 'should filter the out_edges' do
+        expect(luke.in_edges).to have(4).members
+      end
     end # with no label
 
     context 'with a label' do
@@ -58,6 +62,10 @@ describe 'Turbine::Vertex' do
 
       it { should include(phil) }
       it { should include(claire) }
+
+      it 'should filter the in_edges' do
+        expect(luke.in_edges(:child)).to have(2).members
+      end
     end
   end
 
@@ -89,6 +97,10 @@ describe 'Turbine::Vertex' do
       it { should include(claire) }
       it { should include(haley) }
       it { should include(alex) }
+
+      it 'should not filter the out_edges' do
+        expect(luke.out_edges).to have(4).members
+      end
     end # with no label
 
     context 'with a label' do
@@ -100,6 +112,10 @@ describe 'Turbine::Vertex' do
 
       it { should include(phil) }
       it { should include(claire) }
+
+      it 'should filter the out_edges' do
+        expect(luke.out_edges(:parent)).to have(2).members
+      end
     end
   end # #out
 

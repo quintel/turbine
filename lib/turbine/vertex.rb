@@ -6,12 +6,6 @@ module Turbine
     # Public: Returns the unique key which identifies the vertex.
     attr_reader :key
 
-    # Public: Returns edges which connect other vertices to this one.
-    attr_reader :in_edges
-
-    # Public: Returns edges which connect this vertex to others.
-    attr_reader :out_edges
-
     # Creates a new Vertex.
     def initialize(key)
       @key       = key
@@ -20,21 +14,43 @@ module Turbine
     end
 
     # Public: Returns vertices which have an outgoing edge to this vertex.
+    #
+    # label - An optional label by which to filter the in edges, before
+    #         fetching the matched vertices.
+    #
+    # Returns an array of Vertex instances.
     def in(label = nil)
-      if label
-        @in_edges.select { |edge| edge.label == label }.map(&:in)
-      else
-        @in_edges.map(&:in)
-      end
+      in_edges(label).map(&:in)
     end
 
     # Public: Returns verticies to which this vertex has outgoing edges.
+    #
+    # label - An optional label by which to filter the out edges, before
+    #         fetching the matched vertices.
+    #
+    # Returns an array of Vertex instances.
     def out(label = nil)
-      if label
-        @out_edges.select { |edge| edge.label == label }.map(&:out)
-      else
-        @out_edges.map(&:out)
-      end
+      out_edges(label).map(&:out)
+    end
+
+    # Public: Returns this vertex's in edges.
+    #
+    # label - An optional label; only edges with this label will be returned.
+    #         Passing nil will return all in edges.
+    #
+    # Returns an array of Edges.
+    def in_edges(label = nil)
+      label.nil? ? @in_edges : @in_edges.select { |e| e.label == label }
+    end
+
+    # Public: Returns this vertex's out edges.
+    #
+    # label - An optional label; only edges with this label will be returned.
+    #         Passing nil will return all out edges.
+    #
+    # Returns an array of Edges.
+    def out_edges(label = nil)
+      label.nil? ? @out_edges : @out_edges.select { |e| e.label == label }
     end
 
     # Public: Returns a human-readable version of the vertex.
