@@ -52,6 +52,16 @@ module Turbine
       @label = label
     end
 
+    # Public: Determines if the +other+ edge is similar to this one.
+    #
+    # Two edges are considered similar if have the same +in+ and +out+ nodes,
+    # and their label is identical.
+    #
+    # Returns true or false.
+    def similar?(other)
+      other && other.in == @in && other.out == @out && other.label == @label
+    end
+
     # Public: Returns a human-readable version of the edge.
     def inspect
       "#<#{ self.class.name } " \

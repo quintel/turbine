@@ -168,11 +168,11 @@ describe 'Turbine::Node' do
     end # when connecting to self
 
     context 'when an identical edge already exists' do
-      let!(:original) { claire.connect_to(haley) }
-      let!(:new_edge) { claire.connect_to(haley) }
+      let!(:original) { claire.connect_to(haley, :child) }
 
-      it 'adds a new edge' do
-        expect(original).to_not eql(new_edge)
+      it 'raises EdgeTooSimilarError' do
+        expect(-> { claire.connect_to(haley, :child) }).
+          to raise_error(Turbine::EdgeTooSimilarError)
       end
     end # when an identical edge already exists
   end # connect_to
@@ -180,7 +180,7 @@ describe 'Turbine::Node' do
   describe '#connect_via' do
     let(:jay)    { Turbine::Node.new(:jay) }
     let(:gloria) { Turbine::Node.new(:gloria) }
-    let(:edge)   { Turbine::Edge.new(jay, gloria) }
+    let(:edge)   { Turbine::Edge.new(jay, gloria, :spouse) }
 
     context %(when the node is the edge's "in") do
       let!(:result) { gloria.connect_via(edge) }
@@ -194,17 +194,28 @@ describe 'Turbine::Node' do
       end
 
       context 'and a duplicate edge already exists' do
-        let!(:other) { Turbine::Edge.new(jay, gloria) }
-        before       { gloria.connect_via(other) }
+        context 'with different labels' do
+          let(:other) { Turbine::Edge.new(jay, gloria, :lives_with) }
+          before      { gloria.connect_via(other) }
 
-        it 'retains the original edge' do
-          expect(gloria.in_edges).to include(edge)
-        end
+          it 'retains the original edge' do
+            expect(gloria.in_edges).to include(edge)
+          end
 
-        it 'adds the new edge' do
-          expect(gloria.in_edges).to include(other)
+          it 'adds the new edge' do
+            expect(gloria.in_edges).to include(other)
+          end
+        end # and a duplicate edge already exists
+      end # with different labels
+
+      context 'with identical labels' do
+        let(:other) { Turbine::Edge.new(jay, gloria, :spouse) }
+
+        it 'raises a EdgeTooSimilarError' do
+          expect(->{ gloria.connect_via(other) }).
+            to raise_error(Turbine::EdgeTooSimilarError)
         end
-      end # and a duplicate edge already exists
+      end # with identical labels
     end # when the node is the edge's "in"
 
     context %(when the node is the edge's "out") do
@@ -219,16 +230,27 @@ describe 'Turbine::Node' do
       end
 
       context 'and a duplicate edge already exists' do
-        let!(:other) { Turbine::Edge.new(jay, gloria) }
-        before       { jay.connect_via(other) }
+        context 'with different labels' do
+          let(:other) { Turbine::Edge.new(jay, gloria, :lives_with) }
+          before      { jay.connect_via(other) }
 
-        it 'retains the original edge' do
-          expect(jay.out_edges).to include(edge)
-        end
+          it 'retains the original edge' do
+            expect(jay.out_edges).to include(edge)
+          end
 
-        it 'adds the new edge' do
-          expect(jay.out_edges).to include(other)
-        end
+          it 'adds the new edge' do
+            expect(jay.out_edges).to include(other)
+          end
+        end # with different labels
+
+        context 'with identical labels' do
+          let(:other) { Turbine::Edge.new(jay, gloria, :spouse) }
+
+          it 'raises a EdgeTooSimilarError' do
+            expect(->{ jay.connect_via(other) }).
+              to raise_error(Turbine::EdgeTooSimilarError)
+          end
+        end # with identical labels
       end # and a duplicate edge already exists
     end # when the node is the edge's "out"
 
@@ -249,17 +271,11 @@ describe 'Turbine::Node' do
       end
 
       context 'and a duplicate edge already exists' do
-        let!(:other) { Turbine::Edge.new(jay, jay) }
-        before       { jay.connect_via(other) }
+        let(:other) { Turbine::Edge.new(jay, jay) }
 
-        it 'retains the original edge' do
-          expect(jay.in_edges).to include(edge)
-          expect(jay.out_edges).to include(edge)
-        end
-
-        it 'adds the new edge' do
-          expect(jay.in_edges).to include(other)
-          expect(jay.out_edges).to include(other)
+        it 'raises a EdgeTooSimilarError' do
+          expect(->{ jay.connect_via(other) }).
+            to raise_error(Turbine::EdgeTooSimilarError)
         end
       end # and a duplicate edge already exists
     end # when the edge is a loop

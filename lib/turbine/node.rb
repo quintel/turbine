@@ -104,10 +104,29 @@ module Turbine
     #
     # Returns the given edge.
     def connect_via(edge)
-      @in_edges.add(edge)  if edge.out == self
-      @out_edges.add(edge) if edge.in  == self
+      connect_endpoint(@in_edges, edge)  if edge.out == self
+      connect_endpoint(@out_edges, edge) if edge.in == self
 
       edge
+    end
+
+    #######
+    private
+    #######
+
+    # Internal: Given an edge, and a the Node's in_edges or out_edges, adds
+    # the edge only if there is not a similar edge already present.
+    #
+    # collection - The collection to which the edge is to be added.
+    # edge       - The edge.
+    #
+    # Returns nothing.
+    def connect_endpoint(collection, edge)
+      if collection.any? { |o| ! edge.equal?(o) && edge.similar?(o) }
+        raise EdgeTooSimilarError.new(self, edge)
+      end
+
+      collection.add(edge)
     end
 
   end # Node
