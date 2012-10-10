@@ -2,6 +2,21 @@
 
 An in-memory graph database written in Ruby to model an Energy Flow network.
 
+The idea behind Turbine is to provide a common base library for the graph
+structure used in ETengine, as well as defining better ways to traverse this
+structure. As a "property graph", it should also handle the datasets which we
+assign to Converters, Links, etc.
+
+The aim is for Turbine to be used in ETsource as a means for "filtering" the
+data which comes out of InputExcel (such as calculating demands, removing
+slot "conversion" attributes for loss slots, etc), before traversing the
+graph one final time to save the output to YAML.
+
+In the future, ETengine Qernel classes may be descendants of those in Turbine
+(e.g. Converter becomes a subclass of Turbine::Node; Link become subclasses on
+Turbine::Edge [perhaps with further specialsed subclasses: ShareLink,
+ConstantLink, etc]).
+
 ## Jargon
 
 ### Node
