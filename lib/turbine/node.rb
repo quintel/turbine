@@ -22,7 +22,7 @@ module Turbine
     #
     # Returns an array of Node instances.
     def in(label = nil)
-      Collection.new(in_edges(label).map(&:in))
+      Collection.new(in_edges(label).map(&:out))
     end
 
     # Public: Returns verticies to which this node has outgoing edges.
@@ -32,7 +32,7 @@ module Turbine
     #
     # Returns an array of Node instances.
     def out(label = nil)
-      Collection.new(out_edges(label).map(&:out))
+      Collection.new(out_edges(label).map(&:in))
     end
 
     # Public: Returns this node's in edges.
@@ -108,8 +108,8 @@ module Turbine
     #
     # Returns the given edge.
     def connect_via(edge)
-      connect_endpoint(@in_edges, edge)  if edge.out == self
-      connect_endpoint(@out_edges, edge) if edge.in == self
+      connect_endpoint(@in_edges, edge)  if edge.in == self
+      connect_endpoint(@out_edges, edge) if edge.out == self
 
       edge
     end

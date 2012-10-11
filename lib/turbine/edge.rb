@@ -30,25 +30,27 @@ module Turbine
   class Edge
     include Properties
 
-    # Public: Returns the edge's in node.
-    attr_reader :in
-
-    # Public: Returns the edge's out node.
+    # Public: Returns the node for which this edge is the +out+ edge. This is
+    # the node the edge leaves.
     attr_reader :out
+
+    # Public: Returns the node for which this edge is the +in+ edge. This is
+    # the node the edge points to.
+    attr_reader :in
 
     # Public: Returns the optional label assigned to the edge.
     attr_reader :label
 
     # Public: Creates a new Edge.
     #
-    # in_node  - The Node which is connected to the +out+ node.
-    # out_node - The Node which is being connected to by the +in+ node.
-    # label      - An optional label for describing the nature of the
-    #              relationship between the two nodes.
+    # out_node - The Node from which the edge originates.
+    # in_node  - The Node to which the edge points.
+    # label    - An optional label for describing the nature of the
+    #            relationship between the two nodes.
     #
-    def initialize(in_node, out_node, label = nil)
-      @in    = in_node
+    def initialize(out_node, in_node, label = nil)
       @out   = out_node
+      @in    = in_node
       @label = label
     end
 
@@ -65,7 +67,7 @@ module Turbine
     # Public: Returns a human-readable version of the edge.
     def inspect
       "#<#{ self.class.name } " \
-        "#{ @in.key.inspect } -#{ @label.inspect }-> #{ @out.key.inspect }>"
+        "#{ @out.key.inspect } -#{ @label.inspect }-> #{ @in.key.inspect }>"
     end
   end # Edge
 end # Turbine

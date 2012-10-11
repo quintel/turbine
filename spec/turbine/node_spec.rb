@@ -29,7 +29,7 @@ describe 'Turbine::Node' do
     before do
       claire.connect_to(luke, :child)
       phil.connect_to(luke, :child)
-      haley.connect_to(luke,  :sibling)
+      haley.connect_to(luke, :sibling)
       alex.connect_to(luke)
     end
 
@@ -48,7 +48,7 @@ describe 'Turbine::Node' do
       it { should include(haley) }
       it { should include(alex) }
 
-      it 'should filter the out_edges' do
+      it 'should filter the in_edges' do
         expect(luke.in_edges).to have(4).members
       end
     end # with no label
