@@ -23,7 +23,13 @@ describe 'Turbine::Collection' do
 
   describe '#method_missing' do
     it 'should defer to each member of the collection' do
-      expect(haley.out(:parent).out(:children)).to be_a(Turbine::Collection)
+      expect(child_collection.out(:parent).out(:children)).
+        to be_a(Turbine::Collection)
+    end
+
+    it 'should work when an item returns a single element' do
+      haley.connect_to(luke, :brother)
+      expect(child_collection.out_edges(:brother).out).to have(1).member
     end
 
     it 'should contain only unique elements' do

@@ -60,7 +60,7 @@ module Turbine
     #
     # Returns a Collection.
     def initialize(collection)
-      @collection = Set.new(collection.to_a).freeze
+      @collection = Set.new(collection.to_a)
     end
 
     # Public: Iterates throuch each item in the collection. Used by
@@ -77,7 +77,7 @@ module Turbine
     # Returns a new Collection.
     def method_missing(method, *args, &block)
       new_collection = @collection.each_with_object(Set.new) do |item, set|
-        set.merge(item.public_send(method, *args, &block))
+        set.merge(Array(item.public_send(method, *args, &block)))
       end
 
       Collection.new(new_collection)
@@ -86,6 +86,13 @@ module Turbine
     # Public: A human-readable version of the collection.
     def inspect
       "#<Turbine::Collection {#{ @collection.map(&:inspect).join(', ') }}>"
+    end
+
+    # Public: The number of items in the collection.
+    #
+    # Returns an integer.
+    def length
+      @collection.length
     end
 
     # General Modifiers
