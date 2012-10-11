@@ -52,7 +52,6 @@ for the InputExcel replacement?
 Also in the longer-term, ETengine Qernel classes may be descendants of those
 in Turbine (e.g. Converter becomes a subclass of Turbine::Node; Link become
 subclasses on Turbine::Edge [perhaps with further specialsed subclasses:
-ShareLink, ConstantLink, etc]).
 
 ## Jargon
 

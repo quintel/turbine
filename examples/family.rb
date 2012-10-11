@@ -1,6 +1,11 @@
 require 'turbine'
 
 module Turbine
+
+  # This example is taken from a TV show called 'Modern Family' with complex
+  # family relations, in other words: ideal to test a complex graph structure.
+  #
+  # http://en.wikipedia.org/wiki/List_of_Modern_Family_characters
   def self.stub
     graph    = Turbine::Graph.new
 
