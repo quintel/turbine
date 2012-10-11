@@ -27,7 +27,7 @@ module Turbine
   #   grandparents = luke.in(:child).in(:child)
   #   grandparent_children = grandparents.out(:child)
   #
-  #   # Remove the Luke's parents:
+  #   # Remove Luke's parents:
   #
   #   grandparent_children = grandparent_children - luke.out(:parent)
   #
