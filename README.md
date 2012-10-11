@@ -2,10 +2,46 @@
 
 An in-memory graph database written in Ruby to model an Energy Flow network.
 
+## Example
+
+We start the console and load the example graph
+
+    $> rake console:stub
+
+We build the example graph
+
+    pry> graph = Turbine.stub
+    => #<Turbine::Graph (16 nodes, 28 edges)>
+
+We can search for a node:
+
+    pry> graph.node(:claire)
+    => #<Turbine::Node key=:claire>
+
+Traverse the graph by asking what are the **outward** connections
+
+    pry> graph.node(:claire).out.size
+    => 4
+
+Traverse the graph by asking what are the **inward** connections
+
+    pry> graph.node(:claire).in
+    => 3
+
+You can also chain this:
+
+    pry> graph.node(:clair).in.in.size
+    => 5
+
+## Idea
+
 The idea behind Turbine is to provide a common base library for the graph
-structure used in ETengine, as well as defining better ways to traverse this
-structure. As a "property graph", it should also handle the datasets which we
-assign to Converters, Links, etc.
+structure used in ETengine, as well as defining ways to traverse this
+structure. As a "property graph".
+
+Turbine also handles the datasets which we assign to Converters, Links, etc.
+
+## Roadmap
 
 The aim is for a Turbine graph to be built using the InputExcel CSV data, and
 for this graph to then be modified in-memory:

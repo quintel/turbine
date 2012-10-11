@@ -90,6 +90,7 @@ module Turbine
     def length
       @collection.length
     end
+    alias :size :length
 
     # General Modifiers
     # -----------------
