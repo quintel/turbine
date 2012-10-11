@@ -76,11 +76,7 @@ module Turbine
     #
     # Returns a new Collection.
     def method_missing(method, *args, &block)
-      new_collection = @collection.each_with_object(Set.new) do |item, set|
-        set.merge(Array(item.public_send(method, *args, &block)))
-      end
-
-      Collection.new(new_collection)
+      map { |item| item.public_send(method, *args, &block) }.flatten!
     end
 
     # Public: A human-readable version of the collection.
@@ -138,6 +134,14 @@ module Turbine
     #
     # Wrap around Enumerable methods to ensure that they return a Collection.
     # TODO: There are a lot of methods missing still missing.
+
+    # Public: For each element, run +block+ and reteturns the results of each
+    # expression in an array.
+    #
+    # Returns a collection.
+    def map(*args, &block)
+      Collection.new(super(*args, &block))
+    end
 
     # Public: Creates a new collection containing only elements for which
     # +block+ is true.

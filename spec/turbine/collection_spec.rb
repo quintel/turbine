@@ -109,6 +109,22 @@ describe 'Turbine::Collection' do
 
   # --------------------------------------------------------------------------
 
+  describe '#map' do
+    let(:result) do
+      parent_collection.map(&:out_edges)
+    end
+
+    it 'should return a collection' do
+      expect(result).to be_a(Turbine::Collection)
+    end
+
+    it 'should contain as many elements as the original' do
+      expect(result).to have(parent_collection.length).members
+    end
+  end
+
+  # --------------------------------------------------------------------------
+
   describe '#select' do
     let(:result) do
       parent_collection.select { |e| e.key == :phil }
