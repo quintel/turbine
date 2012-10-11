@@ -173,4 +173,19 @@ describe 'Turbine::Collection' do
     end
   end
 
+  # --------------------------------------------------------------------------
+
+  describe '#flatten' do
+    let(:collection) { Turbine::Collection.new([1, 2, [3, [4], [5]]]) }
+
+    it 'should remove nested arrays' do
+      expect(collection).to have(3).members
+      expect(collection.flatten).to have(5).members
+    end
+
+    it 'should not modify the original collection' do
+      expect(->{ collection.flatten }).to_not change { collection.length }
+    end
+  end
+
 end # Turbine::Collection

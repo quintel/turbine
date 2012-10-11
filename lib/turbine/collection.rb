@@ -129,6 +129,27 @@ module Turbine
       Collection.new(@collection & other.to_a)
     end
 
+    # Public: Removes nested arrays from the collection. Modifies the
+    # collection in place; for a non-destructive version, see #flatten.
+    #
+    # Example
+    #
+    #   collection          # => #<Turbine::Collection {:a, [:b, :c, [:d]]}>
+    #   collection.flatten! # => #<Turbine::Collection {:a, :b, :c, :d}>
+    #
+    # Returns the collection.
+    def flatten!
+      @collection = Set.new(@collection.to_a.flatten)
+      self
+    end
+
+    # Public: Creates a copy of the collection, then removes nested arrays.
+    #
+    # Returns the new collection.
+    def flatten
+      dup.flatten!
+    end
+
     # Enumerable Overrides
     # --------------------
     #
