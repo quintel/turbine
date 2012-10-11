@@ -132,13 +132,6 @@ module Turbine
 
       collection.add(edge)
     end
-    # tests whether this Node already has an Edge with another Node
-    #
-    # Returns true or false
-    def has_edge_with?(target)
-      @out_edges.any?{|e|e.out == target} ||
-        @in_edges.any?{|e|e.in == target}
-    end
 
   end # Node
 end # Turbine
