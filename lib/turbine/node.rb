@@ -9,10 +9,22 @@ module Turbine
     attr_reader :key
 
     # Creates a new Node.
-    def initialize(key)
+    #
+    # key        - A unique identifier for the node. The uniqueness of the key
+    #              is not checked upon initializing, but instead when the node
+    #              is added to the graph (Graph#add_node).
+    # properties - Optional key/value properties to be associated with the
+    #              node.
+    #
+    # Returns the node.
+    def initialize(key, properties = nil)
       @key        = key
       @in_edges   = Set.new
       @out_edges  = Set.new
+
+      unless properties.nil?
+        self.properties = properties
+      end
     end
 
     # Public: Returns nodes which have an outgoing edge to this node.

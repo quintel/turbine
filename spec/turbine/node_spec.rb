@@ -7,6 +7,19 @@ describe 'Turbine::Node' do
     context 'without providing a key' do
       it { expect(-> { Turbine::Node.new }).to raise_error(ArgumentError) }
     end
+
+    context 'providing no properties' do
+      it 'should not set any proeprties' do
+        expect(Turbine::Node.new(:a).properties).to be_empty
+      end
+    end
+
+    context 'providing a properties hash' do
+      it 'should not set any proeprties' do
+        expect(Turbine::Node.new(:a, { b: 2, c: 3 }).properties).
+          to eql(b: 2, c: 3)
+      end
+    end
   end
 
   describe '#in_edges' do
