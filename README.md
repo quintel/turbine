@@ -8,30 +8,34 @@ We start the console and load the example graph
 
     $> rake console:stub
 
-We build the example graph
+Load an example graph
 
-    pry> graph = Turbine.stub
-    => #<Turbine::Graph (16 nodes, 28 edges)>
+    pry> graph = Turbine.energy_stub
+    => #<Turbine::Graph (16 nodes, 16 edges)>
 
-We can search for a node:
+Now you can search for a node:
 
-    pry> graph.node(:claire)
-    => #<Turbine::Node key=:claire>
+    pry> graph.node(:space_heater_chp)
+    => #<Turbine::Node key=:space_heater_chp>
 
 Traverse the graph by asking what are the **outward** connections
 
-    pry> graph.node(:claire).out.size
-    => 4
+    pry> graph.node(:space_heater_chp).out
+    => #<Turbine::Collection {#<Turbine::Node key=:final_demand_gas>}>
 
 Traverse the graph by asking what are the **inward** connections
 
-    pry> graph.node(:claire).in
-    => 3
+    pry> g.node(:space_heater_chp).in
+    => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>,
+                              #<Turbine::Node key=:useful_demand_elec>}>
 
-You can also chain this:
+You can also **chain** and **step** through the connections:
 
-    pry> graph.node(:clair).in.in.size
-    => 5
+    pry> a_node = graph.nodes.first
+    pry> a_node.out.out
+    => #<Turbine::Collection {#<Turbine::Node key=:final_demand_coal>,
+                              #<Turbine::Node key=:final_demand_gas>,
+                              #<Turbine::Node key=:final_demand_oil>}>
 
 ## Idea
 

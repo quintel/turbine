@@ -6,7 +6,7 @@ module Turbine
   # family relations, in other words: ideal to test a complex graph structure.
   #
   # http://en.wikipedia.org/wiki/List_of_Modern_Family_characters
-  def self.stub
+  def self.family_stub
     graph    = Turbine::Graph.new
 
     phil     = graph.add_node(Turbine::Node.new(:phil))
