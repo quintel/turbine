@@ -53,9 +53,8 @@ module Turbine
     #         Passing nil will return all in edges.
     #
     # Returns an array of Edges.
-    def in_edges(label = nil)
-      Collection.new(
-        label.nil? ? @in_edges : @in_edges.select { |e| e.label == label })
+    def in_edges(label = nil, &block)
+      select_edges(@in_edges, label, block)
     end
 
     # Public: Returns this node's out edges.
@@ -64,9 +63,8 @@ module Turbine
     #         Passing nil will return all out edges.
     #
     # Returns an array of Edges.
-    def out_edges(label = nil)
-      Collection.new(
-        label.nil? ? @out_edges : @out_edges.select { |e| e.label == label })
+    def out_edges(label = nil, &block)
+      select_edges(@out_edges, label, block)
     end
 
     # Public: Returns a human-readable version of the node.
@@ -143,6 +141,27 @@ module Turbine
       end
 
       collection.add(edge)
+    end
+
+    # Internal: Given an array of edges, and either a block or label, selects
+    # the edges which satisfy the block. If block and label are nil, all the
+    # edges will be returned.
+    #
+    # edges - The array of edges to be filtered.
+    # label - The label of the edges to be emitted.
+    # block - An optional block used to select which edges are emitted.
+    #
+    # Raises an ArgumentError
+    #
+    # Returns an array of edges.
+    def select_edges(edges, label, block)
+      if label && block
+        raise InvalidEdgeFilterError.new
+      elsif label && ! block
+        block = ->(edge){ edge.label == label }
+      end
+
+      block.nil? ? edges : edges.select(&block)
     end
 
   end # Node

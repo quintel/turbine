@@ -38,7 +38,14 @@ module Turbine
 
     def message
       "Tried to assign properties #{ @properties.inspect } on " \
-        "#{ @model.inspect } - it must be a Hash, or subclass of Hash."
+        "#{ @model.inspect } - it must be a Hash, or subclass of Hash"
     end
   end # InvalidPropertiesError
+
+  class InvalidEdgeFilterError < TurbineError
+    def message
+      'Node#in_edges/out_edges may not be supplied with both a label ' \
+        'and block'
+    end
+  end # InvalidEdgeFilterError
 end # Turbine
