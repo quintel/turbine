@@ -1,7 +1,27 @@
 require 'spec_helper'
 
 describe 'Turbine::Node' do
-  let(:node) { Turbine::Node.new(:phil) }
+  let(:phil)   { Turbine::Node.new(:phil, gender: :male) }
+  let(:claire) { Turbine::Node.new(:claire, gender: :female) }
+  let(:haley)  { Turbine::Node.new(:haley, gender: :female) }
+  let(:alex)   { Turbine::Node.new(:alex, gender: :female) }
+  let(:luke)   { Turbine::Node.new(:luke, gender: :male) }
+  let(:dylan)  { Turbine::Node.new(:dylan, gender: :male) }
+
+  before do
+    [ haley, alex, luke ].each do |child|
+      claire.connect_to(child, :child)
+      phil.connect_to(child, :child)
+    end
+
+    phil.connect_to(claire, :spouse)
+    claire.connect_to(phil, :spouse)
+
+    haley.connect_to(dylan, :boyfriend)
+    dylan.connect_to(haley, :girlfriend)
+  end
+
+  # --------------------------------------------------------------------------
 
   context 'creating a new node' do
     context 'without providing a key' do
@@ -22,48 +42,48 @@ describe 'Turbine::Node' do
     end
   end
 
+  # --------------------------------------------------------------------------
+
   describe '#in_edges' do
-    subject { node.in_edges }
-    it { should be_kind_of(Enumerable) }
-  end
+    it { expect(haley.in_edges).to be_kind_of(Enumerable) }
 
-  describe '#out_edges' do
-    subject { node.out_edges }
-    it { should be_kind_of(Enumerable) }
-  end
-
-  describe '#in' do
-    let(:phil)   { Turbine::Node.new(:phil) }
-    let(:claire) { Turbine::Node.new(:claire) }
-    let(:haley)  { Turbine::Node.new(:haley) }
-    let(:alex)   { Turbine::Node.new(:alex) }
-    let(:luke)   { Turbine::Node.new(:luke) }
-
-    before do
-      claire.connect_to(luke, :child)
-      phil.connect_to(luke, :child)
-      haley.connect_to(luke, :sibling)
-      alex.connect_to(luke)
+    it 'should return all edges when not filtering' do
+      expect(haley.in_edges).to have(3).members
     end
 
-    subject { luke.in }
-    it { should be_kind_of(Enumerable) }
+    it 'should filter the in_edges with an edge label' do
+      expect(haley.in_edges(:child)).to have(2).members
+    end
+  end
+
+  # --------------------------------------------------------------------------
+
+  describe '#out_edges' do
+    it { expect(haley.out_edges).to be_kind_of(Enumerable) }
+
+    it 'should return all edges when not filtering' do
+      expect(phil.out_edges).to have(4).members
+    end
+
+    it 'should filter the out_edges with an edge label' do
+      expect(phil.out_edges(:child)).to have(3).members
+    end
+  end
+
+  # --------------------------------------------------------------------------
+
+  describe '#in' do
+    it { expect(luke.in).to be_kind_of(Enumerable) }
 
     context 'with no label' do
       subject { luke.in }
 
       it 'should return all in nodes' do
-        expect(subject).to have(4).members
+        expect(subject).to have(2).members
       end
 
       it { should include(phil) }
       it { should include(claire) }
-      it { should include(haley) }
-      it { should include(alex) }
-
-      it 'should filter the in_edges' do
-        expect(luke.in_edges).to have(4).members
-      end
     end # with no label
 
     context 'with a label' do
@@ -79,72 +99,55 @@ describe 'Turbine::Node' do
       it 'should filter the in_edges' do
         expect(luke.in_edges(:child)).to have(2).members
       end
-    end
-  end
+    end # with a label
+  end # in
+
+  # --------------------------------------------------------------------------
 
   describe '#out' do
-    let(:phil)   { Turbine::Node.new(:phil) }
-    let(:claire) { Turbine::Node.new(:claire) }
-    let(:haley)  { Turbine::Node.new(:haley) }
-    let(:alex)   { Turbine::Node.new(:alex) }
-    let(:luke)   { Turbine::Node.new(:luke) }
-
-    before do
-      luke.connect_to(claire, :parent)
-      luke.connect_to(phil,   :parent)
-      luke.connect_to(haley,  :sibling)
-      luke.connect_to(alex)
-    end
-
-    subject { luke.out }
-    it { should be_kind_of(Enumerable) }
+    it { expect(claire.out).to be_kind_of(Enumerable) }
 
     context 'with no label' do
-      subject { luke.out }
+      subject { claire.out }
 
-      it 'should return all in nodes' do
+      it 'should return all out nodes' do
         expect(subject).to have(4).members
       end
 
       it { should include(phil) }
-      it { should include(claire) }
       it { should include(haley) }
       it { should include(alex) }
-
-      it 'should not filter the out_edges' do
-        expect(luke.out_edges).to have(4).members
-      end
+      it { should include(luke) }
     end # with no label
 
     context 'with a label' do
-      subject { luke.out(:parent) }
+      subject { claire.out(:child) }
 
       it 'should return all in nodes' do
-        expect(subject).to have(2).members
+        expect(subject).to have(3).members
       end
 
-      it { should include(phil) }
-      it { should include(claire) }
-
-      it 'should filter the out_edges' do
-        expect(luke.out_edges(:parent)).to have(2).members
-      end
-    end
+      it { should include(haley) }
+      it { should include(alex) }
+      it { should include(luke) }
+    end # with a label
   end # #out
 
+  # --------------------------------------------------------------------------
+
   describe '#connect_to' do
-    let(:claire) { Turbine::Node.new(:claire) }
-    let(:haley)  { Turbine::Node.new(:haley) }
+    let(:gloria) { Turbine::Node.new(:gloria) }
+    let(:manny)  { Turbine::Node.new(:manny) }
 
     context 'when establishing a new connection' do
-      let!(:result) { claire.connect_to(haley) }
+      let!(:result) { gloria.connect_to(manny) }
 
       it 'sets up an "out" edge on the node' do
-        expect(claire.out_edges).to include(result)
+        expect(gloria.out_edges).to include(result)
       end
 
       it 'sets up an "in" edge on the argument' do
-        expect(haley.in_edges).to include(result)
+        expect(manny.in_edges).to include(result)
       end
 
       it 'returns the edge' do
@@ -157,7 +160,7 @@ describe 'Turbine::Node' do
     end # when establishing a new connection
 
     context 'with a label' do
-      let!(:result) { claire.connect_to(haley, :child) }
+      let!(:result) { gloria.connect_to(manny, :child) }
 
       it 'sets the label on the edge' do
         expect(result.label).to eql(:child)
@@ -165,14 +168,14 @@ describe 'Turbine::Node' do
     end # with a label
 
     context 'when connecting to self' do
-      let!(:result) { claire.connect_to(claire) }
+      let!(:result) { gloria.connect_to(gloria) }
 
       it 'sets up an "out" edge on the node' do
-        expect(claire.out_edges).to include(result)
+        expect(gloria.out_edges).to include(result)
       end
 
       it 'sets up an "in" edge on the node' do
-        expect(claire.in_edges).to include(result)
+        expect(gloria.in_edges).to include(result)
       end
 
       it 'returns the edge' do
@@ -181,14 +184,16 @@ describe 'Turbine::Node' do
     end # when connecting to self
 
     context 'when an identical edge already exists' do
-      let!(:original) { claire.connect_to(haley, :child) }
+      let!(:original) { gloria.connect_to(manny, :child) }
 
       it 'raises DuplicateEdgeError' do
-        expect(-> { claire.connect_to(haley, :child) }).
+        expect(-> { gloria.connect_to(manny, :child) }).
           to raise_error(Turbine::DuplicateEdgeError)
       end
     end # when an identical edge already exists
   end # connect_to
+
+  # --------------------------------------------------------------------------
 
   describe '#connect_via' do
     let(:jay)    { Turbine::Node.new(:jay) }
@@ -300,7 +305,9 @@ describe 'Turbine::Node' do
 
         expect(gloria.in_edges.select { |e| e == edge }).to have(1).member
       end
-    end
+    end # adding the same edge twice
   end # connect_via
+
+  # --------------------------------------------------------------------------
 
 end
