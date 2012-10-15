@@ -58,6 +58,20 @@ describe 'Turbine::Collection' do
 
   # --------------------------------------------------------------------------
 
+  describe '#length' do
+    it 'should return the length of the collection' do
+      expect(parent_collection.length).to eql(2)
+      expect(child_collection.length).to eql(3)
+    end
+
+    it 'should be aliased as size' do
+      expect(parent_collection.size).to eql(2)
+      expect(child_collection.size).to eql(3)
+    end
+  end
+
+  # --------------------------------------------------------------------------
+
   describe '#-' do
     let(:result) { parent_collection - Turbine::Collection.new([claire]) }
 
