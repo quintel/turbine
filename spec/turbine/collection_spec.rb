@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'Turbine::Collection' do
-  let(:claire) { Turbine::Node.new(:claire) }
-  let(:phil)   { Turbine::Node.new(:phil) }
-  let(:haley)  { Turbine::Node.new(:haley) }
-  let(:alex)   { Turbine::Node.new(:alex) }
-  let(:luke)   { Turbine::Node.new(:luke) }
+  let(:claire) { Turbine::Node.new(:claire, gender: :female) }
+  let(:phil)   { Turbine::Node.new(:phil,   gender: :male) }
+  let(:haley)  { Turbine::Node.new(:haley,  gender: :female) }
+  let(:alex)   { Turbine::Node.new(:alex,   gender: :female) }
+  let(:luke)   { Turbine::Node.new(:luke,   gender: :male) }
 
   let(:parent_collection) { Turbine::Collection.new([claire, phil]) }
   let(:child_collection)  { Turbine::Collection.new([haley, alex, luke]) }
@@ -152,6 +152,32 @@ describe 'Turbine::Collection' do
 
     it 'should contain only matching elements' do
       expect(result.to_a).to eql([claire])
+    end
+  end
+
+  # --------------------------------------------------------------------------
+
+  describe '#partition' do
+    let(:result) do
+      child_collection.partition { |n| n.get(:gender) == :female }
+    end
+
+    it 'should return an array' do
+      expect(result).to be_kind_of(Array)
+    end
+
+    it 'should create Turbine::Collections for each partition' do
+      expect(result.first).to be_kind_of(Turbine::Collection)
+      expect(result.last).to be_kind_of(Turbine::Collection)
+    end
+
+    it 'should partition the groups' do
+      expect(result.first).to have(2).members
+      expect(result.last).to have(1).member
+
+      expect(result.first).to include(haley)
+      expect(result.first).to include(alex)
+      expect(result.last).to include(luke)
     end
   end
 

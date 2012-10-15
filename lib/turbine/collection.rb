@@ -183,6 +183,15 @@ module Turbine
       Collection.new(super(*args, &block))
     end
 
+    # Public: Splits the collection into two separate collection; the first
+    # containing elements for which the block evalulates to true, the second
+    # containing the rest.
+    #
+    # Returns an array with two collections.
+    def partition(&block)
+      super(&block).map! { |partitioned| Collection.new(partitioned) }
+    end
+
     # Equality and Identity
     # ---------------------
 
