@@ -124,3 +124,19 @@ shorter words over longer: we use *Node*.
 
 Turbine is a directed graph, which means that the connection between two
 *nodes* have a direction: it either goes from A to B or the other way round.
+
+### In and Out
+
+When Node A is connected to Node B:
+
+    A ---> B
+
+`A.out` results in `B`, and `B.in` results in `A`.
+
+We have the following *truth table*:
+
+        |  in | out
+   -----+-----+------
+     A  | nil |  B
+   -----+-----+------
+     B  |  A  | nil
