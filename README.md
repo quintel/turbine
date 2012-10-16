@@ -1,8 +1,9 @@
 # Turbine
 
-An in-memory graph database written in Ruby to model an Energy Flow network.
+An in-memory directed graph written in Ruby to model an energy flow system,
+a family tree, or whatever you like!
 
-## Example
+## Check it out!
 
 We start the console and load the example graph
 
@@ -41,9 +42,10 @@ You can also **chain** and **step** through the connections:
 
 The idea behind Turbine is to provide a common base library for the graph
 structure used in ETengine, as well as defining ways to traverse this
-structure. As a "property graph".
+structure.
 
-Turbine also handles the datasets which we assign to Converters, Links, etc.
+As a "property graph", Turbine also handles the datasets which we assign to
+Nodes (or Converters), Edges (or Links), etc.
 
 ## Roadmap
 
@@ -62,18 +64,15 @@ remove InputExcel in the future, we simply replace the CSV input with
 _something else_. Or, perhaps the Turbine graph will itself become the base
 for the InputExcel replacement?
 
-    Today
-    -----
+#### Today
 
     CSV  ->  xls2yml  ->  *simple dataset modifications*  ->  YAML
 
-    With turbine
-    ------------
+#### With turbine
 
     CSV  ->  Turbine graph in ETsource  ->  *dataset modifications*  ->  YAML
 
-    In the future
-    -------------
+#### In the future
 
     ???  ->  Turbine graph in ETsource  ->  *dataset modifications*  ->  YAML
 
@@ -103,7 +102,7 @@ shorter words over longer: we use *Node*.
 ### Directed Graph
 
 Turbine is a directed graph, which means that the connection between two
-*nodes* have a direction: it either goes from A to B or reversed.
+*nodes* have a direction: it either goes from A to B or the other way round.
 
 ## Start!
 
