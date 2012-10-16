@@ -52,6 +52,9 @@ a certain label you can use a **filter**:
     pry> g.node(:space_heater_chp).out(:electricity)
     => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_elec>}>
 
+    pry> g.node(:space_heater_chp).out(:heat)
+    => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>}>
+
 #### Traversing edges
 
 
