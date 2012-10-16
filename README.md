@@ -28,16 +28,41 @@ It will return nil when the collection is empty:
 
 ### Traversing the graph
 
-Traverse the graph by requesting the **inward** connections of a node
+Please read the Jargon section if you are confused by the terms *in*
+and *out*.
+
+#### Traversing nodes
+
+Traverse the graph by requesting the **inward** nodes of a node
 
     pry> graph.node(:space_heater_chp).in
     => #<Turbine::Collection {#<Turbine::Node key=:final_demand_gas>}>
 
-Traverse the graph by requesting the **outward** connections
+Traverse the graph by requesting the **outward** nodes
 
     pry> g.node(:space_heater_chp).out
     => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>,
                               #<Turbine::Node key=:useful_demand_elec>}>
+
+#### Filtering nodes
+
+If you have a node, and you want to get all the `in` or `out` nodes that have
+a certain label you can use a **filter**:
+
+    pry> g.node(:space_heater_chp).out(:electricity)
+    => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_elec>}>
+
+#### Traversing edges
+
+
+You can do the same for edges with `in_edges` and `out_edges`:
+
+    pry> graph.node(:space_heater_chp).in_edges
+    => #<Set: {#<Turbine::Edge :space_heater_coal -:heat-> :useful_demand_heat>,
+               #<Turbine::Edge :space_heater_gas -:heat-> :useful_demand_heat>,
+               #<Turbine::Edge :space_heater_oil -:heat-> :useful_demand_heat>,
+               #<Turbine::Edge :space_heater_chp -:heat-> :useful_demand_heat>}>
+
 
 ### Chaining
 
