@@ -21,16 +21,21 @@ Now you can search for a node:
     pry> graph.node(:space_heater_chp)
     => #<Turbine::Node key=:space_heater_chp>
 
+It will return nil when the collection is empty:
+
+    pry> graph.node(:bob_ross)
+    => nil
+
 ### Traversing the graph
 
-Traverse the graph by requesting the **outward** connections of a node
+Traverse the graph by requesting the **inward** connections of a node
 
-    pry> graph.node(:space_heater_chp).out
+    pry> graph.node(:space_heater_chp).in
     => #<Turbine::Collection {#<Turbine::Node key=:final_demand_gas>}>
 
-Traverse the graph by requesting the **inward** connections
+Traverse the graph by requesting the **outward** connections
 
-    pry> g.node(:space_heater_chp).in
+    pry> g.node(:space_heater_chp).out
     => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>,
                               #<Turbine::Node key=:useful_demand_elec>}>
 
@@ -39,7 +44,7 @@ Traverse the graph by requesting the **inward** connections
 You can also **chain** and **step** through the connections:
 
     pry> a_node = graph.nodes.first
-    pry> a_node.out.out
+    pry> a_node.in.in # and we moved two steps to the 'right'
     => #<Turbine::Collection {#<Turbine::Node key=:final_demand_coal>,
                               #<Turbine::Node key=:final_demand_gas>,
                               #<Turbine::Node key=:final_demand_oil>}>

@@ -53,27 +53,27 @@ module Turbine
 
     # Edges ------------------------------------------------------------------
 
-    useful_demand_heat.connect_to(space_heater_coal, :heat)
-    useful_demand_heat.connect_to(space_heater_gas,  :heat)
-    useful_demand_heat.connect_to(space_heater_oil,  :heat)
-    useful_demand_heat.connect_to(space_heater_chp,  :heat)
+    elec_import.connect_to(hv_network,               :electricity)
+    coal_plant.connect_to(hv_network,                :electricity)
 
-    useful_demand_elec.connect_to(space_heater_chp,  :electricity)
-    useful_demand_elec.connect_to(space_heater_elec, :electricity)
+    hv_network.connect_to(mv_network,                :electricity)
+    mv_network.connect_to(lv_network,                :electricity)
+    lv_network.connect_to(final_demand_elec,         :electricity)
 
-    space_heater_coal.connect_to(final_demand_coal, :coal)
-    space_heater_gas.connect_to(final_demand_gas,   :gas)
-    space_heater_oil.connect_to(final_demand_oil,   :oil)
-    space_heater_chp.connect_to(final_demand_gas,   :gas)
+    final_demand_elec.connect_to(space_heater_elec,  :electricity)
+    final_demand_coal.connect_to(space_heater_coal,  :coal)
+    final_demand_gas.connect_to(space_heater_gas,    :gas)
+    final_demand_gas.connect_to(space_heater_chp,    :gas)
+    final_demand_oil.connect_to(space_heater_oil,    :oil)
 
-    space_heater_elec.connect_to(final_demand_elec, :electricity)
+    space_heater_coal.connect_to(useful_demand_heat, :heat)
+    space_heater_gas.connect_to(useful_demand_heat,  :heat)
+    space_heater_oil.connect_to(useful_demand_heat,  :heat)
 
-    final_demand_elec.connect_to(lv_network,        :electricity)
-    lv_network.connect_to(mv_network,               :electricity)
-    mv_network.connect_to(hv_network,               :electricity)
+    space_heater_chp.connect_to(useful_demand_heat,  :heat)
+    space_heater_chp.connect_to(useful_demand_elec,  :electricity)
 
-    hv_network.connect_to(coal_plant,               :electricity)
-    hv_network.connect_to(elec_import,              :electricity)
+    space_heater_elec.connect_to(useful_demand_elec, :electricity)
 
     graph
   end #self.stub
