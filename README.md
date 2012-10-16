@@ -122,13 +122,13 @@ subclasses on Turbine::Edge [perhaps with further specialsed subclasses:
 
 ### Node
 
-In graph theory, nodes and edges are used simultanously. Since we prefer
+In graph theory, *nodes* and *vertices* are used simultanously. Since we prefer
 shorter words over longer: we use *Node*.
 
 ### Directed Graph
 
 Turbine is a directed graph, which means that the connection between two
-*nodes* have a direction: it either goes from A to B or the other way round.
+*nodes* has a direction: it either goes from A to B or the other way round.
 
 ### In and Out
 
