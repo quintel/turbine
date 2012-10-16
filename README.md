@@ -153,10 +153,15 @@ subclasses on Turbine::Edge [perhaps with further specialsed subclasses...
 In graph theory, *nodes* and *vertices* are used simultanously. Since we prefer
 shorter words over longer: we use *Node*.
 
+### Edges
+
+An *edge* (or sometimes called an *arc*) is a connection between two nodes.
+
 ### Directed Graph
 
 Turbine is a directed graph, which means that the connection between two
-*nodes* has a direction: it either goes from A to B or the other way round.
+*nodes* always has a direction: it either goes from A to B or the other way
+round.
 
 ### In and Out
 
