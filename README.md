@@ -183,6 +183,11 @@ the case of an energy graph: the energy flows from a coal plant to the
 electricity grid. (someone might argue that the demand flows from the grid to
 the power plant).
 
-In the case of the family graph, it is the descedence:
+In the case of the family graph, it is the descendence:
 
     mother -> child
+
+if the relation is 'equal': there are two edges defined and a symmetrical
+relationship exists:
+
+    husband <-> wife
