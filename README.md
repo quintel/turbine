@@ -14,21 +14,27 @@ Load an example graph
     pry> graph = Turbine.energy_stub
     => #<Turbine::Graph (16 nodes, 16 edges)>
 
+### Searching
+
 Now you can search for a node:
 
     pry> graph.node(:space_heater_chp)
     => #<Turbine::Node key=:space_heater_chp>
 
-Traverse the graph by asking what are the **outward** connections
+### Traversing the graph
+
+Traverse the graph by requesting the **outward** connections of a node
 
     pry> graph.node(:space_heater_chp).out
     => #<Turbine::Collection {#<Turbine::Node key=:final_demand_gas>}>
 
-Traverse the graph by asking what are the **inward** connections
+Traverse the graph by requesting the **inward** connections
 
     pry> g.node(:space_heater_chp).in
     => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>,
                               #<Turbine::Node key=:useful_demand_elec>}>
+
+### Chaining
 
 You can also **chain** and **step** through the connections:
 
@@ -37,6 +43,21 @@ You can also **chain** and **step** through the connections:
     => #<Turbine::Collection {#<Turbine::Node key=:final_demand_coal>,
                               #<Turbine::Node key=:final_demand_gas>,
                               #<Turbine::Node key=:final_demand_oil>}>
+
+### Properties/Attributes
+
+You can set all kind of *properties* (or call them *attributes* as you wish)
+on a node:
+
+    pry> a_node = graph.nodes.first
+    pry> a_node.properties
+    => {} # no properties set!
+    pry> a_node.properties[:preset_demand]
+    => nil # no property preset_demand set!
+    pry> a_node.properties[:preset_demand] = 1_000
+    => 1000
+    pry> a_node.properties
+    => {:preset_demand=>1000}
 
 ## Idea
 
@@ -103,16 +124,3 @@ shorter words over longer: we use *Node*.
 
 Turbine is a directed graph, which means that the connection between two
 *nodes* have a direction: it either goes from A to B or the other way round.
-
-## Start!
-
-If you want to fool around with Turbine, fire up your console
-
-    $> rake console
-
-First you need to create a new (at least one...) `Graph`:
-
-    graph = Turbine::Graph.new
-    => #<Turbine::Graph (0 nodes)>
-
-You can add Nodes to it:
