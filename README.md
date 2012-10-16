@@ -102,21 +102,21 @@ for the InputExcel replacement?
 
     ???  ->  Turbine graph in ETsource  ->  *dataset modifications*  ->  YAML
 
-    or:
+or:
 
     Flat files  ->  Turbine graph  ->  YAML
 
-    or:
+or:
 
     Ruby DSL  -> Turbine graph  ->  YAML
 
-    or:
+or:
 
     ???
 
 Also in the longer-term, ETengine Qernel classes may be descendants of those
 in Turbine (e.g. Converter becomes a subclass of Turbine::Node; Link become
-subclasses on Turbine::Edge [perhaps with further specialsed subclasses:
+subclasses on Turbine::Edge [perhaps with further specialsed subclasses...
 
 ## Jargon
 
