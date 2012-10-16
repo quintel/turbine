@@ -15,6 +15,16 @@ module Turbine
   # |       \--- sh_elec <- fd_elec <- lv <- mv <- hv <- coal plant    |
   # |                                               \--- elec_import   |
   # +------------------------------------------------------------------+
+  #
+  # Abbreviations used:
+  #   ud   = useful_demand
+  #   sh   = space_heater
+  #   fd   = final_demand
+  #   hv   = high voltage
+  #   mv   = medium voltage
+  #   lv   = low voltage
+  #   elec = electricity
+  #
   def self.energy_stub
     graph = Turbine::Graph.new
 
