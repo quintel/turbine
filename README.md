@@ -164,12 +164,25 @@ When Node A is connected to Node B:
 
     A ---> B
 
+A is said to be the *predeccessor* of B, and B is called the *successor* of A.
+
+Since we like to keep things as short as possible, we choose *in* and *out*:
+
 `A.out` results in `B`, and `B.in` results in `A`.
 
-We have the following *truth table*:
+Hence, we whave the following *truth table*:
 
-        |  in | out
-   -----+-----+------
-     A  | nil |  B
-   -----+-----+------
-     B  |  A  | nil
+         |  in | out
+    -----+-----+------
+      A  | nil |  B
+    -----+-----+------
+      B  |  A  | nil
+
+Still, it is up to the user to **define** what the *direction* signifies: in
+the case of an energy graph: the energy flows from a coal plant to the
+electricity grid. (someone might argue that the demand flows from the grid to
+the power plant).
+
+In the case of the family graph, it is the descedence:
+
+    mother -> child
