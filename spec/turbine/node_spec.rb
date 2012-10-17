@@ -466,5 +466,4 @@ describe 'Turbine::Node' do
     end # with a label restriction
   end # #descendants
 
->>>>>>> Support traversal, ancestors and descendants.
 end

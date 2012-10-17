@@ -57,6 +57,30 @@ describe 'Turbine::Traversal::BreadthFirst' do
     end
   end # with an edge label restriction
 
+  context 'with a loop' do
+    before { c.connect_to(a, :likes) }
+    let(:enum) { Turbine::Traversal::BreadthFirst.new(a, :out).to_enum.to_a }
+
+    it 'should not loop infinitely' do
+      expect(enum).to have(7).members
+    end
+
+    it 'should not have duplicates' do
+      expect(enum).to eql(enum.uniq)
+    end
+  end # with a loop
+
+  context 'with an orphan' do
+    let(:enum) do
+      Turbine::Traversal::BreadthFirst.new(Turbine::Node.new(:z), :out).
+        to_enum.to_a
+    end
+
+    it 'should have no adjacencies' do
+      expect(enum).to be_empty
+    end
+  end # with an orphan
+
   context '#next' do
     let(:enum) { Turbine::Traversal::BreadthFirst.new(a, :out).to_enum }
 
