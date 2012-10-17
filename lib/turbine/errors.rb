@@ -42,6 +42,8 @@ module Turbine
     end
   end # InvalidPropertiesError
 
+  # Raised when trying to filter edges, but the arguments given are
+  # conflict.
   class InvalidEdgeFilterError < TurbineError
     def message
       'Node#in_edges/out_edges may not be supplied with both a label ' \
