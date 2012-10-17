@@ -321,24 +321,24 @@ describe 'Turbine::Node' do
   # --------------------------------------------------------------------------
 
   describe '#properties' do
-
-    context 'providing a properties hash' do
+    context 'initialized with a properties hash' do
       it 'should be able to change the properties' do
         node = Turbine::Node.new(:foo, {demand: 100})
-        node.properties[:demand] = 101
+        node.set(:demand, 101)
+
+        expect(node.get(:demand)).to eql(101)
         expect(node.properties).to eql(demand: 101)
       end
-    end
+    end # initialized with a properties hash
 
-    context 'providing no properties hash' do
+    context 'initialized without a properties hash' do
       it 'should be able to change the properties' do
         node = Turbine::Node.new(:foo)
-        node.properties[:demand] = 100
+        node.set(:demand, 100)
         expect(node.properties).to eql(demand: 100)
       end
-    end
-
-  end
+    end # initialized without a properties hash
+  end # #properties
 
   # --------------------------------------------------------------------------
 
