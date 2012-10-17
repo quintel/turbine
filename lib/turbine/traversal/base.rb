@@ -31,9 +31,6 @@ module Turbine
     # yourself; Node#ancestors and Node#descendants provide a more convenient
     # short-cut.
     class Base
-      # Used to match exceptions raise when trying to resume a dead fiber.
-      DEAD_FIBER_MESSAGE = 'dead fiber called'.freeze
-
       # Creates a new graph traversal.
       #
       # start   - The node from which to start traversing.
@@ -74,8 +71,6 @@ module Turbine
       # Returns a Node.
       def next
         @fiber.resume
-      rescue FiberError => ex
-        raise (ex.message == DEAD_FIBER_MESSAGE) ? StopIteration : ex
       end
 
       # Public: The traversal as an enumerator. This is the main way to
