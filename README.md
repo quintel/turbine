@@ -5,13 +5,7 @@ a family tree, or whatever you like!
 
 ## Quick tour
 
-We start the console and load the example graph
-
-```sh
-$ rake console:stub
-```
-
-Load an example graph
+We start the console with `rake console:stub` and load the example graph:
 
 ```ruby
 graph = Turbine.energy_stub
@@ -27,7 +21,8 @@ graph.node(:space_heater_chp)
 # => #<Turbine::Node key=:space_heater_chp>
 ```
 
-It will return nil when the collection is empty:
+It will return nil when the collection is empty, or if no node with the given
+key exists:
 
 ```ruby
 graph.node(:bob_ross)
@@ -36,19 +31,19 @@ graph.node(:bob_ross)
 
 ### Traversing the graph
 
-Please read the [Terminology](#terminology) section if you are confused by the
-use of *in* and *out*.
+Please see the [Terminology](#terminology) section if you are confused by the
+use of **in** and **out**.
 
 #### Adjacent nodes
 
-Traverse the graph by requesting the **inward** nodes of a node
+Traverse the graph by requesting the inward nodes of a node:
 
 ```ruby
 graph.node(:space_heater_chp).in
 # => #<Turbine::Collection {Node, Node, ...}>
 ```
 
-Traverse the graph by requesting the **outward** nodes
+Traverse the graph by requesting the outward nodes:
 
 ```ruby
 graph.node(:space_heater_chp).out
@@ -57,8 +52,8 @@ graph.node(:space_heater_chp).out
 
 #### Filtering nodes
 
-If you have a node, and you want to get all the `in` or `out` nodes that have
-a certain label you can use a **filter**:
+If you have a node and you want to get all the inward or outward nodes that
+have a certain label, you can use a filter:
 
 ```ruby
 graph.node(:space_heater_chp).out(:electricity)
@@ -87,8 +82,8 @@ graph.node(:space_heater_chp).in_edges
 You can also chain and step through the connections:
 
 ```ruby
-a_node = graph.nodes.first
-a_node.in.in # and we moved two steps to the 'right'
+node = graph.nodes.first
+node.in.in
 # => #<Turbine::Collection {
 #      #<Turbine::Node key=:final_demand_coal>,
 #      #<Turbine::Node key=:final_demand_gas>,
@@ -99,7 +94,7 @@ a_node.in.in # and we moved two steps to the 'right'
 #### Ancestors and Descendants
 
 Alternatively, you can recursively fetch all ancestors or descendants of a
-Node.
+Node:
 
 ```ruby
 enum = node.ancestors
@@ -140,10 +135,9 @@ multiple_nodes.descendants.map(&:to_a).flatten
 # => #<Turbine::Collection {Node, Node, ...}>
 ```
 
-### Properties/Attributes
+### Properties / Attributes
 
-You can set all kind of *properties* (or call them *attributes* as you wish)
-on a node:
+You can set all kind of properties on a node:
 
 ```ruby
 node = graph.nodes.first
