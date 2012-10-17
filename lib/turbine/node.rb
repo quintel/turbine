@@ -96,10 +96,12 @@ module Turbine
 
     # Public: Connects this node to another.
     #
-    # target - The node to which you want to connect. The +target+ node
-    #          will be the "out" end of the edge.
-    # label  - An optional label describing the relationship between the two
-    #          nodes.
+    # target     - The node to which you want to connect. The +target+ node
+    #              will be the "out" end of the edge.
+    # label      - An optional label describing the relationship between the
+    #              two nodes.
+    # properties - Optional key/value properties to be associated with the
+    #              edge.
     #
     # Example:
     #
@@ -111,8 +113,8 @@ module Turbine
     # Returns the Edge which was created.
     #
     # Raises a Turbine::DuplicateEdgeError if the Edge already existed.
-    def connect_to(target, label = nil)
-      Edge.new(self, target, label).tap do |edge|
+    def connect_to(target, label = nil, properties = nil)
+      Edge.new(self, target, label, properties).tap do |edge|
         self.connect_via(edge)
         target.connect_via(edge)
       end

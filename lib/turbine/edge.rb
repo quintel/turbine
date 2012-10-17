@@ -43,15 +43,21 @@ module Turbine
 
     # Public: Creates a new Edge.
     #
-    # out_node - The Node from which the edge originates.
-    # in_node  - The Node to which the edge points.
-    # label    - An optional label for describing the nature of the
-    #            relationship between the two nodes.
+    # out_node   - The Node from which the edge originates.
+    # in_node    - The Node to which the edge points.
+    # label      - An optional label for describing the nature of the
+    #              relationship between the two nodes.
+    # properties - Optional key/value properties to be associated with the
+    #              edge.
     #
-    def initialize(out_node, in_node, label = nil)
+    def initialize(out_node, in_node, label = nil, properties = nil)
       @out   = out_node
       @in    = in_node
       @label = label
+
+      unless properties.nil?
+        self.properties = properties
+      end
     end
 
     # Public: Determines if the +other+ edge is similar to this one.

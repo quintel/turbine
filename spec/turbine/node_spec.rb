@@ -201,6 +201,14 @@ describe 'Turbine::Node' do
           to raise_error(Turbine::DuplicateEdgeError)
       end
     end # when an identical edge already exists
+
+    context 'with properties' do
+      let!(:result) { gloria.connect_to(manny, :child, type: :ok) }
+
+      it 'should assign the properties to the edge' do
+        expect(result.get(:type)).to eql(:ok)
+      end
+    end # with properties
   end # connect_to
 
   # --------------------------------------------------------------------------

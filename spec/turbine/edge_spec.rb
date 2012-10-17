@@ -28,5 +28,26 @@ describe 'Turbine::Edge' do
           to raise_error(ArgumentError)
       end
     end
+
+    context 'providing no properties' do
+      it 'should not set any proeprties' do
+        edge = Turbine::Edge.new(left, right, :married)
+        expect(edge.properties).to be_empty
+      end
+    end
+
+    context 'providing no hash' do
+      it 'should not set any properties' do
+        edge = Turbine::Edge.new(left, right, :married)
+        expect(edge.properties).to be_empty
+      end
+    end
+
+    context 'providing a properties hash' do
+      it 'should set the properties' do
+        edge = Turbine::Edge.new(left, right, :married, { b: 2, c: 3 })
+        expect(edge.properties).to eql(b: 2, c: 3)
+      end
+    end
   end # creating a new edge
 end # Turbine::Edge
