@@ -1,7 +1,12 @@
 require 'rspec'
+require 'simplecov'
+
+SimpleCov.start { add_filter('/spec/') }
+
 require 'turbine'
 
 Dir['./spec/support/**/*.rb'].map { |file| require file }
+
 
 RSpec.configure do |config|
   # Use only the new "expect" syntax.
