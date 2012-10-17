@@ -32,7 +32,7 @@ module Turbine
       #
       # Returns nothing.
       def visit(node, &block)
-        queue = node.public_send(@method, *@args).to_a
+        queue = node.public_send(@method, *@args).to_a.dup
 
         while item = queue.shift
           next if @seen[item]
