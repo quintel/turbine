@@ -22,9 +22,7 @@ module Turbine
       @in_edges   = Set.new
       @out_edges  = Set.new
 
-      unless properties.nil?
-        self.properties = properties
-      end
+      self.properties = properties
     end
 
     # Public: Returns nodes which have an outgoing edge to this node.

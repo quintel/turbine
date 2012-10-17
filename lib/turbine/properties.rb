@@ -13,11 +13,12 @@ module Turbine
     #
     # new_props - A hash containing zero or more properties. The internal
     #             properties hash is set to whatever parameters you provide; a
-    #             duplicate is not made before assignment.
+    #             duplicate is not made before assignment. You may provide
+    #             +nil+ to remove all properties.
     #
     # Returns the properties.
     def properties=(new_props)
-      unless new_props.is_a?(Hash)
+      unless new_props.is_a?(Hash) || new_props.nil?
         raise InvalidPropertiesError.new(self, new_props)
       end
 

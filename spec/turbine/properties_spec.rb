@@ -22,6 +22,25 @@ describe 'Turbine::Properties' do
 
   # --------------------------------------------------------------------------
 
+  describe '#properties=' do
+    it 'should assign a Hash' do
+      model.properties = { a: 1 }
+      expect(model.properties).to eql(a: 1)
+    end
+
+    it 'should assign nil' do
+      model.properties = nil
+      expect(model.properties).to eql({})
+    end
+
+    it 'should raise an error when the argument is not a hash' do
+      expect(->{ model.properties = '' }).
+        to raise_error(Turbine::InvalidPropertiesError)
+    end
+  end
+
+  # --------------------------------------------------------------------------
+
   describe '#set' do
     let!(:result) { model.set(:type, 'Extra-special') }
 

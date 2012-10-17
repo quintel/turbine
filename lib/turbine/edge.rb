@@ -55,9 +55,7 @@ module Turbine
       @in    = in_node
       @label = label
 
-      unless properties.nil?
-        self.properties = properties
-      end
+      self.properties = properties
     end
 
     # Public: Determines if the +other+ edge is similar to this one.
