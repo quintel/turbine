@@ -135,6 +135,8 @@ multiple_nodes.descendants.map(&:to_a).flatten
 # => #<Turbine::Collection {Node, Node, ...}>
 ```
 
+This will *hopefully* be a temporary limitation.
+
 ### Properties / Attributes
 
 You can set all kind of properties on a node:
