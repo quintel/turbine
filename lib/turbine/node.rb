@@ -150,8 +150,8 @@ module Turbine
     private
     #######
 
-    # Internal: Given an edge, and a the Node's in_edges or out_edges, adds
-    # the edge only if there is not a similar edge already present.
+    # Internal: Given an edge, and a Node's in_edges or out_edges, adds the
+    # edge only if there is not a similar edge already present.
     #
     # collection - The collection to which the edge is to be added.
     # edge       - The edge.

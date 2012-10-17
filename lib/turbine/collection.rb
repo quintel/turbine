@@ -63,7 +63,7 @@ module Turbine
       @collection = Set.new(collection.to_a)
     end
 
-    # Public: Iterates throuch each item in the collection. Used by
+    # Public: Iterates through each item in the collection. Used by
     # Enumerable.
     #
     # Returns nothing.
@@ -81,7 +81,7 @@ module Turbine
 
     # Public: A human-readable version of the collection.
     def inspect
-      "#<Turbine::Collection {#{ @collection.map(&:inspect).join(', ') }}>"
+      "#<Turbine::Collection: {#{ @collection.map(&:inspect).join(', ') }}>"
     end
 
     # Public: The number of items in the collection.
@@ -99,7 +99,7 @@ module Turbine
     # Public: Creates a new collection containing all of the elements from
     # +self+ and +other+, without any duplicated.
     #
-    # other - An object which reponds to #to_a, whose elements are to be
+    # other - An object which responds to #to_a, whose elements are to be
     #         added to those from +self+ when creating the new collection.
     #
     # Returns a Collection.
@@ -112,7 +112,7 @@ module Turbine
     # Public: Creates a new collection containing the elements from +self+,
     # minus those in +other+.
     #
-    # other - An object which reponds to #to_a, whose elements are to be
+    # other - An object which responds to #to_a, whose elements are to be
     #         excluded from the new collection.
     #
     # Returns a Collection.
@@ -123,7 +123,7 @@ module Turbine
     # Public: Creates a new collection with only those elements which are
     # common to both +self+ and +other+.
     #
-    # other - An object which reponds to #to_a, whose elements are to be
+    # other - An object which responds to #to_a, whose elements are to be
     #         tested against those in +self+.
     #
     # Returns a Collection.
@@ -158,7 +158,7 @@ module Turbine
     # Wrap around Enumerable methods to ensure that they return a Collection.
     # TODO: There are a lot of methods missing still missing.
 
-    # Public: For each element, run +block+ and reteturns the results of each
+    # Public: For each element, run +block+ and returns the results of each
     # expression in an array.
     #
     # Returns a collection.
@@ -185,7 +185,7 @@ module Turbine
     end
 
     # Public: Splits the collection into two separate collection; the first
-    # containing elements for which the block evalulates to true, the second
+    # containing elements for which the block evaluates to true, the second
     # containing the rest.
     #
     # Returns an array with two collections.
