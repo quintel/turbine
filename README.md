@@ -210,23 +210,23 @@ subclasses on Turbine::Edge, perhaps with further specialsed subclasses).
 
 ## Terminology
 
-##### Node
+#### Node
 
 In graph theory, the term **Node** and **Vertex** are used interchangeably.
 Since we prefer shorter words over longer: we use node.
 
-##### Edges
+#### Edges
 
 An **edge** (or sometimes called an **arc**) is a connection between two
 nodes.
 
-##### Directed graph
+#### Directed graph
 
 Turbine is a directed graph, which means that the connection between two
 nodes always has a direction: it either goes from A to B or the other way
 round.
 
-### In and out
+#### In and out
 
 When Node A is connected to Node B:
 
