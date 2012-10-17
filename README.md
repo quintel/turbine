@@ -3,78 +3,98 @@
 An in-memory directed graph written in Ruby to model an energy flow system,
 a family tree, or whatever you like!
 
-## Check it out!
+## Quick tour
 
 We start the console and load the example graph
 
-    $> rake console:stub
+```sh
+$ rake console:stub
+```
 
 Load an example graph
 
-    pry> graph = Turbine.energy_stub
-    => #<Turbine::Graph (16 nodes, 16 edges)>
+```ruby
+graph = Turbine.energy_stub
+# => #<Turbine::Graph (16 nodes, 16 edges)>
+```
 
 ### Searching
 
 Now you can search for a node:
 
-    pry> graph.node(:space_heater_chp)
-    => #<Turbine::Node key=:space_heater_chp>
+```ruby
+graph.node(:space_heater_chp)
+# => #<Turbine::Node key=:space_heater_chp>
+```
 
 It will return nil when the collection is empty:
 
-    pry> graph.node(:bob_ross)
-    => nil
+```ruby
+graph.node(:bob_ross)
+# => nil
+```
 
 ### Traversing the graph
 
-Please read the Jargon section if you are confused by the terms *in*
-and *out*.
+Please read the [Terminology](#terminology) section if you are confused by the
+use of *in* and *out*.
 
-#### Traversing nodes
+#### Adjacent nodes
 
 Traverse the graph by requesting the **inward** nodes of a node
 
-    pry> graph.node(:space_heater_chp).in
-    => #<Turbine::Collection {#<Turbine::Node key=:final_demand_gas>}>
+```ruby
+graph.node(:space_heater_chp).in
+# => #<Turbine::Collection {Node, Node, ...}>
+```
 
 Traverse the graph by requesting the **outward** nodes
 
-    pry> g.node(:space_heater_chp).out
-    => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>,
-                              #<Turbine::Node key=:useful_demand_elec>}>
+```ruby
+graph.node(:space_heater_chp).out
+# => #<Turbine::Collection {Node, Node, ...}>
+```
 
 #### Filtering nodes
 
 If you have a node, and you want to get all the `in` or `out` nodes that have
 a certain label you can use a **filter**:
 
-    pry> g.node(:space_heater_chp).out(:electricity)
-    => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_elec>}>
+```ruby
+graph.node(:space_heater_chp).out(:electricity)
+# => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_elec>}>
 
-    pry> g.node(:space_heater_chp).out(:heat)
-    => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>}>
+graph.node(:space_heater_chp).out(:heat)
+# => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>}>
+```
 
 #### Traversing edges
 
 You can do the same for edges with `in_edges` and `out_edges`:
 
-    pry> graph.node(:space_heater_chp).in_edges
-    => #<Set: {#<Turbine::Edge :space_heater_coal -:heat-> :useful_demand_heat>,
-               #<Turbine::Edge :space_heater_gas -:heat-> :useful_demand_heat>,
-               #<Turbine::Edge :space_heater_oil -:heat-> :useful_demand_heat>,
-               #<Turbine::Edge :space_heater_chp -:heat-> :useful_demand_heat>}>
+```ruby
+graph.node(:space_heater_chp).in_edges
+# => #<Turbine::Collection: {
+#      #<Turbine::Edge :space_heater_coal -:heat-> :useful_demand_heat>,
+#      #<Turbine::Edge :space_heater_gas -:heat-> :useful_demand_heat>,
+#      #<Turbine::Edge :space_heater_oil -:heat-> :useful_demand_heat>,
+#      #<Turbine::Edge :space_heater_chp -:heat-> :useful_demand_heat>
+#    }>
+```
 
+#### Chaining
 
-### Chaining
+You can also chain and step through the connections:
 
-You can also **chain** and **step** through the connections:
-
-    pry> a_node = graph.nodes.first
-    pry> a_node.in.in # and we moved two steps to the 'right'
-    => #<Turbine::Collection {#<Turbine::Node key=:final_demand_coal>,
-                              #<Turbine::Node key=:final_demand_gas>,
-                              #<Turbine::Node key=:final_demand_oil>}>
+```ruby
+a_node = graph.nodes.first
+a_node.in.in # and we moved two steps to the 'right'
+# => #<Turbine::Collection {
+#      #<Turbine::Node key=:final_demand_coal>,
+#      #<Turbine::Node key=:final_demand_gas>,
+#      #<Turbine::Node key=:final_demand_oil>
+#    }>
+```
 
 #### Ancestors and Descendants
 
@@ -83,52 +103,63 @@ Node. Note that presently this returns an Enumerator rather than a Turbine
 Collection; this means that you cannot chain 
 Turbine::Collection):
 
-    enum = node.ancestors
-    # => #<Enumerator: ...>
+```ruby
+enum = node.ancestors
+# => #<Enumerator: ...>
 
-    enum.each { |ancestor| ... }
-    enum.to_a
-    # => [Node, Node, ...]
+enum.each { |ancestor| ... }
+enum.to_a
+# => [Node, Node, ...]
 
-    # Also, optionally filter ancestors and descendants using an edge label:
+# Also, optionally filter ancestors and descendants using an edge label:
 
-    enum = node.descendants(:likes)
-    # => #<Enumerator: ...>
+enum = node.descendants(:likes)
+# => #<Enumerator: ...>
+```
 
 Ancestors and descendants are fetched using a breadth-first algorithm, but
 depth-first is also available:
 
-    enum = Turbine::Traversal::DepthFirst(node, :in).to_enum
-    # => #<Enumerator: ...>
+```ruby
+enum = Turbine::Traversal::DepthFirst(node, :in).to_enum
+# => #<Enumerator: ...>
+```
 
 Each adjacent node is visited no more than once during the traversal, i.e.
 loops are not followed. Also please note that `ancestors` and `descendants`
 return an Enumerator rather than a Collection; this means that these method
 cannot be conveniently chained:
 
-    multiple_nodes.descendants
-    # => #<Turbine::Collection {#<Enumerator: ...>, #<Enumerator: ...>}>
+```ruby
+multiple_nodes.descendants
+# => #<Turbine::Collection {#<Enumerator: ...>, #<Enumerator: ...>}>
 
-    # As a temporary workaround, expand each enumerator and flatten the
-    # collection:
+# As a temporary workaround, expand each enumerator and flatten the
+# collection:
 
-    multiple_nodes.descendants.map(&:to_a).flatten
-    # => #<Turbine::Collection {Node, Node, ...}>
+multiple_nodes.descendants.map(&:to_a).flatten
+# => #<Turbine::Collection {Node, Node, ...}>
+```
 
 ### Properties/Attributes
 
 You can set all kind of *properties* (or call them *attributes* as you wish)
 on a node:
 
-    pry> a_node = graph.nodes.first
-    pry> a_node.properties
-    => {} # no properties set!
-    pry> a_node.properties[:preset_demand]
-    => nil # no property preset_demand set!
-    pry> a_node.properties[:preset_demand] = 1_000
-    => 1000
-    pry> a_node.properties
-    => {:preset_demand=>1000}
+```ruby
+node = graph.nodes.first
+node.properties
+# => {} # no properties set!
+
+node.get(:preset_demand)
+# => nil # no property called :preset_demand set!
+
+node.set(:preset_demand, 1_000)
+# => 1000
+
+node.properties
+# => {:preset_demand=>1000}
+```
 
 ## Idea
 
@@ -136,18 +167,13 @@ The idea behind Turbine is to provide a common base library for the graph
 structure used in ETengine, as well as defining ways to traverse this
 structure.
 
-As a "property graph", Turbine also handles the datasets which we assign to
+As a property graph, Turbine also handles the datasets which we assign to
 Nodes (or Converters), Edges (or Links), etc.
 
 ## Roadmap
 
 The aim is for a Turbine graph to be built using the InputExcel CSV data, and
-for this graph to then be modified in-memory:
-
-  * Perform demand calculations,
-  * Remove conversions for loss output slots,
-  * Transform carrier-efficiency data so it can be used by ETengine,
-  * etc ...
+for this graph to then be modified in-memory.
 
 Then, the modified graph will be "dumped" to YAML for use by ETengine. In the
 short-term, this means we can have a full graph structure up-and-running in
@@ -156,64 +182,71 @@ remove InputExcel in the future, we simply replace the CSV input with
 _something else_. Or, perhaps the Turbine graph will itself become the base
 for the InputExcel replacement?
 
-#### Today
+##### Today:
 
-    CSV  ->  xls2yml  ->  *simple dataset modifications*  ->  YAML
+**CSV** →  **xls2yml** → **Simple dataset modifications** → **YAML**
 
-#### With turbine
+##### With Turbine:
 
-    CSV  ->  Turbine graph in ETsource  ->  *dataset modifications*  ->  YAML
+**CSV** →  **Turbine graph in ETsource** →
+**Dataset modifications** → **YAML**
 
-#### In the future
+##### In the future:
 
-    ???  ->  Turbine graph in ETsource  ->  *dataset modifications*  ->  YAML
+**???** →  **Turbine graph in ETsource** →
+**Dataset modifications** → **YAML**
 
-or:
+or: **Flat-files** →  **Turbine graph** → **Dataset modifications** → **YAML**
 
-    Flat files  ->  Turbine graph  ->  YAML
+or: **Ruby DSL** →  **Turbine graph** → **Dataset modifications** → **YAML**
 
-or:
+or: ???
 
-    Ruby DSL  -> Turbine graph  ->  YAML
+The "dataset modifications" include things like:
 
-or:
+  * Perform demand calculations,
+  * Remove conversions for loss output slots,
+  * Transform carrier-efficiency data so it can be used by ETengine,
+  * etc ...
 
-    ???
+These functions will *not* be performed by Turbine itself; Turbine is intended
+only to define the structure of the graph, and provide the means to easily
+traverse it. *Separate classes* in ETsource will be responsible for making
+these changes to the graph.
 
-Also in the longer-term, ETengine Qernel classes may be descendants of those
-in Turbine (e.g. Converter becomes a subclass of Turbine::Node; Link become
-subclasses on Turbine::Edge [perhaps with further specialsed subclasses...
+In the longer-term, ETengine Qernel classes may be descendants of those in
+Turbine (e.g. Converter becomes a subclass of Turbine::Node; Link become
+subclasses on Turbine::Edge, perhaps with further specialsed subclasses).
 
 ## Jargon
 
-### Node
+##### Node
 
-In graph theory, *nodes* and *vertices* are used simultanously. Since we prefer
-shorter words over longer: we use *Node*.
+In graph theory, the term **Node** and **Vertex** are used interchangeably.
+Since we prefer shorter words over longer: we use node.
 
-### Edges
+##### Edges
 
-An *edge* (or sometimes called an *arc*) is a connection between two nodes.
+An **edge** (or sometimes called an **arc**) is a connection between two
+nodes.
 
-### Directed Graph
+##### Directed graph
 
 Turbine is a directed graph, which means that the connection between two
-*nodes* always has a direction: it either goes from A to B or the other way
+nodes always has a direction: it either goes from A to B or the other way
 round.
 
-### In and Out
+### In and out
 
 When Node A is connected to Node B:
 
-    A ---> B
+    A --> B
 
-A is said to be the *predeccessor* of B, and B is called the *successor* of A.
+A is said to be the **ancestor** of B, and B is called the **descendant** of
+A. Since we like to keep things as short as possible, we choose **in** and
+**out**: `A.out` results in `B`, and `B.in` results in `A`.
 
-Since we like to keep things as short as possible, we choose *in* and *out*:
-
-`A.out` results in `B`, and `B.in` results in `A`.
-
-Hence, we whave the following *truth table*:
+Hence, we have the following truth table:
 
          |  in | out
     -----+-----+------
@@ -221,16 +254,19 @@ Hence, we whave the following *truth table*:
     -----+-----+------
       B  |  A  | nil
 
-Still, it is up to the user to **define** what the *direction* signifies: in
-the case of an energy graph: the energy flows from a coal plant to the
-electricity grid. (someone might argue that the demand flows from the grid to
-the power plant).
+Still, it is up to the user to define what the direction signifies: in the
+case of an energy graph: the energy flows from a coal plant to the electricity
+grid. (some might argue that the demand flows from the grid to the power
+plant).
 
-In the case of the family graph, it is the descendence:
+In the case of the family graph, it is the ancestry of people:
 
-    mother -> child
+    parent -:child-> child
 
-if the relation is 'equal': there are two edges defined and a symmetrical
-relationship exists:
+If the relation is equal, there are two edges defined and a symmetrical
+relationship exists (Turbine does not support bi-directional edges):
 
-    husband <-> wife
+    person1 -:spouse-> person2
+    person2 -:spouse-> person1
+
+    i.e., person1 <-> person2
