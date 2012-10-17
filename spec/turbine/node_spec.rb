@@ -342,4 +342,129 @@ describe 'Turbine::Node' do
 
   # --------------------------------------------------------------------------
 
+  describe '#descendants' do
+    it 'should be an enumerator' do
+      expect(phil.descendants).to be_a(Enumerator)
+    end
+
+    context 'with no label restriction' do
+      let(:descendants) { phil.descendants.to_a }
+
+      it 'returns all nodes connected by "out" edges' do
+        expect(descendants).to have(5).nodes
+      end
+
+      it 'should include immediately adjacent descendants' do
+        expect(descendants).to include(haley)  # phil -child-> haley
+        expect(descendants).to include(alex)   # phil -child-> alex
+        expect(descendants).to include(luke)   # phil -child-> luke
+        expect(descendants).to include(claire) # phil -spouse-> claire
+      end
+
+      it 'should recurse through descendants' do
+        # phil -child-> haley -boyfriend-> dylan
+        expect(descendants).to include(dylan)
+      end
+    end # with no label restriction
+
+    context 'with a label restriction' do
+      let(:jay) { Turbine::Node.new(:jay) }
+      let(:descendants) { jay.descendants(:child).to_a }
+
+      before do
+        jay.connect_to(claire, :child)
+      end
+
+      it 'returns all matching nodes connected by "out" edges' do
+        expect(descendants).to have(4).nodes
+      end
+
+      it 'should include immediately adjacent descendants' do
+        # jay -child-> claire
+        expect(descendants).to include(claire)
+      end
+
+      it 'should recurse through descendants' do
+        # jay -child-> claire -child-> haley
+        expect(descendants).to include(haley)
+
+        # jay -child-> claire -child-> alex
+        expect(descendants).to include(alex)
+
+        # jay -child-> claire -child-> luke
+        expect(descendants).to include(luke)
+      end
+
+      it 'should not include non-matching nodes' do
+        expect(descendants).to_not include(phil)
+        expect(descendants).to_not include(dylan)
+      end
+    end # with no label restriction
+  end # #descendants
+
+  # --------------------------------------------------------------------------
+
+  describe '#ancestors' do
+    it 'should be an enumerator' do
+      expect(phil.ancestors).to be_a(Enumerator)
+    end
+
+    context 'with no label restriction' do
+      let(:jay) { Turbine::Node.new(:jay) }
+      let(:descendants) { haley.ancestors.to_a }
+
+      before do
+        jay.connect_to(claire, :child)
+      end
+
+      it 'returns all nodes connected by "out" edges' do
+        expect(descendants).to have(4).nodes
+      end
+
+      it 'should include immediately adjacent descendants' do
+        expect(descendants).to include(claire) # claire -child-> haley
+        expect(descendants).to include(phil)   # phil -child-> haley
+        expect(descendants).to include(dylan)  # dylan -girlfriend-> haley
+      end
+
+      it 'should recurse through ancestors' do
+        # jay -child-> claire -child-> haley
+        expect(descendants).to include(jay)
+      end
+    end # with no label restriction
+
+    context 'with a label restriction' do
+      let(:jay) { Turbine::Node.new(:jay) }
+      let(:descendants) { haley.ancestors(:child).to_a }
+
+      before do
+        jay.connect_to(claire, :child)
+      end
+
+      it 'returns all matching nodes connected by "out" edges' do
+        expect(descendants).to have(3).nodes
+      end
+
+      it 'should include immediately adjacent descendants' do
+        # claire -child-> haley
+        expect(descendants).to include(claire)
+
+        # phil -child-> haley
+        expect(descendants).to include(phil)
+      end
+
+      it 'should recurse through ancestors' do
+        # jay -child-> claire -child-> haley
+        expect(descendants).to include(jay)
+      end
+
+      it 'should not include non-matching nodes' do
+        expect(descendants).to_not include(alex)
+        expect(descendants).to_not include(luke)
+        expect(descendants).to_not include(dylan)
+      end
+    end # with a label restriction
+  end # #descendants
+
+>>>>>>> Support traversal, ancestors and descendants.
 end

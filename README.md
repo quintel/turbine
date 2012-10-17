@@ -57,7 +57,6 @@ a certain label you can use a **filter**:
 
 #### Traversing edges
 
-
 You can do the same for edges with `in_edges` and `out_edges`:
 
     pry> graph.node(:space_heater_chp).in_edges
@@ -76,6 +75,45 @@ You can also **chain** and **step** through the connections:
     => #<Turbine::Collection {#<Turbine::Node key=:final_demand_coal>,
                               #<Turbine::Node key=:final_demand_gas>,
                               #<Turbine::Node key=:final_demand_oil>}>
+
+#### Ancestors and Descendants
+
+Alternatively, you can recursively fetch all ancestors or descendants of a
+Node. Note that presently this returns an Enumerator rather than a Turbine
+Collection; this means that you cannot chain 
+Turbine::Collection):
+
+    enum = node.ancestors
+    # => #<Enumerator: ...>
+
+    enum.each { |ancestor| ... }
+    enum.to_a
+    # => [Node, Node, ...]
+
+    # Also, optionally filter ancestors and descendants using an edge label:
+
+    enum = node.descendants(:likes)
+    # => #<Enumerator: ...>
+
+Ancestors and descendants are fetched using a breadth-first algorithm, but
+depth-first is also available:
+
+    enum = Turbine::Traversal::DepthFirst(node, :in).to_enum
+    # => #<Enumerator: ...>
+
+Each adjacent node is visited no more than once during the traversal, i.e.
+loops are not followed. Also please note that `ancestors` and `descendants`
+return an Enumerator rather than a Collection; this means that these method
+cannot be conveniently chained:
+
+    multiple_nodes.descendants
+    # => #<Turbine::Collection {#<Enumerator: ...>, #<Enumerator: ...>}>
+
+    # As a temporary workaround, expand each enumerator and flatten the
+    # collection:
+
+    multiple_nodes.descendants.map(&:to_a).flatten
+    # => #<Turbine::Collection {Node, Node, ...}>
 
 ### Properties/Attributes
 

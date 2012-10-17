@@ -67,6 +67,28 @@ module Turbine
       select_edges(@out_edges, label, block)
     end
 
+    # Public: Returns an enumerator containing all nodes which are outward
+    # nodes, and all of their outward nodes.
+    #
+    # Uses a BreadthFirst traversal so that immediately adjacent nodes are
+    # visited before more distant nodes.
+    #
+    # Returns an Enumerator containing Nodes.
+    def descendants(label = nil)
+      Traversal::BreadthFirst.new(self, :out, [label]).to_enum
+    end
+
+    # Public: Returns an enumerator containing all nodes which are inward
+    # nodes, and all of their inward nodes.
+    #
+    # Uses a BreadthFirst traversal so that immediately adjacent nodes are
+    # visited before more distant nodes.
+    #
+    # Returns an Enumerator containing Nodes.
+    def ancestors(label = nil)
+      Traversal::BreadthFirst.new(self, :in, [label]).to_enum
+    end
+
     # Public: Returns a human-readable version of the node.
     def inspect
       "#<#{ self.class.name } key=#{ @key.inspect }>"
