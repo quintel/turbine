@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'Turbine::Edge' do
-  context 'creating a new edge' do
-    let(:left)  { Turbine::Node.new(:gloria) }
-    let(:right) { Turbine::Node.new(:jay) }
-    let(:edge)  { Turbine::Edge.new(left, right, :married) }
+  let(:left)  { Turbine::Node.new(:gloria) }
+  let(:right) { Turbine::Node.new(:jay) }
+  let(:edge)  { Turbine::Edge.new(left, right, :married) }
 
+  context 'creating a new edge' do
     it 'should assign the in node' do
       expect(edge.in).to eql(right)
     end
@@ -50,4 +50,22 @@ describe 'Turbine::Edge' do
       end
     end
   end # creating a new edge
+
+  # --------------------------------------------------------------------------
+
+  describe '#inspect' do
+    let(:inspected) { edge.inspect }
+
+    it 'should include the out node' do
+      expect(inspected).to include(left.key.to_s)
+    end
+
+    it 'should include the in node' do
+      expect(inspected).to include(right.key.to_s)
+    end
+
+    it 'should include the label' do
+      expect(inspected).to include(edge.label.to_s)
+    end
+  end # #inspect
 end # Turbine::Edge

@@ -43,21 +43,31 @@ describe 'Turbine::Graph' do
       it 'should draw an edge between them' do
         expect(graph.node(:jay).connect_to(other)).to be_an Turbine::Edge
       end
-
-      it 'should raise DuplicateEdge Error when two nodes get two edges' do
-        graph.node(:jay).connect_to(other)
-        expect(->{ graph.node(:jay).connect_to(other) }).
-         to raise_error(Turbine::DuplicateEdgeError)
-      end
     end # when another non-conflicting node exists
 
     context 'when the key conflicts with an existing node' do
       before { graph.add_node(node) }
 
       it 'should raise a DuplicateNodeError' do
-        expect(->{ graph.add_node(Turbine::Node.new(:jay)) }).
-          to raise_error(Turbine::DuplicateNodeError)
+        expect(->{ graph.add_node(Turbine::Node.new(:jay)) }).to raise_error(
+          Turbine::DuplicateNodeError, /Graph already has a node with the key/)
       end
     end # when the key conflicts with an existing node
   end # adding a new node
+
+  describe '#inspect' do
+    before do
+      graph.add_node(node)
+      graph.add_node(other)
+      node.connect_to(other, :test)
+    end
+
+    it 'should show the number of nodes' do
+      expect(graph.inspect).to include('2 nodes')
+    end
+
+    it 'should show the number of edges' do
+      expect(graph.inspect).to include('1 edges')
+    end
+  end
 end # Turbine::Graph

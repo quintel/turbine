@@ -39,6 +39,17 @@ describe 'Turbine::Collection' do
 
   # --------------------------------------------------------------------------
 
+  describe '#inspect' do
+    it 'should show the member nodes' do
+      inspected = parent_collection.inspect
+
+      expect(inspected).to include(':claire')
+      expect(inspected).to include(':phil')
+    end
+  end
+
+  # --------------------------------------------------------------------------
+
   describe '#+' do
     let(:result) { parent_collection + child_collection }
 

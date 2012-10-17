@@ -81,7 +81,7 @@ describe 'Turbine::Traversal::BreadthFirst' do
     end
   end # with an orphan
 
-  context '#next' do
+  describe '#next' do
     let(:enum) { Turbine::Traversal::BreadthFirst.new(a, :out).to_enum }
 
     it 'should retrieve each node in turn' do
@@ -114,4 +114,16 @@ describe 'Turbine::Traversal::BreadthFirst' do
       expect(enum.next).to equal(second)
     end
   end # #next
+
+  describe '#inspect' do
+    let(:inspected) { Turbine::Traversal::BreadthFirst.new(a, :out).inspect }
+
+    it 'should include the start item' do
+      expect(inspected).to include(a.inspect)
+    end
+
+    it 'should include the traversal method' do
+      expect(inspected).to include(':out')
+    end
+  end # #inspect
 end

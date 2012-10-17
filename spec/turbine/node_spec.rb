@@ -59,6 +59,11 @@ describe 'Turbine::Node' do
       expect(haley.in_edges { |e| e.out.get(:gender) == :male }).
         to have(2).members
     end
+
+    it 'should disallow filtering with a label and block' do
+      expect(->{ haley.in_edges(:child) { |*| } }).to raise_error(
+        Turbine::InvalidEdgeFilterError, /both a label and block/)
+    end
   end
 
   # --------------------------------------------------------------------------
@@ -77,6 +82,11 @@ describe 'Turbine::Node' do
     it 'should filter edges with a block' do
       expect(phil.out_edges { |e| e.in.get(:gender) == :female }).
         to have(3).member
+    end
+
+    it 'should disallow filtering with a label and block' do
+      expect(->{ phil.out_edges(:child) { |*| } }).to raise_error(
+        Turbine::InvalidEdgeFilterError, /both a label and block/)
     end
   end
 
@@ -197,8 +207,8 @@ describe 'Turbine::Node' do
       let!(:original) { gloria.connect_to(manny, :child) }
 
       it 'raises DuplicateEdgeError' do
-        expect(-> { gloria.connect_to(manny, :child) }).
-          to raise_error(Turbine::DuplicateEdgeError)
+        expect(-> { gloria.connect_to(manny, :child) }).to raise_error(
+          Turbine::DuplicateEdgeError, /another edge already exists/i)
       end
     end # when an identical edge already exists
 
