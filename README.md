@@ -179,22 +179,18 @@ for the InputExcel replacement?
 
 ##### Today:
 
-**CSV** →  **xls2yml** → **Simple dataset modifications** → **YAML**
+CSV  ➤  xls2yml  ➤  Simple dataset modifications  ➤  YAML
 
 ##### With Turbine:
 
-**CSV** →  **Turbine graph in ETsource** →
-**Dataset modifications** → **YAML**
+CSV  ➤  Turbine graph in ETsource  ➤  Dataset modifications  ➤  YAML
 
 ##### In the future:
 
-**???** →  **Turbine graph in ETsource** →
-**Dataset modifications** → **YAML**
+???  ➤  Turbine graph in ETsource  ➤  Dataset modifications  ➤  YAML
 
-or: **Flat-files** →  **Turbine graph** → **Dataset modifications** → **YAML**
-
-or: **Ruby DSL** →  **Turbine graph** → **Dataset modifications** → **YAML**
-
+or: Flat-files  ➤  Turbine graph  ➤  Dataset modifications  ➤  YAML
+or: Ruby DSL  ➤  Turbine graph  ➤  Dataset modifications  ➤  YAML
 or: ???
 
 The "dataset modifications" include things like:
