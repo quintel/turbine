@@ -179,26 +179,25 @@ for the InputExcel replacement?
 
 ##### Today:
 
-CSV  ➤  xls2yml  ➤  Simple dataset modifications  ➤  YAML
+* CSV  ➤  xls2yml  ➤  Simple dataset modifications  ➤  YAML
 
 ##### With Turbine:
 
-CSV  ➤  Turbine graph in ETsource  ➤  Dataset modifications  ➤  YAML
+* CSV  ➤  Turbine graph in ETsource  ➤  Dataset modifications  ➤  YAML
 
 ##### In the future:
 
-???  ➤  Turbine graph in ETsource  ➤  Dataset modifications  ➤  YAML
+* ???  ➤  Turbine graph in ETsource  ➤  Dataset modifications  ➤  YAML
+* Flat-files  ➤  Turbine graph  ➤  Dataset modifications  ➤  YAML
+* Ruby DSL  ➤  Turbine graph  ➤  Dataset modifications  ➤  YAML
+* ???
 
-or: Flat-files  ➤  Turbine graph  ➤  Dataset modifications  ➤  YAML
-or: Ruby DSL  ➤  Turbine graph  ➤  Dataset modifications  ➤  YAML
-or: ???
+The "dataset modifications" include things such as:
 
-The "dataset modifications" include things like:
-
-  * Perform demand calculations,
-  * Remove conversions for loss output slots,
-  * Transform carrier-efficiency data so it can be used by ETengine,
-  * etc ...
+1. Perform demand calculations,
+2. Remove conversions for loss output slots,
+3. Transform carrier-efficiency data so it can be used by ETengine,
+4. etc ...
 
 These functions will *not* be performed by Turbine itself; Turbine is intended
 only to define the structure of the graph, and provide the means to easily
