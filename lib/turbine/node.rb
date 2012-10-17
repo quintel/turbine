@@ -1,7 +1,6 @@
 module Turbine
   # In graph theory, a node is the fundamental unit of which graphs are
-  # formed: a directed graph consists of a set of nodes and a set of arcs
-  # (ordered pairs of nodes).
+  # formed: a directed graph consists of a set of nodes and a set of edges.
   class Node
     include Properties
 
@@ -50,6 +49,9 @@ module Turbine
     # label - An optional label; only edges with this label will be returned.
     #         Passing nil will return all in edges.
     #
+    # Raises an InvalidEdgeFilterError if you supply both a +label+ and
+    # +block+ for filtering the edges.
+    #
     # Returns an array of Edges.
     def in_edges(label = nil, &block)
       select_edges(@in_edges, label, block)
@@ -59,6 +61,9 @@ module Turbine
     #
     # label - An optional label; only edges with this label will be returned.
     #         Passing nil will return all out edges.
+    #
+    # Raises an InvalidEdgeFilterError if you supply both a +label+ and
+    # +block+ for filtering the edges.
     #
     # Returns an array of Edges.
     def out_edges(label = nil, &block)
@@ -173,7 +178,8 @@ module Turbine
     # label - The label of the edges to be emitted.
     # block - An optional block used to select which edges are emitted.
     #
-    # Raises an ArgumentError
+    # Raises an InvalidEdgeFilterError if you supply both a +label+ and
+    # +block+ for filtering the edges.
     #
     # Returns an array of edges.
     def select_edges(edges, label, block)
