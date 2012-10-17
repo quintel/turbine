@@ -99,9 +99,7 @@ a_node.in.in # and we moved two steps to the 'right'
 #### Ancestors and Descendants
 
 Alternatively, you can recursively fetch all ancestors or descendants of a
-Node. Note that presently this returns an Enumerator rather than a Turbine
-Collection; this means that you cannot chain 
-Turbine::Collection):
+Node.
 
 ```ruby
 enum = node.ancestors
@@ -110,9 +108,12 @@ enum = node.ancestors
 enum.each { |ancestor| ... }
 enum.to_a
 # => [Node, Node, ...]
+```
 
-# Also, optionally filter ancestors and descendants using an edge label:
+Just like with `in` and `out`, you may opt to filter the traversed nodes by
+the label of the connecting edge:
 
+```ruby
 enum = node.descendants(:likes)
 # => #<Enumerator: ...>
 ```
@@ -128,14 +129,12 @@ enum = Turbine::Traversal::DepthFirst(node, :in).to_enum
 Each adjacent node is visited no more than once during the traversal, i.e.
 loops are not followed. Also please note that `ancestors` and `descendants`
 return an Enumerator rather than a Collection; this means that these method
-cannot be conveniently chained:
+cannot be conveniently chained. As a workaround, expand each enumerator and
+flatten the collection:
 
 ```ruby
 multiple_nodes.descendants
 # => #<Turbine::Collection {#<Enumerator: ...>, #<Enumerator: ...>}>
-
-# As a temporary workaround, expand each enumerator and flatten the
-# collection:
 
 multiple_nodes.descendants.map(&:to_a).flatten
 # => #<Turbine::Collection {Node, Node, ...}>
