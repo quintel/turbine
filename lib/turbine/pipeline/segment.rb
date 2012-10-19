@@ -15,7 +15,7 @@ module Turbine
       #
       # Returns a Segment.
       def initialize
-        @fiber = Fiber.new { process ; raise StopIteration }
+        reset_fiber!
       end
 
       # Public: Appends +other+ segment to be given the values emitted by this
@@ -66,7 +66,17 @@ module Turbine
       #
       # Returns nothing.
       def each
+        rewind
         loop { yield self.next }
+      end
+
+      # Public: Rewinds the segment so that iteration can happen from the
+      # first input again.
+      #
+      # Returns nothing.
+      def rewind
+        @source.rewind
+        reset_fiber!
       end
 
       #######
@@ -85,6 +95,10 @@ module Turbine
 
       def handle_value(value)
         Fiber.yield(value)
+      end
+
+      def reset_fiber!
+        @fiber = Fiber.new { process ; raise StopIteration }
       end
     end # Segment
   end # Pipeline

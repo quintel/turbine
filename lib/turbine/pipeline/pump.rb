@@ -23,6 +23,14 @@ module Turbine
         @source.each { |item| Fiber.yield(item) }
         nil
       end
+
+      # Public: Rewinds the segment so that iteration can happen from the
+      # first input again.
+      #
+      # Returns nothing.
+      def rewind
+        reset_fiber!
+      end
     end # Pump
   end # Pipeline
 end # Turbine
