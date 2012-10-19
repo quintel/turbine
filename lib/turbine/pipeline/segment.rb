@@ -89,10 +89,6 @@ module Turbine
       def handle_value(value)
         Fiber.yield(value)
       end
-
-      def transform(value)
-        value
-      end
     end # Segment
   end # Pipeline
 end # Turbine
