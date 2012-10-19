@@ -6,6 +6,7 @@ group :test do
   gem 'ruby_gntp',              require: false
   gem 'rb-fsevent', '~> 0.9.1', require: false
   gem 'fuubar',                 require: false
+  gem 'coolline',               require: false
 end
 
 gemspec
