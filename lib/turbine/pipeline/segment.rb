@@ -66,10 +66,7 @@ module Turbine
       #
       # Returns nothing.
       def each
-        while emit = self.next
-          yield emit
-        end
-      rescue StopIteration
+        loop { yield self.next }
       end
 
       #######
