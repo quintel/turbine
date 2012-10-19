@@ -35,7 +35,6 @@ module Turbine
       def initialize(message, *args)
         @message = message
         @args    = args
-        @buffer  = nil
 
         super()
       end
