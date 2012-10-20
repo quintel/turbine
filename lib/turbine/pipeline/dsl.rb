@@ -96,6 +96,14 @@ module Turbine
       def each(&block)
         @source.each(&block)
       end
+
+      # Public: Describes the path which each input will take when passed
+      # through the DSL's pipeline.
+      #
+      # Returns a string.
+      def path
+        @source.path
+      end
     end # DSL
   end # Pipeline
 end # Turbine

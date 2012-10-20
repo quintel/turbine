@@ -31,6 +31,14 @@ module Turbine
       def rewind
         reset_fiber!
       end
+
+      # Public: Describes the path which each input will take when passed
+      # through the pipeline.
+      #
+      # Returns a string.
+      def path
+        self.class.name
+      end
     end # Pump
   end # Pipeline
 end # Turbine

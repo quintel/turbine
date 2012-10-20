@@ -108,5 +108,21 @@ module Turbine::Pipeline
         expect { pipeline.next }.to raise_error(/undefined method/)
       end
     end # when the message is to a non-existent method
+
+    describe '#path' do
+      let(:pipeline) { Pump.new([]) | Sender.new(:out, :child, true) }
+
+      it 'shows the current segment name' do
+        expect(pipeline.path).to include('Turbine::Pipeline::Sender')
+      end
+
+      it 'shows the current message name' do
+        expect(pipeline.path).to include('[out(')
+      end
+
+      it 'shows arguments' do
+        expect(pipeline.path).to end_with(':child, true)]')
+      end
+    end # path
   end # Sender
 end # Turbine::Pipeline

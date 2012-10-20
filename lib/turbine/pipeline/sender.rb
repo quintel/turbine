@@ -40,6 +40,14 @@ module Turbine
         super()
       end
 
+      # Public: Describes the path which each input will take when passed
+      # through the pipeline.
+      #
+      # Returns a string.
+      def path
+        "#{ super }[#{ message.to_s }(#{ args.map(&:inspect).join(', ') })]"
+      end
+
       #######
       private
       #######

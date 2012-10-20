@@ -79,6 +79,14 @@ module Turbine
         reset_fiber!
       end
 
+      # Public: Describes the path which each input will take when passed
+      # through the pipeline.
+      #
+      # Returns a string.
+      def path
+        "#{ @source.path } | #{ self.class.name }"
+      end
+
       #######
       private
       #######

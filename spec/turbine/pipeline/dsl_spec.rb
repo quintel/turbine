@@ -124,5 +124,14 @@ module Turbine::Pipeline
         expect(pipe.to_a).to eql([8, 10, 12])
       end
     end # realising the full result with to_a
+
+    context 'showing the path' do
+      let(:pipe) { dsl([]).out }
+
+      it 'returns a string' do
+        expect(pipe.path).to \
+          eql('Turbine::Pipeline::Pump | Turbine::Pipeline::Sender[out()]')
+      end
+    end # showing the path
   end # DSL
 end # Turbine::Pipeline
