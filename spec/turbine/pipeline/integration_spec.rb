@@ -54,5 +54,27 @@ module Turbine::Pipeline
         end
       end
     end # Filter -> Transform
+
+    describe 'Laziness' do
+      let(:pump)      { Pump.new(1..10) }
+      let(:transform) { Transform.new { |x| x } }
+      let(:finalise)  { Transform.new { |x| x * 2 } }
+      let(:pipeline)  { pump | transform | finalise }
+
+      it 'call each segment the minimum number of times' do
+        transform.should_receive(:next).
+          exactly(2).times.and_return { pump.next }
+
+        2.times { pipeline.next }
+      end
+
+      it 'calls each segment when requesting all items' do
+        # Once for each item, then once more to check for another...
+        transform.should_receive(:next).
+          exactly(11).times.and_return { pump.next }
+
+        pipeline.to_a
+      end
+    end # Laziness
   end # Pipeline
 end # Turbine::Pipeline
