@@ -14,6 +14,8 @@ module Turbine
     # Provides the chaining DSL used throughout Turbine, such as when calling
     # Node#in, Node#descendants, etc.
     class DSL
+      extend Forwardable
+
       # Public: Methods which, when called on the DSL object, create a Sender
       # segment which calls the method of the same name on each input.
       #
@@ -27,6 +29,8 @@ module Turbine
           end
         RUBY
       end
+
+      def_delegators :@source, :to_a, :each, :path
 
       # The final segment in the pipeline.
       attr_reader :source
@@ -77,32 +81,6 @@ module Turbine
       # Returns a new DSL.
       def map(&block)
         DSL.new(@source.append(Transform.new(&block)))
-      end
-
-      # Public: Iterates each element in the source through the pipeline,
-      # returning each result in an array.
-      #
-      # Returns an array.
-      def to_a
-        @source.to_a
-      end
-
-      # Public: Iterates each element in the source through the pipeline,
-      # yielding each one in turn to the +block+.
-      #
-      # block - The block to which each element is yielded.
-      #
-      # Returns nothing.
-      def each(&block)
-        @source.each(&block)
-      end
-
-      # Public: Describes the path which each input will take when passed
-      # through the DSL's pipeline.
-      #
-      # Returns a string.
-      def path
-        @source.path
       end
     end # DSL
   end # Pipeline

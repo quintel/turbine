@@ -1,4 +1,5 @@
 require 'set'
+require 'forwardable'
 
 # On with the library...
 require_relative 'turbine/properties'
