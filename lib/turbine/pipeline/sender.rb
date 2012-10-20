@@ -24,6 +24,7 @@ module Turbine
     #   pipeline.next # => 'hij'
     #   pipeline.next # => 'klm'
     class Sender < Segment
+      attr_reader :message, :args
 
       # Public: Creates a new Sender segment.
       #
