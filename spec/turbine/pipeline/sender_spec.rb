@@ -112,7 +112,7 @@ module Turbine::Pipeline
       let(:pipeline) { Pump.new([]) | Sender.new(:out, :child, true) }
 
       it 'shows the current segment name' do
-        expect(pipeline.path).to include('Turbine::Pipeline::Sender')
+        expect(pipeline.path).to include('Sender')
       end
 
       it 'shows the current message name' do

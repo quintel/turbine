@@ -82,9 +82,24 @@ module Turbine
       # Public: Describes the path which each input will take when passed
       # through the pipeline.
       #
+      # For example:
+      #
+      #   pipeline.path
+      #   # => "Pump | Sender(out) | Filter"
+      #
       # Returns a string.
       def path
-        "#{ @source.path } | #{ self.class.name }"
+        name = self.class.name
+
+        # Nicked from ActiveSupport since it's faster than gsub, and more
+        # memory-efficient than split.
+        name = (index = name.rindex('::')) ? name[(index + 2)..-1] : name
+
+        if @source.respond_to?(:path)
+          "#{ @source.path } | #{ name }"
+        else
+          name
+        end
       end
 
       #######

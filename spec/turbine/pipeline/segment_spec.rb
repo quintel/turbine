@@ -58,12 +58,11 @@ module Turbine::Pipeline
       end
 
       it 'shows the current segment name' do
-        expect(pipeline.path).to end_with('Turbine::Pipeline::Segment')
+        expect(pipeline.path).to end_with('Segment')
       end
 
       it 'shows the previous segment names' do
-        expect(pipeline.path).to \
-          start_with('Turbine::Pipeline::Pump | Turbine::Pipeline::Segment')
+        expect(pipeline.path).to start_with('Pump | Segment')
       end
     end
 

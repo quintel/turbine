@@ -129,8 +129,7 @@ module Turbine::Pipeline
       let(:pipe) { dsl([]).out }
 
       it 'returns a string' do
-        expect(pipe.path).to \
-          eql('Turbine::Pipeline::Pump | Turbine::Pipeline::Sender[out()]')
+        expect(pipe.path).to eql('Pump | Sender[out()]')
       end
     end # showing the path
   end # DSL
