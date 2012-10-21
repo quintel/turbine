@@ -1,6 +1,6 @@
 source :rubygems
 
-group :development do
+group :extras do
   gem 'guard',                  require: false
   gem 'guard-rspec',            require: false
   gem 'ruby_gntp',              require: false
