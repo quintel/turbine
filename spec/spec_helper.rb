@@ -1,24 +1,10 @@
 require 'rspec'
-require 'simplecov'
-
-SimpleCov.start do
-  add_filter('/spec/')
-
-  add_group 'Core' do |src|
-    path = src.filename
-
-    path.include?('/lib/turbine/') &&
-      ! path.include?('/turbine/pipeline/') &&
-      ! path.include?('/turbine/traversal/') &&
-      ! path.end_with?('version.rb')
-  end
-  add_group 'Pipeline',  'lib/turbine/pipeline'
-  add_group 'Traversal', 'lib/turbine/traversal'
-end
-
+require 'support/coverage' if ENV['COVERAGE']
 require 'turbine'
 
-Dir['./spec/support/**/*.rb'].map { |file| require file }
+Dir['./spec/support/**/*.rb'].map do |file|
+  require file unless file.end_with?('coverage.rb')
+end
 
 RSpec.configure do |config|
   # Use only the new "expect" syntax.

@@ -84,6 +84,13 @@ task :validate do
   end
 end
 
+# Coverage -------------------------------------------------------------------
+
+task :coverage do
+  ENV['COVERAGE'] = 'true'
+  exec 'bundle exec rspec'
+end
+
 # Documentation --------------------------------------------------------------
 
 begin
