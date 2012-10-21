@@ -53,14 +53,14 @@ module Turbine
       #######
 
       def process
-        while value = input.public_send(@message, *@args)
-          case value
+        while value = input
+          case result = value.public_send(@message, *@args)
           when Array, Enumerator, Collection
             # Recurse into arrays as the input may return multiple results (as
             # is commonly the case when calling Node#in, Node#ancestors, etc).
-            value.each { |buffered_value| handle_value(buffered_value) }
+            result.each { |buffered_value| handle_value(buffered_value) }
           else
-            handle_value(value)
+            handle_value(result)
           end
         end
       end
