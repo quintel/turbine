@@ -32,11 +32,8 @@ Gem::Specification.new do |s|
 
   s.require_path = 'lib'
 
-  s.add_development_dependency 'rake',        '>= 0.9.0'
-  s.add_development_dependency 'rspec',       '>= 2.11.0'
-  s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'yard',        '>= 0.8'
-  s.add_development_dependency 'yard-tomdoc', '>= 0.5'
+  s.add_development_dependency 'rake',  '>= 0.9.0'
+  s.add_development_dependency 'rspec', '>= 2.11.0'
 
   s.rdoc_options     = ['--charset=UTF-8']
   s.extra_rdoc_files = %w[LICENSE README.md]
