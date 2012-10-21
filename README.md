@@ -1,4 +1,4 @@
-# Turbine
+# Turbine [![Build Status](https://secure.travis-ci.org/antw/turbine.png)](http://travis-ci.org/antw/turbine)
 
 An in-memory directed graph written in Ruby to model an energy flow system,
 a family tree, or whatever you like!
