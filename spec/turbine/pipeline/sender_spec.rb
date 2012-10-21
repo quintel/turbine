@@ -90,14 +90,13 @@ module Turbine::Pipeline
     end # when the source item raises an error
 
     context 'when the message is to a private method' do
-      HasPrivate = Class.new do
-        private ; def nope ; end
-      end
-
-      let(:pipeline) { Pump.new([HasPrivate.new]) | Sender.new(:nope) }
+      let(:klass)    { Class.new { private ; def nope ; end } }
+      let(:pipeline) { Pump.new([klass.new]) | Sender.new(:nope) }
 
       it 'raises an error' do
-        expect { pipeline.next }.to raise_error(/private method/)
+        # We can't test explicitly for the "private method" message, since
+        # rbx has a different message when using `public_send`.
+        expect { pipeline.next }.to raise_error(NoMethodError)
       end
     end # when the message is to a private method
 
