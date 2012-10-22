@@ -49,7 +49,7 @@ module Turbine
         edges.merge(node.out_edges)
       end.length
 
-      "#<Turbine::Graph (#{ @nodes.length } nodes, #{ edge_count } edges)>"
+      "#<#{self.class} (#{ @nodes.length } nodes, #{ edge_count } edges)>"
     end
 
   end # Graph

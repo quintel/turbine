@@ -29,13 +29,13 @@ describe 'Turbine::Node' do
     end
 
     context 'providing no properties' do
-      it 'should not set any proeprties' do
+      it 'should not set any properties' do
         expect(Turbine::Node.new(:a).properties).to be_empty
       end
     end
 
     context 'providing a properties hash' do
-      it 'should not set any proeprties' do
+      it 'should not set any properties' do
         expect(Turbine::Node.new(:a, { b: 2, c: 3 }).properties).
           to eql(b: 2, c: 3)
       end
