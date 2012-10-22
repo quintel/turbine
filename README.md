@@ -156,58 +156,6 @@ node.properties
 # => {:preset_demand=>1000}
 ```
 
-## Idea
-
-The idea behind Turbine is to provide a common base library for the graph
-structure used in ETengine, as well as defining ways to traverse this
-structure.
-
-As a property graph, Turbine also handles the datasets which we assign to
-Nodes (or Converters), Edges (or Links), etc.
-
-## Roadmap
-
-The aim is for a Turbine graph to be built using the InputExcel CSV data, and
-for this graph to then be modified in-memory.
-
-Then, the modified graph will be "dumped" to YAML for use by ETengine. In the
-short-term, this means we can have a full graph structure up-and-running in
-ETsource to which we can slowly migrate features from InputExcel. If we
-remove InputExcel in the future, we simply replace the CSV input with
-_something else_. Or, perhaps the Turbine graph will itself become the base
-for the InputExcel replacement?
-
-##### Today:
-
-* CSV  ➤  xls2yml  ➤  Simple dataset modifications  ➤  YAML
-
-##### With Turbine:
-
-* CSV  ➤  Turbine graph in ETsource  ➤  Dataset modifications  ➤  YAML
-
-##### In the future:
-
-* ???  ➤  Turbine graph in ETsource  ➤  Dataset modifications  ➤  YAML
-* Flat-files  ➤  Turbine graph  ➤  Dataset modifications  ➤  YAML
-* Ruby DSL  ➤  Turbine graph  ➤  Dataset modifications  ➤  YAML
-* ???
-
-The "dataset modifications" include things such as:
-
-1. Perform demand calculations,
-2. Remove conversions for loss output slots,
-3. Transform carrier-efficiency data so it can be used by ETengine,
-4. etc ...
-
-These functions will *not* be performed by Turbine itself; Turbine is intended
-only to define the structure of the graph, and provide the means to easily
-traverse it. *Separate classes* in ETsource will be responsible for making
-these changes to the graph.
-
-In the longer-term, ETengine Qernel classes may be descendants of those in
-Turbine (e.g. Converter becomes a subclass of Turbine::Node; Link become
-subclasses on Turbine::Edge, perhaps with further specialsed subclasses).
-
 ## Terminology
 
 #### Node
