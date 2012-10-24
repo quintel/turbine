@@ -1,0 +1,28 @@
+Pipeline classes, appended to one another, provide a way to take a
+source and lazily transform and filter that source. It is also more
+efficient than the current `in` and `out` implementations in that
+chaining multiple expressions together can be done without the need for
+temporary collections between each chained method, and each source is
+traversed only once.
+
+Eventually this will pave the way for far more interesting traversal
+expressions:
+
+    # Get and "name" the child's parents:
+    luke.in(:child).as('parents').
+       # Get Grandparents:
+      .in(:child)
+       # Get Grandparents' children (which includes Luke's parents):
+      .out(:child)
+       # Remove Luke's parents, leaving the Uncles and Aunts:
+      .except('parents')
+       # Add the Uncles' and Aunts' spouses:
+      .also(:spouse)
+
+Pipeline is inspired by Dave Thomas' 2008 articles on using Fiber to
+create pipelines in Ruby [1] [2], and the Java / Groovy "Pipes"
+library [3].
+
+[1]: http://pragdave.blogs.pragprog.com/pragdave/2007/12/pipelines-using.html
+[2]: http://pragdave.blogs.pragprog.com/pragdave/2008/01/pipelines-using.html
+[3]: https://github.com/tinkerpop/pipes/wiki
