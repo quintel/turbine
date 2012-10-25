@@ -108,20 +108,20 @@ module Turbine::Pipeline
       end
     end # when the message is to a non-existent method
 
-    describe '#path' do
+    describe '#to_s' do
       let(:pipeline) { Pump.new([]) | Sender.new(:out, :child, true) }
 
       it 'shows the current segment name' do
-        expect(pipeline.path).to include('Sender')
+        expect(pipeline.to_s).to include('Sender')
       end
 
       it 'shows the current message name' do
-        expect(pipeline.path).to include('[out(')
+        expect(pipeline.to_s).to include('[out(')
       end
 
       it 'shows arguments' do
-        expect(pipeline.path).to end_with(':child, true)]')
+        expect(pipeline.to_s).to end_with(':child, true)]')
       end
-    end # path
+    end # to_s
   end # Sender
 end # Turbine::Pipeline

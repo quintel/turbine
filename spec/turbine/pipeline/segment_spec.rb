@@ -52,17 +52,17 @@ module Turbine::Pipeline
 
     # ------------------------------------------------------------------------
 
-    describe '#path' do
+    describe '#to_s' do
       let(:pipeline) do
         Pump.new([]) | Segment.new | Segment.new
       end
 
       it 'shows the current segment name' do
-        expect(pipeline.path).to end_with('Segment')
+        expect(pipeline.to_s).to end_with('Segment')
       end
 
       it 'shows the previous segment names' do
-        expect(pipeline.path).to start_with('Pump | Segment')
+        expect(pipeline.to_s).to start_with('Pump | Segment')
       end
     end
 

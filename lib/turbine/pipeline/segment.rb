@@ -79,24 +79,23 @@ module Turbine
         reset_fiber!
       end
 
-      # Public: Describes the path which each input will take when passed
-      # through the pipeline.
+      # Public: Describes the segments through which each input will pass.
       #
       # For example:
       #
-      #   pipeline.path
+      #   pipeline.to_s
       #   # => "Pump | Sender(out) | Filter"
       #
       # Returns a string.
-      def path
+      def to_s
         name = self.class.name
 
         # Nicked from ActiveSupport since it's faster than gsub, and more
         # memory-efficient than split.
         name = (index = name.rindex('::')) ? name[(index + 2)..-1] : name
 
-        if @source.respond_to?(:path)
-          "#{ @source.path } | #{ name }"
+        if @source.is_a?(Segment)
+          "#{ @source.to_s } | #{ name }"
         else
           name
         end

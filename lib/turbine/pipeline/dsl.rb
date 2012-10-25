@@ -30,7 +30,7 @@ module Turbine
         RUBY
       end
 
-      def_delegators :@source, :to_a, :each, :path
+      def_delegators :@source, :to_a, :each, :to_s
 
       # The final segment in the pipeline.
       attr_reader :source

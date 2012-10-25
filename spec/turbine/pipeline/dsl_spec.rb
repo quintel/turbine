@@ -125,12 +125,12 @@ module Turbine::Pipeline
       end
     end # realising the full result with to_a
 
-    context 'showing the path' do
+    context 'showing the path string' do
       let(:pipe) { dsl([]).out }
 
       it 'returns a string' do
-        expect(pipe.path).to eql('Pump | Sender[out()]')
+        expect(pipe.to_s).to eql('Pump | Sender[out()]')
       end
-    end # showing the path
+    end # showing the path string
   end # DSL
 end # Turbine::Pipeline
