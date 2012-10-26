@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
                      'paolo.zaccagnini@quintel.com',
                      'sebastian.burkhard@quintel.com' ]
 
-  s.homepage     = 'http://github.com/antw/turbine'
+  s.homepage     = 'http://github.com/quintel/turbine'
   s.summary      = 'An in-memory graph database written in Ruby.'
   s.description  = 'An experiment in graph databases, with Ruby...'
 
