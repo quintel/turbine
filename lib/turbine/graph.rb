@@ -40,7 +40,7 @@ module Turbine
     #
     # Returns an array of nodes.
     def nodes
-      Collection.new(@nodes.values)
+      @nodes.values
     end
 
     # Public: A human-readable version of the graph.

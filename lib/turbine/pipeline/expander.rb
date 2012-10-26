@@ -24,7 +24,7 @@ module Turbine
 
       def handle_value(value)
         case value
-        when Array, Set, Enumerator, Collection
+        when Array, Set, Enumerator
           # Recurse into arrays, as the input may return multiple results (as
           # is commonly the case when calling Node#in, Node#descendants, etc).
           value.each { |entry| super(entry) }

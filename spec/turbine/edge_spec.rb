@@ -53,6 +53,22 @@ describe 'Turbine::Edge' do
 
   # --------------------------------------------------------------------------
 
+  describe 'nodes' do
+    context 'with :in' do
+      it 'returns the connected-to node' do
+        expect(edge.nodes(:in)).to eql(right)
+      end
+    end
+
+    context 'with :out' do
+      it 'returns the connected-from node' do
+        expect(edge.nodes(:out)).to eql(left)
+      end
+    end
+  end # nodes
+
+  # --------------------------------------------------------------------------
+
   describe '#inspect' do
     let(:inspected) { edge.inspect }
 

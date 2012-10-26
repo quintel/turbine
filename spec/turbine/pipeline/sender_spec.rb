@@ -49,20 +49,6 @@ module Turbine::Pipeline
       end
     end # when the source item returns nested arrays
 
-    context 'when the source item returns a Collection' do
-      let(:source)   { [
-        Target.new(Turbine::Collection.new([9])),
-        Target.new(Turbine::Collection.new([8, 7])),
-        Target.new(Turbine::Collection.new([6, 5]))
-      ] }
-
-      let(:pipeline) { Pump.new(source) | Sender.new(:score) }
-
-      it 'expands each collection' do
-        expect(pipeline.to_a).to eql([9, 8, 7, 6, 5])
-      end
-    end
-
     context 'when the source item is an enumerator' do
       let(:source) do
         [ Target.new([1, 2].to_enum), Target.new([3, 4].to_enum) ]
@@ -77,7 +63,11 @@ module Turbine::Pipeline
 
     context 'chaining multiple Senders' do
       let(:pipeline) do
-        Pump.new([1, 2, 3]) | Sender.new(:*, 10) | Sender.new(:to_s)
+        Pump.new([1, 2, 3, 4, 5]) | Sender.new(:*, 10) | Sender.new(:to_s)
+      end
+
+      it 'should process each input through each pipeline' do
+        expect(pipeline.to_a).to eql(%w( 10 20 30 40 50 ))
       end
     end
 

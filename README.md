@@ -39,15 +39,15 @@ use of **in** and **out**.
 Traverse the graph by requesting the inward nodes of a node:
 
 ```ruby
-graph.node(:space_heater_chp).in
-# => #<Turbine::Collection {Node, Node, ...}>
+graph.node(:space_heater_chp).in.to_a
+# => [#<Turbine::Node>, #<Turbine::Node>, ...]
 ```
 
 Traverse the graph by requesting the outward nodes:
 
 ```ruby
-graph.node(:space_heater_chp).out
-# => #<Turbine::Collection {Node, Node, ...}>
+graph.node(:space_heater_chp).out.to_a
+# => [#<Turbine::Node>, #<Turbine::Node>, ...]
 ```
 
 #### Filtering nodes
@@ -56,11 +56,11 @@ If you have a node and you want to get all the inward or outward nodes that
 have a certain label, you can use a filter:
 
 ```ruby
-graph.node(:space_heater_chp).out(:electricity)
-# => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_elec>}>
+graph.node(:space_heater_chp).out(:electricity).to_a
+# => [#<Turbine::Node key=:useful_demand_elec>]
 
-graph.node(:space_heater_chp).out(:heat)
-# => #<Turbine::Collection {#<Turbine::Node key=:useful_demand_heat>}>
+graph.node(:space_heater_chp).out(:heat).to_a
+# => [<Turbine::Node key=:useful_demand_heat>}>]
 ```
 
 #### Traversing edges
@@ -68,13 +68,11 @@ graph.node(:space_heater_chp).out(:heat)
 You can do the same for edges with `in_edges` and `out_edges`:
 
 ```ruby
-graph.node(:space_heater_chp).in_edges
-# => #<Turbine::Collection: {
-#      #<Turbine::Edge :space_heater_coal -:heat-> :useful_demand_heat>,
+graph.node(:space_heater_chp).in_edges.to_a
+# => [ #<Turbine::Edge :space_heater_coal -:heat-> :useful_demand_heat>,
 #      #<Turbine::Edge :space_heater_gas -:heat-> :useful_demand_heat>,
 #      #<Turbine::Edge :space_heater_oil -:heat-> :useful_demand_heat>,
-#      #<Turbine::Edge :space_heater_chp -:heat-> :useful_demand_heat>
-#    }>
+#      #<Turbine::Edge :space_heater_chp -:heat-> :useful_demand_heat> ]
 ```
 
 #### Chaining
@@ -83,12 +81,10 @@ You can also chain and step through the connections:
 
 ```ruby
 node = graph.nodes.first
-node.in.in
-# => #<Turbine::Collection {
-#      #<Turbine::Node key=:final_demand_coal>,
+node.in.in.to_a
+# => [ #<Turbine::Node key=:final_demand_coal>,
 #      #<Turbine::Node key=:final_demand_gas>,
-#      #<Turbine::Node key=:final_demand_oil>
-#    }>
+#      #<Turbine::Node key=:final_demand_oil> ]
 ```
 
 #### Ancestors and Descendants
@@ -97,12 +93,8 @@ Alternatively, you can recursively fetch all ancestors or descendants of a
 Node:
 
 ```ruby
-enum = node.ancestors
-# => #<Enumerator: ...>
-
-enum.each { |ancestor| ... }
-enum.to_a
-# => [Node, Node, ...]
+enum = node.ancestors.to_a
+# => [#<Turbine::Node>, #<Turbine::Node>, ...]
 ```
 
 Just like with `in` and `out`, you may opt to filter the traversed nodes by
@@ -122,20 +114,7 @@ enum = Turbine::Traversal::DepthFirst(node, :in).to_enum
 ```
 
 Each adjacent node is visited no more than once during the traversal, i.e.
-loops are not followed. Also please note that `ancestors` and `descendants`
-return an Enumerator rather than a Collection; this means that these method
-cannot be conveniently chained. As a workaround, expand each enumerator and
-flatten the collection:
-
-```ruby
-multiple_nodes.descendants
-# => #<Turbine::Collection {#<Enumerator: ...>, #<Enumerator: ...>}>
-
-multiple_nodes.descendants.map(&:to_a).flatten
-# => #<Turbine::Collection {Node, Node, ...}>
-```
-
-This will *hopefully* be a temporary limitation.
+loops are not followed.
 
 ### Properties / Attributes
 

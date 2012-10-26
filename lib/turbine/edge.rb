@@ -73,5 +73,13 @@ module Turbine
       "#<#{ self.class.name } " \
         "#{ @out.key.inspect } -#{ @label.inspect }-> #{ @in.key.inspect }>"
     end
+
+    # Internal: A low-level method which retrieves the node in a given
+    # direction. Used for compatibility with Pipeline.
+    #
+    # Returns a Node.
+    def nodes(direction, *)
+      direction == :in ? @in : @out
+    end
   end # Edge
 end # Turbine

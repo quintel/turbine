@@ -6,32 +6,8 @@ module Turbine::Pipeline
       Turbine::Pipeline.dsl(source)
     end
 
-    context 'calling a "sender" with no arguments' do
-      let(:pipe) { dsl.out }
-
-      it 'returns a DSL' do
-        expect(pipe).to be_a(DSL)
-      end
-
-      it 'sets the source to be a Sender' do
-        expect(pipe.source).to be_a(Sender)
-      end
-
-      it 'sets the message to be sent' do
-        expect(pipe.source.message).to eql(:out)
-      end
-
-      it 'sets no arguments to be called' do
-        expect(pipe.source.args).to be_empty
-      end
-
-      it 'has a Pump upstream' do
-        expect(pipe.source.source).to be_a(Pump)
-      end
-    end # calling a "sender" with no arguments
-
     context 'calling a "sender" with arguments' do
-      let(:pipe) { dsl.in(:child) }
+      let(:pipe) { dsl.get(:thing) }
 
       it 'returns a DSL' do
         expect(pipe).to be_a(DSL)
@@ -42,11 +18,11 @@ module Turbine::Pipeline
       end
 
       it 'sets the message to be sent' do
-        expect(pipe.source.message).to eql(:in)
+        expect(pipe.source.message).to eql(:get)
       end
 
-      it 'sets no arguments to be called' do
-        expect(pipe.source.args).to eql([:child])
+      it 'sets the additional arguments' do
+        expect(pipe.source.args).to eql([:thing])
       end
 
       it 'has a Pump upstream' do
@@ -102,6 +78,22 @@ module Turbine::Pipeline
       end
     end # transforming with map
 
+    context 'filtering with uniq' do
+      let(:pipe) { dsl.uniq }
+
+      it 'returns a DSL' do
+        expect(pipe).to be_a(DSL)
+      end
+
+      it 'sets the source to be a Unique' do
+        expect(pipe.source).to be_a(Unique)
+      end
+
+      it 'has a Pump upstream' do
+        expect(pipe.source.source).to be_a(Pump)
+      end
+    end # filtering with uniq
+
     context 'iterating with "each"' do
       let(:pipe) { dsl([1, 2, 3]) }
 
@@ -126,11 +118,19 @@ module Turbine::Pipeline
     end # realising the full result with to_a
 
     context 'showing the path string' do
-      let(:pipe) { dsl([]).out }
+      let(:pipe) { dsl([]).get(:prop) }
 
       it 'returns a string' do
-        expect(pipe.to_s).to eql('Pump | Sender[out()]')
+        expect(pipe.to_s).to eql('Pump | Sender[get(:prop)]')
       end
     end # showing the path string
+
+    context 'inspecting the pipeline' do
+      let(:pipe) { dsl([]).get(:prop) }
+
+      it 'should include the path string' do
+        expect(pipe.inspect).to include(pipe.to_s)
+      end
+    end # inspecting the pipeline
   end # DSL
 end # Turbine::Pipeline

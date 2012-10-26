@@ -41,13 +41,4 @@ module Turbine
         "#{ @model.inspect } - it must be a Hash, or subclass of Hash"
     end
   end # InvalidPropertiesError
-
-  # Raised when trying to filter edges, but the arguments given are
-  # conflict.
-  class InvalidEdgeFilterError < TurbineError
-    def message
-      'Node#in_edges/out_edges may not be supplied with both a label ' \
-        'and block'
-    end
-  end # InvalidEdgeFilterError
 end # Turbine

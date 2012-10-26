@@ -31,7 +31,7 @@ module Turbine
     #
     # Returns an array of Node instances.
     def in(label = nil)
-      Collection.new(in_edges(label).map(&:out))
+      Pipeline.dsl(self).in(label)
     end
 
     # Public: Returns verticies to which this node has outgoing edges.
@@ -41,7 +41,7 @@ module Turbine
     #
     # Returns an array of Node instances.
     def out(label = nil)
-      Collection.new(out_edges(label).map(&:in))
+      Pipeline.dsl(self).out(label)
     end
 
     # Public: Returns this node's in edges.
@@ -53,8 +53,8 @@ module Turbine
     # +block+ for filtering the edges.
     #
     # Returns an array of Edges.
-    def in_edges(label = nil, &block)
-      select_edges(@in_edges, label, block)
+    def in_edges(label = nil)
+      Pipeline.dsl(self).in_edges(label)
     end
 
     # Public: Returns this node's out edges.
@@ -66,8 +66,8 @@ module Turbine
     # +block+ for filtering the edges.
     #
     # Returns an array of Edges.
-    def out_edges(label = nil, &block)
-      select_edges(@out_edges, label, block)
+    def out_edges(label = nil)
+      Pipeline.dsl(self).out_edges(label)
     end
 
     # Public: Returns an enumerator containing all nodes which are outward
@@ -78,7 +78,7 @@ module Turbine
     #
     # Returns an Enumerator containing Nodes.
     def descendants(label = nil)
-      Traversal::BreadthFirst.new(self, :out, [label]).to_enum
+      Pipeline.dsl(self).traverse(:out, label)
     end
 
     # Public: Returns an enumerator containing all nodes which are inward
@@ -89,7 +89,23 @@ module Turbine
     #
     # Returns an Enumerator containing Nodes.
     def ancestors(label = nil)
-      Traversal::BreadthFirst.new(self, :in, [label]).to_enum
+      Pipeline.dsl(self).traverse(:in, label)
+    end
+
+    # Internal: Low-level method which retrieves all of the edges in a given
+    # +direction+, in an array.
+    #
+    # Returns an array of edges.
+    def edges(direction, label = nil)
+      select_edges(direction == :in ? @in_edges : @out_edges, label)
+    end
+
+    # Internal: Low-level method which retrieves all of the nodes in a given
+    # +direction+, in an array.
+    #
+    # Returns an array of nodes.
+    def nodes(direction, label = nil)
+      edges(direction, label).map(&(direction == :in ? :out : :in))
     end
 
     # Public: Returns a human-readable version of the node.
@@ -170,26 +186,15 @@ module Turbine
       collection.add(edge)
     end
 
-    # Internal: Given an array of edges, and either a block or label, selects
-    # the edges which satisfy the block. If block and label are nil, all the
-    # edges will be returned.
+    # Internal: Given an array of edges, and an optional label label, selects
+    # the edges from the given set.
     #
     # edges - The array of edges to be filtered.
     # label - The label of the edges to be emitted.
-    # block - An optional block used to select which edges are emitted.
-    #
-    # Raises an InvalidEdgeFilterError if you supply both a +label+ and
-    # +block+ for filtering the edges.
     #
     # Returns an array of edges.
-    def select_edges(edges, label, block)
-      if label && block
-        raise InvalidEdgeFilterError.new
-      elsif label && ! block
-        block = ->(edge){ edge.label == label }
-      end
-
-      block.nil? ? edges : edges.select(&block)
+    def select_edges(edges, label)
+      label.nil? ? edges : edges.select { |edge| edge.label == label }
     end
 
   end # Node

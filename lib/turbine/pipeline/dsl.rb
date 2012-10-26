@@ -14,21 +14,8 @@ module Turbine
     # Provides the chaining DSL used throughout Turbine, such as when calling
     # Node#in, Node#descendants, etc.
     class DSL
-      extend Forwardable
-
-      # Public: Methods which, when called on the DSL object, create a Sender
-      # segment which calls the method of the same name on each input.
-      #
-      # name - The method name.
-      #
-      # Returns nothing.
-      def self.sender_method(name)
-        class_eval <<-RUBY, __FILE__, __LINE__ + 1
-          def #{ name }(*args)
-            DSL.new(@source.append(Sender.new(:#{ name }, *args)))
-          end
-        RUBY
-      end
+      extend  Forwardable
+      include Enumerable
 
       def_delegators :@source, :to_a, :each, :to_s
 
@@ -45,13 +32,85 @@ module Turbine
         @source = source
       end
 
-      sender_method :ancestors
-      sender_method :descendants
-      sender_method :get
-      sender_method :in
-      sender_method :in_edges
-      sender_method :out
-      sender_method :out_edges
+      # Public: Queries each input for its +key+ property. Expects the input
+      # to include Turbine::Properties.
+      #
+      # key - The property key to be queried.
+      #
+      # For example
+      #
+      #   pipe.get(:age) # => [11, 15, 18, 44, 46]
+      #
+      # Returns a new DSL.
+      def get(key)
+        DSL.new(@source.append(Sender.new(:get, key)))
+      end
+
+      # Public: Retrieves the in_edges from the input nodes.
+      #
+      # label - An optional label; only edges with a matching label will be
+      #         emitted by the pipeline.
+      #
+      # Returns a DSL.
+      def in_edges(label = nil)
+        DSL.new(@source.append(Sender.new(:edges, :in, label)))
+      end
+
+      # Public: Retrieves the out_edges from the input nodes.
+      #
+      # label - An optional label; only edges with a matching label will be
+      #         emitted by the pipeline.
+      #
+      # Returns a new DSL.
+      def out_edges(label = nil)
+        DSL.new(@source.append(Sender.new(:edges, :out, label)))
+      end
+
+      # Public: Retrieves the inbound nodes on the input node or edge.
+      #
+      # label - An optional label; only edges connected to the node via an
+      #         edge with this label will be emitted by the pipeline.
+      #
+      # Returns a new DSL.
+      def in(label = nil)
+        DSL.new(@source.append(Sender.new(:nodes, :in, label)))
+      end
+
+      # Public: Retrieves the outbound nodes on the input node or edge.
+      #
+      # label - An optional label; only edges connected to the node via an
+      #         edge with this label will be emitted by the pipeline.
+      #
+      # Returns a new DSL.
+      def out(label = nil)
+        DSL.new(@source.append(Sender.new(:nodes, :out, label)))
+      end
+
+      # Public: Using the breadth-first traversal strategy, fetches all of a
+      # node's adjacent nodes, and their adjacent nodes, and so on, in a given
+      # +direction+
+      #
+      # direction - In which direction from the current node do you wat to
+      #             traverse? :in or :out?
+      # label     - An optional label which is used to restrict the edges
+      #             traversed to those with the label.
+      #
+      # For example
+      #
+      #   # Fetches all nodes via outgoing edges.
+      #   dsl.traverse(:out).to_a
+      #
+      #   # Gets all out nodes via edges which have the :child label.
+      #   dsl.traverse(:out, :child)
+      #
+      # Returns a new DSL.
+      def traverse(direction, label = nil)
+        transform = Transform.new do |node|
+          Traversal::BreadthFirst.new(node, direction, [label]).to_enum
+        end
+
+        DSL.new(@source.append(transform).append(Expander.new))
+      end
 
       # Public: Given a block, emits input elements for which the block
       # evaluates to true.
@@ -81,6 +140,23 @@ module Turbine
       # Returns a new DSL.
       def map(&block)
         DSL.new(@source.append(Transform.new(&block)))
+      end
+
+      # Public: Filters each value so that only unique elements are emitted.
+      #
+      # block - An optional block used when determining if the value is
+      #         unique. See Pipeline::Unique#initialize.
+      #
+      # Returns a new DSL.
+      def uniq(&block)
+        DSL.new(@source.append(Unique.new(&block)))
+      end
+
+      # Public: A human-readable version of the DSL.
+      #
+      # Return a String.
+      def inspect
+        "#<#{ self.class.inspect } {#{ to_s }}>"
       end
     end # DSL
   end # Pipeline
