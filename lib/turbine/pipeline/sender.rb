@@ -12,18 +12,8 @@ module Turbine
     # Some methods in Turbine return an Array, Collection, or Enumerator as a
     # sort of "result set" -- such as Node#in, Node#descendants, etc. In these
     # cases, each element in the result set is yielded separately before
-    # continuing with the next input.
-    #
-    #   pump     = Pump.new(['abc def', 'hij klm'])
-    #   split    = Sender.new(:split, ' ')
-    #
-    #   pipeline = pump | split
-    #
-    #   pipeline.next # => 'abc'
-    #   pipeline.next # => 'def'
-    #   pipeline.next # => 'hij'
-    #   pipeline.next # => 'klm'
-    class Sender < Segment
+    # continuing with the next input. See Expander for more details.
+    class Sender < Expander
       attr_reader :message, :args
 
       # Public: Creates a new Sender segment.
@@ -51,17 +41,8 @@ module Turbine
       private
       #######
 
-      def process
-        while value = input
-          case result = value.public_send(@message, *@args)
-          when Array, Enumerator, Collection
-            # Recurse into arrays as the input may return multiple results (as
-            # is commonly the case when calling Node#in, Node#ancestors, etc).
-            result.each { |buffered_value| handle_value(buffered_value) }
-          else
-            handle_value(result)
-          end
-        end
+      def handle_value(value)
+        super(value.public_send(@message, *args))
       end
 
     end # Sender
