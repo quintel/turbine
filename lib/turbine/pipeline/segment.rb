@@ -94,11 +94,8 @@ module Turbine
         # memory-efficient than split.
         name = (index = name.rindex('::')) ? name[(index + 2)..-1] : name
 
-        if @source.is_a?(Segment)
-          "#{ @source.to_s } | #{ name }"
-        else
-          name
-        end
+        source_string = source_to_s
+        source_string.nil? ? name : "#{ source_string } | #{ name }"
       end
 
       #######
@@ -121,6 +118,10 @@ module Turbine
 
       def reset_fiber!
         @fiber = Fiber.new { process ; raise StopIteration }
+      end
+
+      def source_to_s
+        @source.is_a?(Segment) ? @source.to_s : nil
       end
     end # Segment
   end # Pipeline

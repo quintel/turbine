@@ -101,16 +101,16 @@ module Turbine::Pipeline
     describe '#to_s' do
       let(:pipeline) { Pump.new([]) | Sender.new(:out, :child, true) }
 
-      it 'shows the current segment name' do
-        expect(pipeline.to_s).to include('Sender')
+      it 'does not show the class name' do
+        expect(pipeline.to_s).to_not include('Sender')
       end
 
       it 'shows the current message name' do
-        expect(pipeline.to_s).to include('[out(')
+        expect(pipeline.to_s).to include('out(')
       end
 
       it 'shows arguments' do
-        expect(pipeline.to_s).to end_with(':child, true)]')
+        expect(pipeline.to_s).to end_with(':child, true)')
       end
     end # to_s
   end # Sender

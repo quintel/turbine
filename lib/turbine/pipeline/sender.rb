@@ -34,7 +34,8 @@ module Turbine
       #
       # Returns a string.
       def to_s
-        "#{ super }[#{ message.to_s }(#{ args.map(&:inspect).join(', ') })]"
+        "#{ source_to_s } | #{ message.to_s }" \
+          "(#{ args.map(&:inspect).join(', ') })"
       end
 
       #######

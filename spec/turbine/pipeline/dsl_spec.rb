@@ -121,7 +121,7 @@ module Turbine::Pipeline
       let(:pipe) { dsl([]).get(:prop) }
 
       it 'returns a string' do
-        expect(pipe.to_s).to eql('Pump | Sender[get(:prop)]')
+        expect(pipe.to_s).to eql('Pump | get(:prop)')
       end
     end # showing the path string
 
