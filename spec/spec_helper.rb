@@ -2,7 +2,7 @@ require 'rspec'
 require 'support/coverage' if ENV['COVERAGE']
 require 'turbine'
 
-Dir['./spec/support/**/*.rb'].map do |file|
+Dir['./spec/{support,factories}/**/*.rb'].map do |file|
   require file unless file.end_with?('coverage.rb')
 end
 
@@ -18,4 +18,8 @@ RSpec.configure do |config|
 
   # Allow adding examples to a filter group with only a symbol.
   config.treat_symbols_as_metadata_keys_with_true_values = true
+
+  # Factories are enabled on in integration tests.
+  config.include Turbine::Spec::Factories, type: :integration,
+    example_group: { file_path: %r{spec\/integration} }
 end
