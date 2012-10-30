@@ -1,3 +1,4 @@
+require 'tsort'
 require 'set'
 require 'forwardable'
 

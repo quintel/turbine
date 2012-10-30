@@ -41,4 +41,12 @@ module Turbine
         "#{ @model.inspect } - it must be a Hash, or subclass of Hash"
     end
   end # InvalidPropertiesError
+
+  # Raised when trying to topologically sort a graph which contains loops.
+  class CyclicError < TurbineError
+    def initialize(orig_exception)
+      set_backtrace(orig_exception.backtrace)
+      super(orig_exception.message)
+    end
+  end # CyclicError
 end # Turbine

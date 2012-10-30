@@ -43,6 +43,40 @@ module Turbine
       @nodes.values
     end
 
+    # Public: Topologically sorts the nodes in the graph so that nodes with
+    # no in edges appear at the beginning of the array, and those deeper
+    # within the graph are at the end.
+    #
+    # label - An optional label used to limit the edges used when traversing
+    #         from one node to its outward nodes.
+    #
+    # Raises CyclicError if the graph contains loops.
+    #
+    # Returns an array.
+    def tsort(label = nil)
+      Algorithms::Tarjan.new(self, label).tsort
+    rescue TSort::Cyclic => exception
+      raise CyclicError.new(exception)
+    end
+
+    # Public: Uses Tarjan's strongly-connected components algorithm to detect
+    # nodes which are interrelated.
+    #
+    # label - An optional label used to limit the edges used when traversing
+    #         from one node to its outward nodes.
+    #
+    # For example
+    #
+    #   graph.strongly_connected_components
+    #   # => [ [ #<Node key=one> ],
+    #          [ #<Node key=two>, #<Node key=three>, #<Node key=four> ],
+    #          [ #<Node key=five>, #<Node key=six ] ]
+    #
+    # Returns an array.
+    def strongly_connected_components(label = nil)
+      Algorithms::Tarjan.new(self, label).strongly_connected_components
+    end
+
     # Public: A human-readable version of the graph.
     def inspect
       edge_count = @nodes.values.each_with_object(Set.new) do |node, edges|

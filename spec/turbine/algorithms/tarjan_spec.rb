@@ -21,8 +21,7 @@ module Turbine
     # ------------------------------------------------------------------------
 
     it 'returns strongly connected components' do
-      components = Turbine::Algorithms::Tarjan.new(graph).
-        strongly_connected_components
+      components = graph.strongly_connected_components
 
       expect(components).to include([a, b, c])
       expect(components).to include([d])
@@ -30,8 +29,7 @@ module Turbine
     end
 
     it 'returns strongly connected components by label' do
-      components = Turbine::Algorithms::Tarjan.new(graph, :friend).
-        strongly_connected_components
+      components = graph.strongly_connected_components(:friend)
 
       expect(components).to include([a])
       expect(components).to include([b])
@@ -43,13 +41,11 @@ module Turbine
     end
 
     it 'returns an array when sorting' do
-      sorted = Turbine::Algorithms::Tarjan.new(graph, :friend).tsort
-      expect(sorted).to be_a(Array)
+      expect(graph.tsort(:friend)).to be_a(Array)
     end
 
     it 'raises an error when sorting is impossible' do
-      expect { Turbine::Algorithms::Tarjan.new(graph).tsort }.
-        to raise_error(TSort::Cyclic)
+      expect { graph.tsort }.to raise_error(Turbine::CyclicError)
     end
   end # Algorithms::Tarjan
 end # Turbine

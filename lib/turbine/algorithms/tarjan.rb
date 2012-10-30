@@ -1,7 +1,7 @@
 module Turbine
   module Algorithms
-    # A wrapper around the Ruby stdlib implementation of Tarjan's strongly
-    # connected components and topological sort.
+    # Internal: A wrapper around the Ruby stdlib implementation of Tarjan's
+    # strongly connected components and topological sort algorithms.
     class Tarjan
       include TSort
 
