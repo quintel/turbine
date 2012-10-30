@@ -16,6 +16,7 @@ module Turbine
       # Returns a Segment.
       def initialize
         reset_fiber!
+        @tracing = false
       end
 
       # Public: Appends +other+ segment to be given the values emitted by this
@@ -76,7 +77,49 @@ module Turbine
       # Returns nothing.
       def rewind
         @source.rewind
+        @previous = nil
         reset_fiber!
+      end
+
+      # Public: Enables tracing on the segment and it's source. This tells the
+      # segment to keep track of the most recently emitted value for use in a
+      # subsequent Trace segment.
+      #
+      # Returns nothing.
+      def tracing=(use_tracing)
+        @tracing = use_tracing
+
+        if @source && @source.respond_to?(:tracing=)
+          @source.tracing = use_tracing
+        end
+      end
+
+      # Public: Returns the trace containing the most recently emitted values
+      # for all the source segments, appending this segment's value to the end
+      # of the array.
+      #
+      # For example
+      #
+      #   segment.next && segment.trace
+      #   # => [[ #<Node key=:jay>, #<Node key=:claire>, #<Node key=:haley> ]]
+      #
+      #   segment.next && segment.trace
+      #   # => [[ #<Node key=:jay>, #<Node key=:claire>, #<Node key=:alex> ]]
+      #
+      # Tracing must be enabled (normally by appending a Trace segment to the
+      # pipeline) otherwise a TracingNotEnabledError is raised.
+      #
+      # Returns an array.
+      def trace
+        unless @tracing
+          raise TracingNotEnabledError.new(self)
+        end
+
+        if @source.respond_to?(:trace)
+          @source.trace.dup.push(@previous)
+        else
+          [ @previous ]
+        end
       end
 
       # Public: Describes the segments through which each input will pass.
@@ -119,8 +162,16 @@ module Turbine
         source.next
       end
 
-      def handle_value(value)
+      def output(value)
+        if @tracing
+          @previous = value
+        end
+
         Fiber.yield(value)
+      end
+
+      def handle_value(value)
+        output(value)
       end
 
       def reset_fiber!

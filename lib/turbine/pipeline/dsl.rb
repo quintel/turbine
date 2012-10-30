@@ -218,6 +218,36 @@ module Turbine
         append(JournalFilter.new(:except, journal_name))
       end
 
+      # Public: Mutates the pipeline so that instead of returning a single
+      # value, it returns an array where each element is the result returned
+      # by each segment in the pipeline.
+      #
+      # Does not work correctly with pipelines where +descendants+ or
+      # +ancestors+ is used before +trace+.
+      #
+      # For example
+      #
+      #   jay.out(:child).out(:child).trace.to_a
+      #   # => [ [ #<Node key=:jay>, #<Node key=:claire>, #<Node key=:haley> ],
+      #   #      [ #<Node key=:jay>, #<Node key=:claire>, #<Node key=:alex> ],
+      #   #      ... ]
+      #
+      # This can be especially useful if you explicitly include edges in your
+      # pipeline:
+      #
+      #   jay.out_edges(:child).in.out_edges(:child).in.trace.next
+      #   # => [ [ #<Node key=:jay>,
+      #   #        #<Edge :jay -:child-> :claire>,
+      #   #        #<Node key=:claire>,
+      #   #        #<Edge :claire -:child-> :haley>,
+      #   #        #<Node key=:haley> ],
+      #   #      ... ]
+      #
+      # Returns a new DSL.
+      def trace
+        DSL.new(@source.append(Trace.new))
+      end
+
       # Public: Filters each value so that only unique elements are emitted.
       #
       # block - An optional block used when determining if the value is

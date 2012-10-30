@@ -24,6 +24,14 @@ module Turbine
         super()
       end
 
+      # Public: Unlike other Segments, Filters are omitted from the trace as
+      # they would duplicate the value from the upstream segment.
+      #
+      # Returns an array.
+      def trace
+        @source.trace
+      end
+
       #######
       private
       #######

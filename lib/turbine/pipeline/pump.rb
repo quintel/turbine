@@ -20,7 +20,7 @@ module Turbine
       #
       # Returns nothing.
       def process
-        @source.each { |item| Fiber.yield(item) }
+        @source.each { |item| output(item) }
         nil
       end
 

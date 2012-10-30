@@ -56,4 +56,17 @@ module Turbine
       super("No such upstream journal: #{ name.inspect }")
     end
   end # NoSuchJournalError
+
+  # Raised when trying to get trace information from a pipeline when tracing
+  # has not been enabled.
+  class TracingNotEnabledError < TurbineError
+    def initialize(segment)
+      @segment = segment
+    end
+
+    def message
+      "You cannot get trace information from the #{ @segment.inspect } " \
+        "segment as tracing is not enabled"
+    end
+  end # TracingNotEnabledError
 end # Turbine

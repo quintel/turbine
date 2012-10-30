@@ -66,5 +66,31 @@ module Turbine::Pipeline
       end
     end
 
+    # ------------------------------------------------------------------------
+
+    describe '#trace' do
+      context 'when tracing is not enabled' do
+        let(:pipeline) do
+          Pump.new([]) | Segment.new
+        end
+
+        it 'raises an error' do
+          expect { pipeline.trace }.
+            to raise_error(Turbine::TracingNotEnabledError)
+        end
+      end
+
+      context 'when tracing is enabled' do
+        let(:pipeline) do
+          (Pump.new([1]) | Segment.new).tap { |p| p.tracing = true }
+        end
+
+        it 'returns an array' do
+          pipeline.next
+          expect(pipeline.trace).to be_a(Array)
+        end
+      end
+    end
+
   end # describe Segment
 end # Turbine::Pipeline

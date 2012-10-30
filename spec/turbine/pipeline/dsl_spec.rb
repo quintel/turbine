@@ -177,6 +177,39 @@ module Turbine::Pipeline
       end
     end
 
+    context 'getting the value trace' do
+      context 'on an unfiltered pipeline' do
+        let(:pipe) { dsl([7, 14]).map { |x| x * 1.5 }.trace }
+
+        it 'returns an array' do
+          expect(pipe.to_a).to be_a(Array)
+        end
+
+        it 'returns value traces for each input' do
+          expect(pipe.to_a).to eql([[7, 10.5], [14, 21.0]])
+        end
+      end # on an unfiltered pipeline
+
+      context 'on a pipeline with filters' do
+        let(:pipe) do
+          dsl([5, 10, 15]).select { |x| x > 9 }.map { |x| x - 1 }.trace
+        end
+
+        it 'returns an array' do
+          expect(pipe.to_a).to be_a(Array)
+        end
+
+        it 'emits filter-passing values' do
+          expect(pipe.to_a).to include([10, 9])
+          expect(pipe.to_a).to include([15, 14])
+        end
+
+        it 'omits filter-failing values' do
+          expect(pipe.to_a).to_not include([5, 4])
+        end
+      end # on a pipeline with filters
+    end # getting the value trace
+
     context 'showing the path string' do
       let(:pipe) { dsl([]).get(:prop) }
 
