@@ -78,9 +78,11 @@ module Turbine
     end
 
     # Public: A human-readable version of the graph.
+    #
+    # Returns a string.
     def inspect
       edge_count = @nodes.values.each_with_object(Set.new) do |node, edges|
-        edges.merge(node.out_edges)
+        edges.merge(node.edges(:out))
       end.length
 
       "#<#{self.class} (#{ @nodes.length } nodes, #{ edge_count } edges)>"
