@@ -3,6 +3,7 @@ require 'forwardable'
 
 # On with the library...
 require 'turbine/properties'
+require 'turbine/algorithms/tarjan'
 require 'turbine/edge'
 require 'turbine/errors'
 require 'turbine/graph'
