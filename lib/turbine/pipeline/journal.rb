@@ -61,6 +61,13 @@ module Turbine
 
       alias_method :member?, :include?
 
+      # Public: Describes the segments through which each input will pass.
+      #
+      # Return a string.
+      def to_s
+        "#{ source_to_s } | as(#{ @name.inspect })"
+      end
+
       #######
       private
       #######

@@ -47,6 +47,12 @@ module Turbine::Pipeline
           expect(journal).to_not include(8.0)
         end
       end
+
+      describe '#inspect' do
+        it 'includes the journal name' do
+          expect(journal.inspect).to match(/as\(:a\)$/)
+        end
+      end
     end # with an upstream/downstream transform
 
     context 'with a valueless source' do
