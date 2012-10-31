@@ -23,6 +23,20 @@ module Turbine
         @source.next
         @source.trace
       end
+
+      # When included into a segment, sets it so that the value emitted by the
+      # segment is not included in traces. Useful for filters which would
+      # otherwise result in a duplicate value in the trace.
+      module Transparent
+        # Public: Trace each transformation made to an input value.
+        #
+        # See Segment#trace.
+        #
+        # Returns an array.
+        def trace
+          @source.trace
+        end
+      end # Transparent
     end # Trace
   end # Pipeline
 end # Turbine

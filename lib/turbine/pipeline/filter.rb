@@ -6,6 +6,8 @@ module Turbine
     #   Filter.new { |x| firewall.permitted?(x) }
     #
     class Filter < Segment
+      include Trace::Transparent
+
       # Public: Creates a new Filter segment.
       #
       # You may opt to use the Filter class directly, passing a block when
@@ -22,14 +24,6 @@ module Turbine
       def initialize(&block)
         @filter = (block || method(:filter))
         super()
-      end
-
-      # Public: Unlike other Segments, Filters are omitted from the trace as
-      # they would duplicate the value from the upstream segment.
-      #
-      # Returns an array.
-      def trace
-        @source.trace
       end
 
       #######

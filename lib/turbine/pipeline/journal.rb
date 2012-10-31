@@ -3,6 +3,8 @@ module Turbine
     # Journal segments keep track of all of the values emitted by the source
     # segment so that they can be used later in the pipeline.
     class Journal < Segment
+      include Trace::Transparent
+
       # The name used to refer to the segments values later in the pipeline.
       attr_reader :name
 
