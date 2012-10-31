@@ -142,6 +142,16 @@ module Turbine
         DSL.new(@source.append(Transform.new(&block)))
       end
 
+      # Public: Captures all of the values emitted by the previous segment so
+      # that a later segment (e.g. "only" or "except") can use them.
+      #
+      # name - A name assigned to the captured values.
+      #
+      # Returns a new DSL.
+      def as(name)
+        DSL.new(@source.append(Journal.new(name)))
+      end
+
       # Public: Filters each value so that only unique elements are emitted.
       #
       # block - An optional block used when determining if the value is

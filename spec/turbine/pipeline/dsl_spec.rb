@@ -117,6 +117,18 @@ module Turbine::Pipeline
       end
     end # realising the full result with to_a
 
+    context 'storing upstream results with "as"' do
+      let(:pipe) { dsl([1, 3, 5]).as(:original) }
+
+      it 'adds a Journal segment' do
+        expect(pipe.source).to be_a(Journal)
+      end
+
+      it 'sets the journal name' do
+        expect(pipe.source.name).to eql(:original)
+      end
+    end # storing upstream results with "as"
+
     context 'showing the path string' do
       let(:pipe) { dsl([]).get(:prop) }
 
