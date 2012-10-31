@@ -129,6 +129,30 @@ module Turbine::Pipeline
       end
     end # storing upstream results with "as"
 
+    context 'journal filtering with "only"' do
+      let(:pipe) { dsl([1]).as(:orig).only(:orig) }
+
+      it 'adds a JournalFilter segment' do
+        expect(pipe.source).to be_a(JournalFilter)
+      end
+
+      it 'sets the journal mode to :only' do
+        expect(pipe.source.inspect).to include('only(:orig)')
+      end
+    end
+
+    context 'journal filtering with "except"' do
+      let(:pipe) { dsl([1]).as(:orig).except(:orig) }
+
+      it 'adds a JournalFilter segment' do
+        expect(pipe.source).to be_a(JournalFilter)
+      end
+
+      it 'sets the journal mode to :except' do
+        expect(pipe.source.inspect).to include('except(:orig)')
+      end
+    end
+
     context 'showing the path string' do
       let(:pipe) { dsl([]).get(:prop) }
 

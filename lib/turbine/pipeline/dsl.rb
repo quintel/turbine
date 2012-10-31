@@ -152,6 +152,34 @@ module Turbine
         append(Journal.new(name))
       end
 
+      # Public: Creates a filter so that only values which were present in a
+      # named journal (created using "as") are emitted.
+      #
+      # journal_name - The name of the "as" journal.
+      #
+      # For example
+      #
+      #   # Did your grandparents "friend" your parents?
+      #   node.in(:child).as(:parents).in(:child).out(:friend).only(:parents)
+      #
+      # Returns a new DSL.
+      def only(journal_name)
+        append(JournalFilter.new(:only, journal_name))
+      end
+
+      # Public: Creates a filter so that only values which were not present in
+      # a named journal (created using "as") are emitted.
+      #
+      # name - The name of the "as" journal.
+      #
+      #   # Who are your uncles and aunts?
+      #   node.in(:child).as(:parents).in(:child).out(:child).except(:parents)
+      #
+      # Returns a new DSL.
+      def except(journal_name)
+        append(JournalFilter.new(:except, journal_name))
+      end
+
       # Public: Filters each value so that only unique elements are emitted.
       #
       # block - An optional block used when determining if the value is
