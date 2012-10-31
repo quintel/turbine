@@ -43,7 +43,7 @@ module Turbine
       #
       # Returns a new DSL.
       def get(key)
-        DSL.new(@source.append(Sender.new(:get, key)))
+        append(Sender.new(:get, key))
       end
 
       # Public: Retrieves the in_edges from the input nodes.
@@ -53,7 +53,7 @@ module Turbine
       #
       # Returns a DSL.
       def in_edges(label = nil)
-        DSL.new(@source.append(Sender.new(:edges, :in, label)))
+        append(Sender.new(:edges, :in, label))
       end
 
       # Public: Retrieves the out_edges from the input nodes.
@@ -63,7 +63,7 @@ module Turbine
       #
       # Returns a new DSL.
       def out_edges(label = nil)
-        DSL.new(@source.append(Sender.new(:edges, :out, label)))
+        append(Sender.new(:edges, :out, label))
       end
 
       # Public: Retrieves the inbound nodes on the input node or edge.
@@ -73,7 +73,7 @@ module Turbine
       #
       # Returns a new DSL.
       def in(label = nil)
-        DSL.new(@source.append(Sender.new(:nodes, :in, label)))
+        append(Sender.new(:nodes, :in, label))
       end
 
       # Public: Retrieves the outbound nodes on the input node or edge.
@@ -83,7 +83,7 @@ module Turbine
       #
       # Returns a new DSL.
       def out(label = nil)
-        DSL.new(@source.append(Sender.new(:nodes, :out, label)))
+        append(Sender.new(:nodes, :out, label))
       end
 
       # Public: Using the breadth-first traversal strategy, fetches all of a
@@ -119,7 +119,7 @@ module Turbine
       #
       # Returns a new DSL.
       def select(&block)
-        DSL.new(@source.append(Filter.new(&block)))
+        append(Filter.new(&block))
       end
 
       # Public: Given a block, emits input elements for which the block
@@ -129,7 +129,7 @@ module Turbine
       #
       # Returns a new DSL.
       def reject(&block)
-        DSL.new(@source.append(Filter.new { |value| ! block.call(value) }))
+        append(Filter.new { |value| ! block.call(value) })
       end
 
       # Public: Given a block, transforms each input value to the result of
@@ -139,7 +139,7 @@ module Turbine
       #
       # Returns a new DSL.
       def map(&block)
-        DSL.new(@source.append(Transform.new(&block)))
+        append(Transform.new(&block))
       end
 
       # Public: Captures all of the values emitted by the previous segment so
@@ -149,7 +149,7 @@ module Turbine
       #
       # Returns a new DSL.
       def as(name)
-        DSL.new(@source.append(Journal.new(name)))
+        append(Journal.new(name))
       end
 
       # Public: Filters each value so that only unique elements are emitted.
@@ -159,7 +159,17 @@ module Turbine
       #
       # Returns a new DSL.
       def uniq(&block)
-        DSL.new(@source.append(Unique.new(&block)))
+        append(Unique.new(&block))
+      end
+
+      # Public: Creates a new DSL by appending the given +downstream+ segment
+      # to the current source.
+      #
+      # downstream - The segment to be added in the new DSL.
+      #
+      # Returns a new DSL.
+      def append(downstream)
+        DSL.new(@source.append(downstream))
       end
 
       # Public: A human-readable version of the DSL.
