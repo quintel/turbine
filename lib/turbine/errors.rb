@@ -49,4 +49,11 @@ module Turbine
       super(orig_exception.message)
     end
   end # CyclicError
+
+  # Raised when trying to access values from a non-existant Journal segment.
+  class NoSuchJournalError < TurbineError
+    def initialize(name)
+      super("No such upstream journal: #{ name.inspect }")
+    end
+  end # NoSuchJournalError
 end # Turbine
