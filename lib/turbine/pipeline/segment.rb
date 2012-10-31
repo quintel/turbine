@@ -98,6 +98,13 @@ module Turbine
         source_string.nil? ? name : "#{ source_string } | #{ name }"
       end
 
+      # Public: A human-readable version of the segment for debugging.
+      #
+      # Returns a String.
+      def inspect
+        to_s
+      end
+
       #######
       private
       #######
