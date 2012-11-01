@@ -7,11 +7,7 @@ module Turbine
   # same key.
   class DuplicateNodeError < TurbineError
     def initialize(key)
-      @key = key
-    end
-
-    def message
-      "Graph already has a node with the key #{ @key.inspect }"
+      super("Graph already has a node with the key #{ key.inspect }")
     end
   end # DuplicateNodeError
 
@@ -19,12 +15,9 @@ module Turbine
   # existing edge. See Edge#similar?
   class DuplicateEdgeError < TurbineError
     def initialize(node, edge)
-      @node, @edge = node, edge
-    end
-
-    def message
-      "Another edge already exists on #{ @node.inspect } which is too " \
-      "similar to #{ @edge.inspect }"
+      super(
+        "Another edge already exists on #{ node.inspect } which is too " \
+        "similar to #{ edge.inspect }")
     end
   end
 
@@ -32,13 +25,9 @@ module Turbine
   # hash, or is invalid in some way.
   class InvalidPropertiesError < TurbineError
     def initialize(model, properties)
-      @model      = model
-      @properties = properties
-    end
-
-    def message
-      "Tried to assign properties #{ @properties.inspect } on " \
-        "#{ @model.inspect } - it must be a Hash, or subclass of Hash"
+      super(
+        "Tried to assign properties #{ properties.inspect } on " \
+        "#{ model.inspect } - it must be a Hash, or subclass of Hash")
     end
   end # InvalidPropertiesError
 
@@ -61,12 +50,9 @@ module Turbine
   # has not been enabled.
   class TracingNotEnabledError < TurbineError
     def initialize(segment)
-      @segment = segment
-    end
-
-    def message
-      "You cannot get trace information from the #{ @segment.inspect } " \
-        "segment as tracing is not enabled"
+      super(
+        "You cannot get trace information from the #{ segment.inspect } " \
+        "segment as tracing is not enabled")
     end
   end # TracingNotEnabledError
 
