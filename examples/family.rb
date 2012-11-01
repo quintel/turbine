@@ -9,76 +9,76 @@ module Turbine
   def self.family_stub
     graph    = Turbine::Graph.new
 
-    phil     = graph.add_node(Turbine::Node.new(:phil, gender: :male))
-    claire   = graph.add_node(Turbine::Node.new(:claire, gender: :female))
-    haley    = graph.add_node(Turbine::Node.new(:haley, gender: :female))
-    alex     = graph.add_node(Turbine::Node.new(:alex, gender: :female))
-    luke     = graph.add_node(Turbine::Node.new(:luke, gender: :male))
+    phil     = graph.add_node(Turbine::Node.new(:phil,     gender: :male))
+    claire   = graph.add_node(Turbine::Node.new(:claire,   gender: :female))
+    haley    = graph.add_node(Turbine::Node.new(:haley,    gender: :female))
+    alex     = graph.add_node(Turbine::Node.new(:alex,     gender: :female))
+    luke     = graph.add_node(Turbine::Node.new(:luke,     gender: :male))
 
-    jay      = graph.add_node(Turbine::Node.new(:jay, gender: :male))
-    gloria   = graph.add_node(Turbine::Node.new(:gloria, gender: :female))
-    manny    = graph.add_node(Turbine::Node.new(:manny, gender: :male))
+    jay      = graph.add_node(Turbine::Node.new(:jay,      gender: :male))
+    gloria   = graph.add_node(Turbine::Node.new(:gloria,   gender: :female))
+    manny    = graph.add_node(Turbine::Node.new(:manny,    gender: :male))
     unnamed  = graph.add_node(Turbine::Node.new(:unnamed))
 
     mitchell = graph.add_node(Turbine::Node.new(:mitchell, gender: :male))
-    cameron  = graph.add_node(Turbine::Node.new(:cameron, gender: :male))
-    lily     = graph.add_node(Turbine::Node.new(:lily, gender: :female))
+    cameron  = graph.add_node(Turbine::Node.new(:cameron,  gender: :male))
+    lily     = graph.add_node(Turbine::Node.new(:lily,     gender: :female))
 
-    dede     = graph.add_node(Turbine::Node.new(:dede, gender: :female))
-    javier   = graph.add_node(Turbine::Node.new(:javier, gender: :male))
+    dede     = graph.add_node(Turbine::Node.new(:dede,     gender: :female))
+    javier   = graph.add_node(Turbine::Node.new(:javier,   gender: :male))
 
-    frank    = graph.add_node(Turbine::Node.new(:frank, gender: :male))
-    sarah    = graph.add_node(Turbine::Node.new(:sarah, gender: :female))
+    frank    = graph.add_node(Turbine::Node.new(:frank,    gender: :male))
+    sarah    = graph.add_node(Turbine::Node.new(:sarah,    gender: :female))
 
     # Dunphy -----------------------------------------------------------------
 
     # Phil
-    phil.connect_to(claire, :spouse)
-    phil.connect_to(haley, :child)
-    phil.connect_to(alex, :child)
-    phil.connect_to(luke, :child)
+    phil.connect_to(claire,  :spouse)
+    phil.connect_to(haley,   :child)
+    phil.connect_to(alex,    :child)
+    phil.connect_to(luke,    :child)
 
     # Claire
-    claire.connect_to(phil, :spouse)
+    claire.connect_to(phil,  :spouse)
     claire.connect_to(haley, :child)
-    claire.connect_to(alex, :child)
-    claire.connect_to(luke, :child)
+    claire.connect_to(alex,  :child)
+    claire.connect_to(luke,  :child)
 
     # Pritchett --------------------------------------------------------------
 
     # Jay
-    jay.connect_to(gloria, :spouse)
-    jay.connect_to(claire, :child)
-    jay.connect_to(mitchell, :child)
-    jay.connect_to(unnamed, :child)
-    jay.connect_to(dede, :divorced)
+    jay.connect_to(gloria,     :spouse)
+    jay.connect_to(claire,     :child)
+    jay.connect_to(mitchell,   :child)
+    jay.connect_to(unnamed,    :child)
+    jay.connect_to(dede,       :divorced)
 
     # Gloria
-    gloria.connect_to(jay, :spouse)
-    gloria.connect_to(manny, :child)
+    gloria.connect_to(jay,     :spouse)
+    gloria.connect_to(manny,   :child)
     gloria.connect_to(unnamed, :child)
-    gloria.connect_to(javier, :divorced)
+    gloria.connect_to(javier,  :divorced)
 
     # Tucker-Pritchett -------------------------------------------------------
 
     mitchell.connect_to(cameron, :spouse)
-    mitchell.connect_to(lily, :child)
+    mitchell.connect_to(lily,    :child)
 
     cameron.connect_to(mitchell, :spouse)
-    cameron.connect_to(lily, :child)
+    cameron.connect_to(lily,     :child)
 
     # Others -----------------------------------------------------------------
 
-    dede.connect_to(claire, :child)
+    dede.connect_to(claire,   :child)
     dede.connect_to(mitchell, :child)
 
     javier.connect_to(manny, :child)
 
-    frank.connect_to(phil, :child)
-    frank.connect_to(sarah, :spouse)
+    frank.connect_to(phil,   :child)
+    frank.connect_to(sarah,  :spouse)
 
-    sarah.connect_to(phil, :child)
-    sarah.connect_to(frank, :spouse)
+    sarah.connect_to(phil,   :child)
+    sarah.connect_to(frank,  :spouse)
 
     graph
   end
