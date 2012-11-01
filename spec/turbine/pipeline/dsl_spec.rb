@@ -78,6 +78,30 @@ module Turbine::Pipeline
       end
     end # transforming with map
 
+    context 'multiple sub-pipes with "split"' do
+      let(:pipe) { dsl.split(->(x) { x }) }
+
+      it 'returns a DSL' do
+        expect(pipe).to be_a(DSL)
+      end
+
+      it 'sets the source to be Split' do
+        expect(pipe.source).to be_a(Split)
+      end
+    end # multiple sub-pipes with "split"
+
+    context 'multiple sub-pipes with "also"' do
+      let(:pipe) { dsl.also(->(x) { x }) }
+
+      it 'returns a DSL' do
+        expect(pipe).to be_a(DSL)
+      end
+
+      it 'sets the source to be Also' do
+        expect(pipe.source).to be_a(Also)
+      end
+    end # multiple sub-pipes with "also"
+
     context 'filtering with uniq' do
       let(:pipe) { dsl.uniq }
 

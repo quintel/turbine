@@ -142,6 +142,44 @@ module Turbine
         append(Transform.new(&block))
       end
 
+      # Public: Splits the pipeline into separate branches, computes the
+      # values from each branch in turn, then combines the results.
+      #
+      # branches - One or more blocks which will be given the DSL.
+      #
+      # For example
+      #
+      #    nodes.split(->(x) { x.get(:gender) },
+      #                ->(x) { x.in_edges.length },
+      #                ->(x) { x.out_edges.length }).to_a
+      #    # => [ :male, 2, 3, :female, 1, 6, :female, 2, 2, ... ]
+      #
+      # Returns a new DSL.
+      def split(*branches)
+        append(Split.new(*branches))
+      end
+
+      # Public: Like +split+, but also yields the input value before running
+      # each branch.
+      #
+      # branches - One or more blocks which will be given the DSL.
+      #
+      # For example
+      #
+      #   # Yields each node, and their outwards nodes connected with a
+      #   # :spouse edge.
+      #   nodes.also(->(node) { node.out(:spouse) })
+      #
+      # If you only want to supply a single branch, you can pass a block
+      # instead.
+      #
+      #   nodes.also { |node| node.out(:child) }
+      #
+      # Returns a new DSL.
+      def also(*branches, &block)
+        append(Also.new(*branches, &block))
+      end
+
       # Public: Captures all of the values emitted by the previous segment so
       # that a later segment (e.g. "only" or "except") can use them.
       #
