@@ -105,11 +105,7 @@ module Turbine
       #
       # Returns a new DSL.
       def traverse(direction, label = nil)
-        transform = Transform.new do |node|
-          Traversal::BreadthFirst.new(node, direction, [label]).to_enum
-        end
-
-        DSL.new(@source.append(transform).append(Expander.new))
+        append(Traverse.new(direction, label))
       end
 
       # Public: Given a block, emits input elements for which the block
