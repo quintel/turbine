@@ -37,6 +37,19 @@ module Turbine
           @source.trace
         end
       end # Transparent
+
+      # When included into a segment, raises an error if the user tries to
+      # enable tracing.
+      module Untraceable
+        # Public: Enable or disable tracing on the segment. Raises a
+        # NotTraceableError when called with a truthy value.
+        #
+        # Returns the tracing setting.
+        def tracing=(use_tracing)
+          raise NotTraceableError.new(self) if use_tracing
+          super
+        end
+      end # Untraceable
     end # Trace
   end # Pipeline
 end # Turbine

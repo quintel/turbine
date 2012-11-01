@@ -69,4 +69,14 @@ module Turbine
         "segment as tracing is not enabled"
     end
   end # TracingNotEnabledError
+
+  # Raised when trying to enable tracing on a segment which doesn't support
+  # it.
+  class NotTraceableError < TurbineError
+    def initialize(segment)
+      super(
+        "You cannot enable tracing on pipelines with " \
+        "#{ segment.class.name } segments")
+    end
+  end # NotTraceableError
 end # Turbine
