@@ -28,6 +28,26 @@ module Turbine::Pipeline
       it 'should return each value' do
         expect(pipe.to_a).to eql([ a, 'Alpha', b, 'Bravo', c, 'Charlie' ])
       end
+
+      context 'when tracing' do
+        let(:pipe) do
+          pump | Sender.new(:get, :name) |
+            Split.new(->(x) { x.map { |a| a.reverse }.map { |a| a[0..2] } },
+                      ->(x) { x.map { |a| a.downcase } }) |
+            ->(x) { x.gsub(/a/i, '') } | Trace.new
+        end
+
+        it 'it should include values from inside the split' do
+          expect(pipe.to_a).to eql([
+            [ a, 'Alpha', 'ahplA', 'ahp', 'hp' ],
+            [ a, 'Alpha', 'alpha', 'lph' ],
+            [ b, 'Bravo', 'ovarB', 'ova', 'ov' ],
+            [ b, 'Bravo', 'bravo', 'brvo' ],
+            [ c, 'Charlie', 'eilrahC', 'eil', 'eil' ],
+            [ c, 'Charlie', 'charlie', 'chrlie' ]
+          ])
+        end
+      end
     end
   end # Split
 

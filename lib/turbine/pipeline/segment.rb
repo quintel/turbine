@@ -85,7 +85,7 @@ module Turbine
       # segment to keep track of the most recently emitted value for use in a
       # subsequent Trace segment.
       #
-      # Returns nothing.
+      # Returns the tracing setting.
       def tracing=(use_tracing)
         @tracing = use_tracing
 
@@ -109,17 +109,17 @@ module Turbine
       # Tracing must be enabled (normally by appending a Trace segment to the
       # pipeline) otherwise a TracingNotEnabledError is raised.
       #
+      # Subclasses may call +super+ with a block; the sole argument given to
+      # the block will be trace from the source segments.
+      #
       # Returns an array.
       def trace
         unless @tracing
           raise TracingNotEnabledError.new(self)
         end
 
-        if @source.respond_to?(:trace)
-          @source.trace.dup.push(@previous)
-        else
-          [ @previous ]
-        end
+        trace = @source.respond_to?(:trace) ? @source.trace.dup : []
+        block_given? ? yield(trace) : trace.push(@previous)
       end
 
       # Public: Describes the segments through which each input will pass.

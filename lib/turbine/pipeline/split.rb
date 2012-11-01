@@ -38,6 +38,30 @@ module Turbine
         end
       end
 
+      # Public: Returns the trace containing the most recently emitted values
+      # for all source segments. The trace for the current branch pipeline is
+      # merged into the trace.
+      #
+      # See Segment#trace.
+      #
+      # Returns an array.
+      def trace
+        super { |trace| trace.push(*@previous_trace) }
+      end
+
+      # Public: Enables or disables tracing on the segment. Passes the boolean
+      # through to the internal branch pipelines also, so that their traces
+      # may be combined with the output.
+      #
+      # Returns the tracing setting.
+      def tracing=(use_tracing)
+        super
+
+        @branches.each_value do |pipeline|
+          pipeline.source.tracing = use_tracing
+        end
+      end
+
       #######
       private
       #######
@@ -52,7 +76,11 @@ module Turbine
           pump.source = Array(value)
           pipeline.source.rewind
 
-          pipeline.each { |entry| super(entry) }
+          pipeline.each do |entry|
+            # The first element is a duplicate of the input.
+            @previous_trace = pipeline.source.trace.drop(1) if @tracing
+            super(entry)
+          end
         end
       end
     end # Split
