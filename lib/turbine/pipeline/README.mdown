@@ -9,16 +9,18 @@ traversed only once.
 
 This provides support for interesting traversal expressions:
 
-    # Get and "name" the child's parents:
-    luke.in(:child).as('parents').
-      # Get Grandparents:
-      in(:child).
-      # Get Grandparents' children (which includes Luke's parents):
-      out(:child).uniq.
-      # Remove Luke's parents, leaving the Uncles and Aunts:
-      except('parents').
-      # Add the Uncles' and Aunts' spouses:
-      also { |node| node.out(:spouse) }
+```Ruby
+# Get and "name" the child's parents:
+luke.in(:child).as('parents').
+  # Get Grandparents:
+  in(:child).
+  # Get Grandparents' children (which includes Luke's parents):
+  out(:child).uniq.
+  # Remove Luke's parents, leaving the Uncles and Aunts:
+  except('parents').
+  # Add the Uncles' and Aunts' spouses:
+  also { |node| node.out(:spouse) }
+```
 
 Pipeline is inspired by Dave Thomas' 2008 articles on using Fiber to
 create pipelines in Ruby<sup>[1][pipelines-one] & [2][pipelines-two]</sup>,
