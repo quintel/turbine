@@ -139,11 +139,31 @@ module Turbine
       end
     end
 
+    # Public: Disconnects this node from the +target+. Assumes that the
+    # receiver is the +out+ node.
+    #
+    # target - The node from which the receiver is to be disconnected.
+    # label  - An optional label; only the edge with this label will be
+    #          removed, with other edges kept intact. No label will remove all
+    #          outward edges between the receiver and the target.
+    #
+    # Raises NoSuchEdge if the two nodes are not connected.
+    #
+    # Returns nothing.
+    def disconnect_from(target, label = nil)
+      edges(:out, label).select { |edge| edge.in == target }.each do |edge|
+        disconnect_via(edge)
+        target.disconnect_via(edge)
+      end
+
+      nil
+    end
+
     # Internal: Given an Edge, establishes the connection for this node.
     #
     # Please note that you need to call +connect_via+ on both the "in" and
-    # "edge" nodes. Unless you need to create the connection using a
-    # subclass of Edge, you will likey prefer using the simpler +connect_to+.
+    # "out" nodes. Unless you need to create the connection using a subclass
+    # of Edge, you will likey prefer using the simpler +connect_to+.
     #
     # Example:
     #
@@ -165,6 +185,29 @@ module Turbine
       connect_endpoint(@out_edges, edge) if edge.out == self
 
       edge
+    end
+
+    # Internal: Given an edge, removes the connection for this node.
+    #
+    # Please note that you need to call +disconnect_via+ on both the "in" and
+    # "out" nodes.
+    #
+    # Example:
+    #
+    #   haley = Turbine::Node.new(:haley)
+    #   dylan = Turbine::Node.new(:dylan)
+    #
+    #   edge  = haley.connect_to(dylan, :boyfriend)
+    #
+    #   haley.disconnect_via(edge)
+    #   dylan.disconnect_via(edge)
+    #
+    # Returns nothing.
+    def disconnect_via(edge)
+      @in_edges.delete(edge)
+      @out_edges.delete(edge)
+
+      nil
     end
 
     #######

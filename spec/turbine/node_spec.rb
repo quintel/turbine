@@ -203,6 +203,65 @@ describe 'Turbine::Node' do
 
   # --------------------------------------------------------------------------
 
+  describe '#disconnect_from' do
+    context 'when given no label' do
+      context 'and there is an edge between the two nodes' do
+        let!(:edge) { haley.out_edges(:boyfriend).first }
+        let!(:also) { haley.connect_to(dylan, :knows) }
+        before { haley.disconnect_from(dylan) }
+
+        it 'removes the outward edges from the receiver' do
+          expect(haley.out_edges).to_not include(edge)
+          expect(haley.out_edges).to_not include(also)
+        end
+
+        it 'removes the inward edge from the target' do
+          expect(dylan.in_edges).to_not include(edge)
+          expect(dylan.in_edges).to_not include(also)
+        end
+      end
+
+      context 'and there is no edge between the two nodes' do
+        it 'raises no error' do
+          expect { phil.disconnect_from(dylan) }.to_not raise_error
+        end
+      end
+    end # when given no label
+
+    context 'when given a label' do
+      let!(:retained) { haley.connect_to(dylan, :knows) }
+      let!(:removed)  { haley.out_edges(:boyfriend).first }
+
+      context 'and there is a matching edge between the two nodes' do
+        before { haley.disconnect_from(dylan, :boyfriend) }
+
+        it 'removes the outward edge from the receiver' do
+          expect(haley.out_edges).to_not include(removed)
+        end
+
+        it 'removes the inward edge from the target' do
+          expect(dylan.in_edges).to_not include(removed)
+        end
+
+        it 'does not remove outward edges with a different label' do
+          expect(haley.out_edges).to include(retained)
+        end
+
+        it 'does not remove inward edges with a different label' do
+          expect(dylan.in_edges).to include(retained)
+        end
+      end
+
+      context 'and there is no matching edge between the two nodes' do
+        it 'raises no error' do
+          expect { haley.disconnect_from(dylan, :nope) }.to_not raise_error
+        end
+      end
+    end # when given a label
+  end # disconnect_from
+
+  # --------------------------------------------------------------------------
+
   describe '#connect_via' do
     let(:jay)    { Turbine::Node.new(:jay) }
     let(:gloria) { Turbine::Node.new(:gloria) }
