@@ -15,7 +15,7 @@ module Turbine
     # the same key.
     #
     # Returns the node.
-    def add_node(node)
+    def add(node)
       if @nodes.key?(node.key)
         raise DuplicateNodeError.new(node.key)
       end
@@ -31,7 +31,7 @@ module Turbine
     # Raises a NoSuchNodeError if the graph does not contain the given +node+.
     #
     # Returns the node.
-    def remove_node(node)
+    def delete(node)
       unless @nodes.key?(node.key)
         raise NoSuchNodeError.new(node.key)
       end

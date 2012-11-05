@@ -11,7 +11,7 @@ module Turbine
     #
     # key        - A unique identifier for the node. The uniqueness of the key
     #              is not checked upon initializing, but instead when the node
-    #              is added to the graph (Graph#add_node).
+    #              is added to the graph (Graph#add).
     # properties - Optional key/value properties to be associated with the
     #              node.
     #

@@ -7,7 +7,7 @@ describe 'Turbine::Graph' do
 
   describe 'adding a new node' do
     context 'when the graph is empty' do
-      before { graph.add_node(node) }
+      before { graph.add(node) }
 
       it 'should add the node' do
         expect(graph.node(:jay)).to eql(node)
@@ -20,8 +20,8 @@ describe 'Turbine::Graph' do
 
     context 'when another non-conflicting node exists' do
       before do
-        graph.add_node(other)
-        graph.add_node(node)
+        graph.add(other)
+        graph.add(node)
       end
 
       it 'should add the node' do
@@ -46,10 +46,10 @@ describe 'Turbine::Graph' do
     end # when another non-conflicting node exists
 
     context 'when the key conflicts with an existing node' do
-      before { graph.add_node(node) }
+      before { graph.add(node) }
 
       it 'should raise a DuplicateNodeError' do
-        expect(->{ graph.add_node(Turbine::Node.new(:jay)) }).to raise_error(
+        expect(->{ graph.add(Turbine::Node.new(:jay)) }).to raise_error(
           Turbine::DuplicateNodeError, /Graph already has a node with the key/)
       end
     end # when the key conflicts with an existing node
@@ -58,20 +58,20 @@ describe 'Turbine::Graph' do
   describe 'removing a node' do
     context 'when the node is not a member of the graph' do
       it 'raises NoSuchNodeError' do
-        expect { graph.remove_node(Turbine::Node.new(:nope)) }.
+        expect { graph.delete(Turbine::Node.new(:nope)) }.
           to raise_error(Turbine::NoSuchNodeError, /:nope/)
       end
     end # when the node is not a member of the graph
 
     context 'when the node is a member of the graph' do
       before :each do
-        graph.add_node(node)
-        graph.add_node(other)
+        graph.add(node)
+        graph.add(other)
       end
 
       let!(:edge_one) { node.connect_to(other, :spouse) }
       let!(:edge_two) { other.connect_to(node, :spouse) }
-      let!(:result)   { graph.remove_node(node) }
+      let!(:result)   { graph.delete(node) }
 
       it 'returns the removed node' do
         expect(result).to eql(node)
@@ -101,8 +101,8 @@ describe 'Turbine::Graph' do
 
   describe '#inspect' do
     before do
-      graph.add_node(node)
-      graph.add_node(other)
+      graph.add(node)
+      graph.add(other)
       node.connect_to(other, :test)
     end
 

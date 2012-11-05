@@ -30,26 +30,26 @@ module Turbine
 
     # Nodes ------------------------------------------------------------------
 
-    useful_demand_heat = graph.add_node(Turbine::Node.new(:useful_demand_heat))
-    useful_demand_elec = graph.add_node(Turbine::Node.new(:useful_demand_elec))
+    useful_demand_heat = graph.add(Turbine::Node.new(:useful_demand_heat))
+    useful_demand_elec = graph.add(Turbine::Node.new(:useful_demand_elec))
 
-    space_heater_coal  = graph.add_node(Turbine::Node.new(:space_heater_coal))
-    space_heater_gas   = graph.add_node(Turbine::Node.new(:space_heater_gas))
-    space_heater_oil   = graph.add_node(Turbine::Node.new(:space_heater_oil))
-    space_heater_chp   = graph.add_node(Turbine::Node.new(:space_heater_chp))
-    space_heater_elec  = graph.add_node(Turbine::Node.new(:space_heater_elec))
+    space_heater_coal  = graph.add(Turbine::Node.new(:space_heater_coal))
+    space_heater_gas   = graph.add(Turbine::Node.new(:space_heater_gas))
+    space_heater_oil   = graph.add(Turbine::Node.new(:space_heater_oil))
+    space_heater_chp   = graph.add(Turbine::Node.new(:space_heater_chp))
+    space_heater_elec  = graph.add(Turbine::Node.new(:space_heater_elec))
 
-    final_demand_coal  = graph.add_node(Turbine::Node.new(:final_demand_coal))
-    final_demand_gas   = graph.add_node(Turbine::Node.new(:final_demand_gas))
-    final_demand_oil   = graph.add_node(Turbine::Node.new(:final_demand_oil))
-    final_demand_elec  = graph.add_node(Turbine::Node.new(:final_demand_elec))
+    final_demand_coal  = graph.add(Turbine::Node.new(:final_demand_coal))
+    final_demand_gas   = graph.add(Turbine::Node.new(:final_demand_gas))
+    final_demand_oil   = graph.add(Turbine::Node.new(:final_demand_oil))
+    final_demand_elec  = graph.add(Turbine::Node.new(:final_demand_elec))
 
-    lv_network         = graph.add_node(Turbine::Node.new(:lv_network))
-    mv_network         = graph.add_node(Turbine::Node.new(:mv_network))
-    hv_network         = graph.add_node(Turbine::Node.new(:hv_network))
+    lv_network         = graph.add(Turbine::Node.new(:lv_network))
+    mv_network         = graph.add(Turbine::Node.new(:mv_network))
+    hv_network         = graph.add(Turbine::Node.new(:hv_network))
 
-    coal_plant         = graph.add_node(Turbine::Node.new(:coal_plant))
-    elec_import        = graph.add_node(Turbine::Node.new(:elec_import))
+    coal_plant         = graph.add(Turbine::Node.new(:coal_plant))
+    elec_import        = graph.add(Turbine::Node.new(:elec_import))
 
     # Edges ------------------------------------------------------------------
 

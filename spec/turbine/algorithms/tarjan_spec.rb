@@ -4,11 +4,11 @@ module Turbine
   describe Algorithms::Tarjan do
     let(:graph) { Turbine::Graph.new }
 
-    let(:a) { graph.add_node(Turbine::Node.new(:a)) }
-    let(:b) { graph.add_node(Turbine::Node.new(:b)) }
-    let(:c) { graph.add_node(Turbine::Node.new(:c)) }
-    let(:d) { graph.add_node(Turbine::Node.new(:d)) }
-    let(:e) { graph.add_node(Turbine::Node.new(:e)) }
+    let(:a) { graph.add(Turbine::Node.new(:a)) }
+    let(:b) { graph.add(Turbine::Node.new(:b)) }
+    let(:c) { graph.add(Turbine::Node.new(:c)) }
+    let(:d) { graph.add(Turbine::Node.new(:d)) }
+    let(:e) { graph.add(Turbine::Node.new(:e)) }
 
     before do
       a.connect_to(b, :friend)

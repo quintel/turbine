@@ -4,9 +4,9 @@ module Turbine::Spec
     #
     # For example
     #   Factories.register(:family) do |graph|
-    #     jay    = graph.add_node(Turbine::Node.new(:jay))
-    #     gloria = graph.add_node(Turbine::Node.new(:gloria))
-    #     manny  = graph.add_node(Turbine::Node.new(:manny))
+    #     jay    = graph.add(Turbine::Node.new(:jay))
+    #     gloria = graph.add(Turbine::Node.new(:gloria))
+    #     manny  = graph.add(Turbine::Node.new(:manny))
     #
     #     jay.connect_to(:gloria, :spouse)
     #

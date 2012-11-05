@@ -9,26 +9,26 @@ module Turbine
   def self.family_stub
     graph    = Turbine::Graph.new
 
-    phil     = graph.add_node(Turbine::Node.new(:phil,     gender: :male))
-    claire   = graph.add_node(Turbine::Node.new(:claire,   gender: :female))
-    haley    = graph.add_node(Turbine::Node.new(:haley,    gender: :female))
-    alex     = graph.add_node(Turbine::Node.new(:alex,     gender: :female))
-    luke     = graph.add_node(Turbine::Node.new(:luke,     gender: :male))
+    phil     = graph.add(Turbine::Node.new(:phil,     gender: :male))
+    claire   = graph.add(Turbine::Node.new(:claire,   gender: :female))
+    haley    = graph.add(Turbine::Node.new(:haley,    gender: :female))
+    alex     = graph.add(Turbine::Node.new(:alex,     gender: :female))
+    luke     = graph.add(Turbine::Node.new(:luke,     gender: :male))
 
-    jay      = graph.add_node(Turbine::Node.new(:jay,      gender: :male))
-    gloria   = graph.add_node(Turbine::Node.new(:gloria,   gender: :female))
-    manny    = graph.add_node(Turbine::Node.new(:manny,    gender: :male))
-    unnamed  = graph.add_node(Turbine::Node.new(:unnamed))
+    jay      = graph.add(Turbine::Node.new(:jay,      gender: :male))
+    gloria   = graph.add(Turbine::Node.new(:gloria,   gender: :female))
+    manny    = graph.add(Turbine::Node.new(:manny,    gender: :male))
+    unnamed  = graph.add(Turbine::Node.new(:unnamed))
 
-    mitchell = graph.add_node(Turbine::Node.new(:mitchell, gender: :male))
-    cameron  = graph.add_node(Turbine::Node.new(:cameron,  gender: :male))
-    lily     = graph.add_node(Turbine::Node.new(:lily,     gender: :female))
+    mitchell = graph.add(Turbine::Node.new(:mitchell, gender: :male))
+    cameron  = graph.add(Turbine::Node.new(:cameron,  gender: :male))
+    lily     = graph.add(Turbine::Node.new(:lily,     gender: :female))
 
-    dede     = graph.add_node(Turbine::Node.new(:dede,     gender: :female))
-    javier   = graph.add_node(Turbine::Node.new(:javier,   gender: :male))
+    dede     = graph.add(Turbine::Node.new(:dede,     gender: :female))
+    javier   = graph.add(Turbine::Node.new(:javier,   gender: :male))
 
-    frank    = graph.add_node(Turbine::Node.new(:frank,    gender: :male))
-    sarah    = graph.add_node(Turbine::Node.new(:sarah,    gender: :female))
+    frank    = graph.add(Turbine::Node.new(:frank,    gender: :male))
+    sarah    = graph.add(Turbine::Node.new(:sarah,    gender: :female))
 
     # Dunphy -----------------------------------------------------------------
 
