@@ -27,6 +27,11 @@ module Turbine
     "Graph already has a node with the key #{ key.inspect }"
   end
 
+  # Attempted an operation on a Node which does not exist.
+  NoSuchNodeError = error_class do |key|
+    "Graph does not contain a node with the key #{ key.inspect }"
+  end
+
   # Added an edge between two nodes which was too similar to an existing edge.
   # See Edge#similar?
   DuplicateEdgeError = error_class do |node, edge|

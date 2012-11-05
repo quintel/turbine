@@ -23,6 +23,27 @@ module Turbine
       @nodes[node.key] = node
     end
 
+    # Public: Removes the +node+ from the graph and disconnects any nodes
+    # which have edges to the +node+.
+    #
+    # node - The node to be deleted.
+    #
+    # Raises a NoSuchNodeError if the graph does not contain the given +node+.
+    #
+    # Returns the node.
+    def remove_node(node)
+      unless @nodes.key?(node.key)
+        raise NoSuchNodeError.new(node.key)
+      end
+
+      (node.edges(:out) + node.edges(:in)).each do |edge|
+        edge.in.disconnect_via(edge)
+        edge.out.disconnect_via(edge)
+      end
+
+      @nodes.delete(node.key)
+    end
+
     # Public: Retrieves the node whose key is +key+.
     #
     # key - The key of the desired node.

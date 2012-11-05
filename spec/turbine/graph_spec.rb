@@ -55,6 +55,50 @@ describe 'Turbine::Graph' do
     end # when the key conflicts with an existing node
   end # adding a new node
 
+  describe 'removing a node' do
+    context 'when the node is not a member of the graph' do
+      it 'raises NoSuchNodeError' do
+        expect { graph.remove_node(Turbine::Node.new(:nope)) }.
+          to raise_error(Turbine::NoSuchNodeError, /:nope/)
+      end
+    end # when the node is not a member of the graph
+
+    context 'when the node is a member of the graph' do
+      before :each do
+        graph.add_node(node)
+        graph.add_node(other)
+      end
+
+      let!(:edge_one) { node.connect_to(other, :spouse) }
+      let!(:edge_two) { other.connect_to(node, :spouse) }
+      let!(:result)   { graph.remove_node(node) }
+
+      it 'returns the removed node' do
+        expect(result).to eql(node)
+      end
+
+      it 'removes the node from the graph' do
+        expect(graph.nodes).to_not include(node)
+      end
+
+      it 'removes outward edges from the removed node' do
+        expect(node.out_edges).to_not include(edge_one)
+      end
+
+      it 'removes inward edges from the removed node' do
+        expect(node.in_edges).to_not include(edge_two)
+      end
+
+      it 'removes outward edges from surviving nodes' do
+        expect(other.out_edges).to_not include(edge_two)
+      end
+
+      it 'removes inward edges from surviving nodes' do
+        expect(other.in_edges).to_not include(edge_one)
+      end
+    end
+  end # removing a node
+
   describe '#inspect' do
     before do
       graph.add_node(node)
