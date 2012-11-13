@@ -73,7 +73,7 @@ describe 'Turbine::Traversal::BreadthFirst' do
   context 'traversing edges' do
     let(:enum) do
       Turbine::Traversal::BreadthFirst.new(
-        a, :out_edges, [], :in).to_enum.to_a
+        a, :out_edges, [], :to).to_enum.to_a
     end
 
     it 'contains edges' do

@@ -6,23 +6,23 @@ describe 'Turbine::Edge' do
   let(:edge)  { Turbine::Edge.new(left, right, :married) }
 
   context 'creating a new edge' do
-    it 'should assign the in node' do
-      expect(edge.in).to eql(right)
+    it 'should assign the to node' do
+      expect(edge.to).to eql(right)
     end
 
-    it 'should assign the out node' do
-      expect(edge.out).to eql(left)
+    it 'should assign the from node' do
+      expect(edge.from).to eql(left)
     end
 
     it 'should assign the label' do
       expect(edge.label).to eql(:married)
     end
 
-    context 'without an "in" node' do
+    context 'without a "to" node' do
       it { expect(->{ Turbine::Edge.new }).to raise_error(ArgumentError) }
     end
 
-    context 'without an "out" node' do
+    context 'without an "from" node' do
       it do
         expect(->{ Turbine::Edge.new(Turbine::Node.new(:gloria)) }).
           to raise_error(ArgumentError)
@@ -54,15 +54,15 @@ describe 'Turbine::Edge' do
   # --------------------------------------------------------------------------
 
   describe 'nodes' do
-    context 'with :in' do
+    context 'with :to' do
       it 'returns the connected-to node' do
-        expect(edge.nodes(:in)).to eql(right)
+        expect(edge.nodes(:to)).to eql(right)
       end
     end
 
-    context 'with :out' do
+    context 'with :from' do
       it 'returns the connected-from node' do
-        expect(edge.nodes(:out)).to eql(left)
+        expect(edge.nodes(:from)).to eql(left)
       end
     end
   end # nodes
@@ -72,11 +72,11 @@ describe 'Turbine::Edge' do
   describe '#inspect' do
     let(:inspected) { edge.inspect }
 
-    it 'should include the out node' do
+    it 'should include the from node' do
       expect(inspected).to include(left.key.to_s)
     end
 
-    it 'should include the in node' do
+    it 'should include the to node' do
       expect(inspected).to include(right.key.to_s)
     end
 

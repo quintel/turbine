@@ -1,5 +1,5 @@
 module Turbine
-  # Edges represent a connection between an +in+ node and an +out+ node.
+  # Edges represent a connection between an +from+ node and an +to+ node.
   #
   # Note that simply creating an Edge does not actually establish the
   # connection between the two nodes. Rather than creating the Edge
@@ -30,29 +30,29 @@ module Turbine
   class Edge
     include Properties
 
-    # Public: Returns the node for which this edge is the +out+ edge. This is
-    # the node the edge leaves.
-    attr_reader :out
+    # Public: The node which the edge leaves; the edge is an +out_edge+ on
+    # this node.
+    attr_reader :from
 
-    # Public: Returns the node for which this edge is the +in+ edge. This is
-    # the node the edge points to.
-    attr_reader :in
+    # Public: The node to which the edge points; the edge is an +in_edge+ on
+    # this node.
+    attr_reader :to
 
     # Public: Returns the optional label assigned to the edge.
     attr_reader :label
 
     # Public: Creates a new Edge.
     #
-    # out_node   - The Node from which the edge originates.
+    # from_node  - The Node from which the edge originates.
     # in_node    - The Node to which the edge points.
     # label      - An optional label for describing the nature of the
     #              relationship between the two nodes.
     # properties - Optional key/value properties to be associated with the
     #              edge.
     #
-    def initialize(out_node, in_node, label = nil, properties = nil)
-      @out   = out_node
-      @in    = in_node
+    def initialize(from_node, to_node, label = nil, properties = nil)
+      @from  = from_node
+      @to    = to_node
       @label = label
 
       self.properties = properties
@@ -60,18 +60,18 @@ module Turbine
 
     # Public: Determines if the +other+ edge is similar to this one.
     #
-    # Two edges are considered similar if have the same +in+ and +out+ nodes,
+    # Two edges are considered similar if have the same +to+ and +from+ nodes,
     # and their label is identical.
     #
     # Returns true or false.
     def similar?(other)
-      other && other.in == @in && other.out == @out && other.label == @label
+      other && other.to == @to && other.from == @from && other.label == @label
     end
 
     # Public: Returns a human-readable version of the edge.
     def inspect
       "#<#{ self.class.name } " \
-        "#{ @out.key.inspect } -#{ @label.inspect }-> #{ @in.key.inspect }>"
+        "#{ @from.key.inspect } -#{ @label.inspect }-> #{ @to.key.inspect }>"
     end
 
     # Internal: A low-level method which retrieves the node in a given
@@ -79,7 +79,7 @@ module Turbine
     #
     # Returns a Node.
     def nodes(direction, *)
-      direction == :in ? @in : @out
+      direction == :to ? @to : @from
     end
   end # Edge
 end # Turbine

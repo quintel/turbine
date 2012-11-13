@@ -37,8 +37,8 @@ module Turbine
       end
 
       (node.edges(:out) + node.edges(:in)).each do |edge|
-        edge.in.disconnect_via(edge)
-        edge.out.disconnect_via(edge)
+        edge.from.disconnect_via(edge)
+        edge.to.disconnect_via(edge)
       end
 
       @nodes.delete(node.key)

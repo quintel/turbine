@@ -44,7 +44,7 @@ module Turbine
       Pipeline.dsl(self).out(label)
     end
 
-    # Public: Returns this node's in edges.
+    # Public: Returns this node's incoming edges.
     #
     # label - An optional label; only edges with this label will be returned.
     #         Passing nil will return all in edges.
@@ -57,7 +57,7 @@ module Turbine
       Pipeline.dsl(self).in_edges(label)
     end
 
-    # Public: Returns this node's out edges.
+    # Public: Returns this node's outgoing edges.
     #
     # label - An optional label; only edges with this label will be returned.
     #         Passing nil will return all out edges.
@@ -105,7 +105,7 @@ module Turbine
     #
     # Returns an array of nodes.
     def nodes(direction, label = nil)
-      edges(direction, label).map(&(direction == :in ? :out : :in))
+      edges(direction, label).map(&(direction == :in ? :from : :to))
     end
 
     # Public: Returns a human-readable version of the node.
@@ -116,7 +116,7 @@ module Turbine
     # Public: Connects this node to another.
     #
     # target     - The node to which you want to connect. The +target+ node
-    #              will be the "out" end of the edge.
+    #              will be the "from" end of the edge.
     # label      - An optional label describing the relationship between the
     #              two nodes.
     # properties - Optional key/value properties to be associated with the
@@ -140,7 +140,7 @@ module Turbine
     end
 
     # Public: Disconnects this node from the +target+. Assumes that the
-    # receiver is the +out+ node.
+    # receiver is the +from+ node.
     #
     # target - The node from which the receiver is to be disconnected.
     # label  - An optional label; only the edge with this label will be
@@ -151,7 +151,7 @@ module Turbine
     #
     # Returns nothing.
     def disconnect_from(target, label = nil)
-      edges(:out, label).select { |edge| edge.in == target }.each do |edge|
+      edges(:out, label).select { |edge| edge.to == target }.each do |edge|
         disconnect_via(edge)
         target.disconnect_via(edge)
       end
@@ -161,9 +161,9 @@ module Turbine
 
     # Internal: Given an Edge, establishes the connection for this node.
     #
-    # Please note that you need to call +connect_via+ on both the "in" and
-    # "out" nodes. Unless you need to create the connection using a subclass
-    # of Edge, you will likey prefer using the simpler +connect_to+.
+    # Please note that you need to call +connect_via+ on both the "from" and
+    # "to" nodes. Unless you need to create the connection using a subclass of
+    # Edge, you will likey prefer using the simpler +connect_to+.
     #
     # Example:
     #
@@ -172,25 +172,25 @@ module Turbine
     #
     #   edge  = Turbine::Edge.new(phil, haley, :child)
     #
-    #   # Adds an +out+ link from "phil" to "haley".
+    #   # Adds an link from "phil" to "haley".
     #   phil.connect_via(edge)
     #   haley.connect_via(edge)
     #
-    # Raises a Turbine::CannotConnectError if this node is not the +in+ or
-    # +out+ node specified by the edge.
+    # Raises a Turbine::CannotConnectError if this node is not the +from+ or
+    # +to+ node specified by the edge.
     #
     # Returns the given edge.
     def connect_via(edge)
-      connect_endpoint(@in_edges, edge)  if edge.in == self
-      connect_endpoint(@out_edges, edge) if edge.out == self
+      connect_endpoint(@in_edges, edge)  if edge.to   == self
+      connect_endpoint(@out_edges, edge) if edge.from == self
 
       edge
     end
 
     # Internal: Given an edge, removes the connection for this node.
     #
-    # Please note that you need to call +disconnect_via+ on both the "in" and
-    # "out" nodes.
+    # Please note that you need to call +disconnect_via+ on both the "from"
+    # and "to" nodes.
     #
     # Example:
     #
