@@ -70,6 +70,21 @@ describe 'Turbine::Traversal::BreadthFirst' do
     end
   end # with a loop
 
+  context 'traversing edges' do
+    let(:enum) do
+      Turbine::Traversal::BreadthFirst.new(
+        a, :out_edges, [], :in).to_enum.to_a
+    end
+
+    it 'contains edges' do
+      enum.each { |member| expect(member).to be_a(Turbine::Edge) }
+    end
+
+    it 'includes each descendant edge' do
+      expect(enum).to have(7).edges
+    end
+  end # traversing edges
+
   context 'with an orphan' do
     let(:enum) do
       Turbine::Traversal::BreadthFirst.new(Turbine::Node.new(:z), :out).

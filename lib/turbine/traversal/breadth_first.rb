@@ -40,7 +40,7 @@ module Turbine
           @seen[item] = true
           block.call(item)
 
-          queue.push(*item.public_send(@method, *@args).to_a)
+          queue.push(*fetch(item).public_send(@method, *@args).to_a)
         end
       end
 
