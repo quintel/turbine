@@ -53,6 +53,20 @@ describe 'Turbine::Edge' do
 
   # --------------------------------------------------------------------------
 
+  describe '#parent' do
+    it 'is an alias of "from"' do
+      expect(edge.parent).to eql(edge.from)
+    end
+  end
+
+  describe '#child' do
+    it 'is an alias of "to"' do
+      expect(edge.child).to eql(edge.to)
+    end
+  end
+
+  # --------------------------------------------------------------------------
+
   describe 'nodes' do
     context 'with :to' do
       it 'returns the connected-to node' do

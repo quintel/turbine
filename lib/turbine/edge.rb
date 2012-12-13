@@ -41,6 +41,10 @@ module Turbine
     # Public: Returns the optional label assigned to the edge.
     attr_reader :label
 
+    # Attribute aliases.
+    alias_method :parent, :from
+    alias_method :child,  :to
+
     # Public: Creates a new Edge.
     #
     # from_node  - The Node from which the edge originates.
