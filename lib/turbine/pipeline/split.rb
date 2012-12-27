@@ -39,7 +39,8 @@ module Turbine
           Branch.new(pump, branch.call(dsl))
         end
 
-        @branches_cycle = @branches.cycle.with_index
+        # JRuby doesn't support calling +next+ on enum.cycle.with_index.
+        @branches_cycle = @branches.zip((0...@branches.length).to_a).cycle
       end
 
       # Public: Returns the trace containing the most recently emitted values
