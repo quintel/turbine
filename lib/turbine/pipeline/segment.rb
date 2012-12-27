@@ -150,12 +150,6 @@ module Turbine
       private
       #######
 
-      def process
-        while value = input
-          handle_value(value)
-        end
-      end
-
       def input
         nil until (value = source.next)
         value

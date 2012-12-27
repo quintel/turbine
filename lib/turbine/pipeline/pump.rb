@@ -14,15 +14,6 @@ module Turbine
         @source = source.to_enum
         super()
       end
-
-      # Public: Iterates through each item in the source collection, yielding
-      # the current fiber for each element in the source.
-      #
-      # Returns nothing.
-      def process
-        @source.each { |item| output(item) }
-        nil
-      end
     end # Pump
   end # Pipeline
 end # Turbine
