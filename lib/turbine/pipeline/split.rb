@@ -85,7 +85,7 @@ module Turbine
 
         # We've been through each branch for the current source, time to fetch
         # the next one?
-        if (iteration % @branches.length).zero?
+        if iteration.zero?
           @branch_source = Array(super).to_enum
         end
 
