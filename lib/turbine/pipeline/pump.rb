@@ -11,7 +11,7 @@ module Turbine
       #
       # Returns a Pump.
       def initialize(source)
-        @source = source
+        @source = source.to_enum
         super()
       end
 
@@ -22,14 +22,6 @@ module Turbine
       def process
         @source.each { |item| output(item) }
         nil
-      end
-
-      # Public: Rewinds the segment so that iteration can happen from the
-      # first input again.
-      #
-      # Returns nothing.
-      def rewind
-        reset_fiber!
       end
     end # Pump
   end # Pipeline

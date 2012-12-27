@@ -15,7 +15,6 @@ module Turbine
       #
       # Returns a Segment.
       def initialize
-        reset_fiber!
         @tracing = false
       end
 
@@ -60,7 +59,7 @@ module Turbine
       #
       # Returns an object.
       def next
-        @fiber.resume
+        handle_value(input)
       end
 
       # Public: Iterates through each value in the pipeline.
@@ -78,7 +77,6 @@ module Turbine
       def rewind
         @source.rewind
         @previous = nil
-        reset_fiber!
       end
 
       # Public: Enables tracing on the segment and it's source. This tells the
@@ -159,7 +157,8 @@ module Turbine
       end
 
       def input
-        source.next
+        nil until (value = source.next)
+        value
       end
 
       def output(value)
@@ -167,15 +166,11 @@ module Turbine
           @previous = value
         end
 
-        Fiber.yield(value)
+        value
       end
 
       def handle_value(value)
         output(value)
-      end
-
-      def reset_fiber!
-        @fiber = Fiber.new { process ; raise StopIteration }
       end
 
       def source_to_s

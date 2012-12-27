@@ -25,9 +25,9 @@ module Turbine
       # Public: Passes each value into a traversal class, emitting every
       # adjacent node.
       #
-      # Returns nothing.
-      def handle_value(value)
-        super(@klass.new(value, @direction, [@label]).to_enum)
+      # Returns the traversed objects.
+      def input
+        @klass.new(super, @direction, [@label]).to_enum
       end
     end # Traverse
   end # Pipeline

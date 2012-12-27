@@ -42,8 +42,8 @@ module Turbine
       private
       #######
 
-      def handle_value(value)
-        super(value.public_send(@message, *args))
+      def input
+        super.public_send(@message, *args)
       end
 
     end # Sender

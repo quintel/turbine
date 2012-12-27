@@ -12,7 +12,9 @@ module Turbine
     #   (pump | split).to_a # => [ 18, :male, 27, :female, 25, :male ]
     #
     # You may supply as many separate branches as you wish.
-    class Split < Segment
+    class Split < Expander
+      Branch = Struct.new(:pump, :pipe)
+
       # Public: Creates a new Split segment.
       #
       # branches - One or more procs; each proc is given a new pipeline DSL so
@@ -30,12 +32,14 @@ module Turbine
         # Each DSL is evaluated once, and +handle_result+ changes the source
         # for each value being processed. This is more efficient than creating
         # and evaluating a new DSL for every input.
-        @branches = branches.each_with_object({}) do |branch, hash|
+        @branches = branches.map do |branch|
           dsl  = Pipeline.dsl([])
           pump = dsl.source
 
-          hash[pump] = branch.call(dsl)
+          Branch.new(pump, branch.call(dsl))
         end
+
+        @branches_cycle = @branches.cycle.with_index
       end
 
       # Public: Returns the trace containing the most recently emitted values
@@ -57,8 +61,8 @@ module Turbine
       def tracing=(use_tracing)
         super
 
-        @branches.each_value do |pipeline|
-          pipeline.source.tracing = use_tracing
+        @branches.each do |branch|
+          branch.pipe.source.tracing = use_tracing
         end
       end
 
@@ -66,22 +70,32 @@ module Turbine
       private
       #######
 
-      # Internal: Handles each value from the pipeline, passing it through
-      # each of the +branches+ specified when the Split was created, emitting
-      # the results of each branch in turn.
+      # Internal: Returns the next value to be processed by the pipeline.
       #
-      # Returns nothing.
-      def handle_value(value)
-        @branches.each do |pump, pipeline|
-          pump.source = Array(value)
-          pipeline.source.rewind
+      # Calling +input+ will fetch the input from the upstream segment,
+      # process it on the first branch and return the value. The next call
+      # will process the same input on the second branch, and so on util the
+      # value has been passed through each branch. Only then do we fetch a new
+      # input and start over.
+      #
+      # Returns an object.
+      def input
+        branch, iteration = @branches_cycle.next
 
-          pipeline.each do |entry|
-            # The first element is a duplicate of the input.
-            @previous_trace = pipeline.source.trace.drop(1) if @tracing
-            super(entry)
-          end
+        # We've been through each branch for the current source, time to fetch
+        # the next one?
+        if (iteration % @branches.length).zero?
+          @branch_source = Array(super).to_enum
         end
+
+        branch.pump.source = @branch_source
+        branch.pipe.source.rewind
+
+        values = branch.pipe.to_a
+
+        @previous_trace = branch.pipe.source.trace.drop(1) if @tracing
+
+        values.any? ? values : input
       end
     end # Split
 

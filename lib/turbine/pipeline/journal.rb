@@ -38,7 +38,15 @@ module Turbine
       # Returns the next value.
       def next
         values
-        super
+
+        if @index >= values.length - 1
+          # We test length-1 because the index is always one position *lower*
+          # than the actual position at this stage; it is incremented later
+          # when calling +input+.
+          raise StopIteration
+        else
+          super
+        end
       end
 
       # Public: Rewinds the segment so that iteration can happen from the

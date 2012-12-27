@@ -26,19 +26,20 @@ module Turbine
         super()
       end
 
+      # Public: Runs the pipeline continuously until a value which matches the
+      # filter is found, then that value is emitted.
+      #
+      # Returns an object.
+      def next
+        # Discard non-matching values.
+        nil until (value = input) && @filter.call(value)
+
+        handle_value(value)
+      end
+
       #######
       private
       #######
-
-      # Internal: Handles each value from the pipeline, emitting only those
-      # which satisfy the +filter+ block or method.
-      #
-      # value - The value being processed.
-      #
-      # Returns nothing.
-      def handle_value(value)
-        super if @filter.call(value)
-      end
 
       # Internal: The default filter condition.
       #
