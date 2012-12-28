@@ -113,6 +113,8 @@ module Turbine
       "#<#{ self.class.name } key=#{ @key.inspect }>"
     end
 
+    alias_method :to_s, :inspect
+
     # Public: Connects this node to another.
     #
     # target     - The node to which you want to connect. The +target+ node

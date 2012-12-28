@@ -523,4 +523,16 @@ describe 'Turbine::Node' do
     end # with a label restriction
   end # #descendants
 
+  %w( inspect to_s ).each do |method|
+    describe "##{ method }" do
+      it 'includes the class type' do
+        expect(phil.public_send(method)).to include('Turbine::Node')
+      end
+
+      it 'includes the node key' do
+        expect(phil.public_send(method)).to include('phil')
+      end
+    end
+  end # ( inspect to_s ).each
+
 end
