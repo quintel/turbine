@@ -83,19 +83,22 @@ describe 'Turbine::Edge' do
 
   # --------------------------------------------------------------------------
 
-  describe '#inspect' do
-    let(:inspected) { edge.inspect }
+  %w( inspect to_s ).each do |method|
+    describe "##{ method }" do
+      let(:inspected) { edge.public_send(method) }
 
-    it 'should include the from node' do
-      expect(inspected).to include(left.key.to_s)
-    end
+      it 'should include the from node' do
+        expect(inspected).to include(left.key.to_s)
+      end
 
-    it 'should include the to node' do
-      expect(inspected).to include(right.key.to_s)
-    end
+      it 'should include the to node' do
+        expect(inspected).to include(right.key.to_s)
+      end
 
-    it 'should include the label' do
-      expect(inspected).to include(edge.label.to_s)
+      it 'should include the label' do
+        expect(inspected).to include(edge.label.to_s)
+      end
     end
-  end # #inspect
+  end # ( inspect to_s ).each
+
 end # Turbine::Edge

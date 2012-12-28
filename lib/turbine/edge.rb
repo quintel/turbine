@@ -78,6 +78,8 @@ module Turbine
         "#{ @from.key.inspect } -#{ @label.inspect }-> #{ @to.key.inspect }>"
     end
 
+    alias_method :to_s, :inspect
+
     # Internal: A low-level method which retrieves the node in a given
     # direction. Used for compatibility with Pipeline.
     #
