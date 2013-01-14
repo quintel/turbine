@@ -74,11 +74,14 @@ module Turbine
 
     # Public: Returns a human-readable version of the edge.
     def inspect
-      "#<#{ self.class.name } " \
-        "#{ @from.key.inspect } -#{ @label.inspect }-> #{ @to.key.inspect }>"
+      "#<#{ self.class.name } #{ to_s }>"
     end
 
-    alias_method :to_s, :inspect
+    # Public: Returns a human-readable version of the edge by showing the from
+    # and to nodes, connected by the label.
+    def to_s
+      "#{ @from.key.inspect } -#{ @label.inspect }-> #{ @to.key.inspect }"
+    end
 
     # Internal: A low-level method which retrieves the node in a given
     # direction. Used for compatibility with Pipeline.
