@@ -74,7 +74,7 @@ module Turbine
 
     # Public: Returns a human-readable version of the edge.
     def inspect
-      "#<#{ self.class.name } #{ to_s }>"
+      "#<#{ self.class.name } #{ to_s }>".sub('>', "\u27A4")
     end
 
     # Public: Returns a human-readable version of the edge by showing the from
