@@ -1,4 +1,4 @@
-source :rubygems
+source 'https://rubygems.org'
 
 group :extras do
   gem 'guard',                   require: false
