@@ -33,7 +33,7 @@ task :release => :build do
 end
 
 desc 'Builds the gem'
-task :build => [:man, :gemspec] do
+task :build => [:gemspec] do
   sh "mkdir -p pkg"
   sh "gem build turbine.gemspec"
   sh "mv turbine-#{Turbine::VERSION}.gem pkg"
