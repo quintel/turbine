@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   # rake task. It it completely safe to edit them, but using the rake task
   # is easier.
   s.name              = 'turbine'
-  s.version           = '0.0.1'
-  s.date              = '2012-10-04'
+  s.version           = '0.1.0'
+  s.date              = '2013-04-10'
   s.rubyforge_project = 'turbine-graph'
 
   # You may safely edit the section below.
@@ -43,10 +43,38 @@ Gem::Specification.new do |s|
 
   # = MANIFEST =
   s.files = %w[
+    Gemfile
+    Guardfile
     LICENSE
     README.md
     Rakefile
+    examples/energy.rb
+    examples/family.rb
     lib/turbine.rb
+    lib/turbine/algorithms/filtered_tarjan.rb
+    lib/turbine/algorithms/tarjan.rb
+    lib/turbine/edge.rb
+    lib/turbine/errors.rb
+    lib/turbine/graph.rb
+    lib/turbine/node.rb
+    lib/turbine/pipeline/README.mdown
+    lib/turbine/pipeline/dsl.rb
+    lib/turbine/pipeline/expander.rb
+    lib/turbine/pipeline/filter.rb
+    lib/turbine/pipeline/journal.rb
+    lib/turbine/pipeline/journal_filter.rb
+    lib/turbine/pipeline/pump.rb
+    lib/turbine/pipeline/segment.rb
+    lib/turbine/pipeline/sender.rb
+    lib/turbine/pipeline/split.rb
+    lib/turbine/pipeline/trace.rb
+    lib/turbine/pipeline/transform.rb
+    lib/turbine/pipeline/traversal.rb
+    lib/turbine/pipeline/unique.rb
+    lib/turbine/properties.rb
+    lib/turbine/traversal/base.rb
+    lib/turbine/traversal/breadth_first.rb
+    lib/turbine/traversal/depth_first.rb
     lib/turbine/version.rb
     turbine.gemspec
   ]
