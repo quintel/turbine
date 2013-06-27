@@ -74,8 +74,12 @@ module Turbine
     # Raises CyclicError if the graph contains loops.
     #
     # Returns an array.
-    def tsort(label = nil)
-      Algorithms::Tarjan.new(self, label).tsort
+    def tsort(label = nil, &edge_filter)
+      if edge_filter
+        Algorithms::FilteredTarjan.new(self, &edge_filter)
+      else
+        Algorithms::Tarjan.new(self, label)
+      end.tsort
     rescue TSort::Cyclic => exception
       raise CyclicError.new(exception)
     end

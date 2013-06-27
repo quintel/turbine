@@ -113,5 +113,20 @@ describe 'Turbine::Graph' do
     it 'should show the number of edges' do
       expect(graph.inspect).to include('1 edges')
     end
-  end
+  end # inspect
+
+  describe '#tsort' do
+    it 'returns an array when doing an unfiltered sort' do
+      expect(graph.tsort).to be_an(Array)
+    end
+
+    it 'returns an array when doing a by-label sort' do
+      expect(graph.tsort(:spouse)).to be_an(Array)
+    end
+
+    it 'returns an array when doing a filtered sort' do
+      expect(graph.tsort { |*| true }).to be_an(Array)
+    end
+  end # tsort
+
 end # Turbine::Graph
