@@ -4,7 +4,7 @@ $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
 Gem::Specification.new do |s|
   s.required_rubygems_version = '>= 1.3.6'
 
-  # The following four lines are automatically updates by the "gemspec"
+  # The following four lines are automatically updated by the "gemspec"
   # rake task. It it completely safe to edit them, but using the rake task
   # is easier.
   s.name              = 'turbine'
@@ -17,14 +17,10 @@ Gem::Specification.new do |s|
   s.platform     = Gem::Platform::RUBY
 
   s.authors      = [ 'Anthony Williams',
-                     'Dennis Schoenmakers',
-                     'Paolo Zaccagnini',
-                     'Sebastian Burkhard' ]
+                     'Dennis Schoenmakers' ]
 
   s.email        = [ 'hi@antw.me',
-                     'dennis.schoenmakers@quintel.com',
-                     'paolo.zaccagnini@quintel.com',
-                     'sebastian.burkhard@quintel.com' ]
+                     'dennis.schoenmakers@quintel.com' ]
 
   s.homepage     = 'http://github.com/quintel/turbine'
   s.summary      = 'An in-memory graph database written in Ruby.'
