@@ -87,25 +87,26 @@ module Turbine
       end
 
       # Public: Using the breadth-first traversal strategy, fetches all of a
-      # node's adjacent nodes, and their adjacent nodes, and so on, in a given
-      # +direction+
+      # node's adjacent "in" nodes, and their adjacent "in" nodes, and so on.
       #
-      # direction - In which direction from the current node do you wat to
-      #             traverse? :in or :out?
-      # label     - An optional label which is used to restrict the edges
-      #             traversed to those with the label.
-      #
-      # For example
-      #
-      #   # Fetches all nodes via outgoing edges.
-      #   dsl.traverse(:out).to_a
-      #
-      #   # Gets all out nodes via edges which have the :child label.
-      #   dsl.traverse(:out, :child)
+      # label - An optional label which is used to restrict the edges
+      #        traversed to those with the label.
       #
       # Returns a new DSL.
-      def traverse(direction, label = nil)
-        append(Traverse.new(direction, label))
+      def ancestors(label = nil)
+        append(Traverse.new(:in, label))
+      end
+
+      # Public: Using the breadth-first traversal strategy, fetches all of a
+      # node's adjacent "out" nodes, and their adjacent "out" nodes, and so
+      # on.
+      #
+      # label - An optional label which is used to restrict the edges
+      #         traversed to those with the label.
+      #
+      # Returns a new DSL.
+      def descendants(label = nil)
+        append(Traverse.new(:out, label))
       end
 
       # Public: Given a block, emits input elements for which the block

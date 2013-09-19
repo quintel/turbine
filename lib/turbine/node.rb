@@ -78,7 +78,7 @@ module Turbine
     #
     # Returns an Enumerator containing Nodes.
     def descendants(label = nil)
-      Pipeline.dsl(self).traverse(:out, label)
+      Pipeline.dsl(self).descendants(label)
     end
 
     # Public: Returns an enumerator containing all nodes which are inward
@@ -89,7 +89,7 @@ module Turbine
     #
     # Returns an Enumerator containing Nodes.
     def ancestors(label = nil)
-      Pipeline.dsl(self).traverse(:in, label)
+      Pipeline.dsl(self).ancestors(label)
     end
 
     # Internal: Low-level method which retrieves all of the edges in a given
