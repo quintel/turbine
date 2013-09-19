@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   # rake task. It it completely safe to edit them, but using the rake task
   # is easier.
   s.name              = 'turbine'
-  s.version           = '0.1.1'
-  s.date              = '2013-06-27'
+  s.version           = '0.1.2'
+  s.date              = '2013-09-19'
   s.rubyforge_project = 'turbine-graph'
 
   # You may safely edit the section below.
