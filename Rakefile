@@ -29,14 +29,14 @@ task :release => :build do
   sh "git push origin v#{Turbine::VERSION}"
 
   puts "Push to Rubygems.org with"
-  puts "  gem push pkg/turbine-#{Turbine::VERSION}.gem"
+  puts "  gem push pkg/turbine-graph-#{Turbine::VERSION}.gem"
 end
 
 desc 'Builds the gem'
 task :build => [:gemspec] do
   sh "mkdir -p pkg"
   sh "gem build turbine.gemspec"
-  sh "mv turbine-#{Turbine::VERSION}.gem pkg"
+  sh "mv turbine-graph-#{Turbine::VERSION}.gem pkg"
 end
 
 desc 'Create a fresh gemspec'
