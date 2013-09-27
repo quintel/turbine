@@ -48,7 +48,7 @@ module Turbine
     # Public: Creates a new Edge.
     #
     # from_node  - The Node from which the edge originates.
-    # in_node    - The Node to which the edge points.
+    # to_node    - The Node to which the edge points.
     # label      - An optional label for describing the nature of the
     #              relationship between the two nodes.
     # properties - Optional key/value properties to be associated with the
