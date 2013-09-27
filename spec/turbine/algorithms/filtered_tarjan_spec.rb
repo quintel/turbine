@@ -36,7 +36,7 @@ module Turbine
     end
 
     it 'does not warn about being cyclic' do
-      expect { algo.tsort }.to_not raise_error(TSort::Cyclic)
+      expect { algo.tsort }.to_not raise_error
     end
 
     it 'returns an array when sorting' do
