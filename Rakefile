@@ -48,7 +48,7 @@ task :gemspec => :validate do
   head, manifest, tail = spec.split("  # = MANIFEST =\n")
 
   # Replace name version and date.
-  replace_header head, :name,              'turbine'
+  replace_header head, :name,              'turbine-graph'
   replace_header head, :rubyforge_project, 'turbine-graph'
   replace_header head, :version,            Turbine::VERSION
   replace_header head, :date,               Date.today.to_s
