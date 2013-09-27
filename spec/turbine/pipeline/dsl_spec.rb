@@ -211,18 +211,18 @@ module Turbine::Pipeline
     end # getting the value trace
 
     context 'showing the path string' do
-      let(:pipe) { dsl([]).get(:prop) }
+      let(:pipe) { dsl([1, 2, 3]).map { |v| v * 2 } }
 
       it 'returns a string' do
-        expect(pipe.to_s).to eql('Pump | get(:prop)')
+        expect(pipe.to_s).to eql('Pump | Transform')
       end
     end # showing the path string
 
     context 'inspecting the pipeline' do
-      let(:pipe) { dsl([]).get(:prop) }
+      let(:pipe) { dsl([1, 2, 3]).map { |v| v * 2 } }
 
-      it 'should include the path string' do
-        expect(pipe.inspect).to include(pipe.to_s)
+      it 'should show the final result' do
+        expect(pipe.inspect).to eql('[2, 4, 6]')
       end
     end # inspecting the pipeline
   end # DSL

@@ -265,11 +265,11 @@ module Turbine
         DSL.new(@source.append(downstream))
       end
 
-      # Public: A human-readable version of the DSL.
+      # Public: A human-readable version of the DSL. Shows the final result.
       #
       # Return a String.
       def inspect
-        "#<#{ self.class.inspect } {#{ to_s }}>"
+        to_a.inspect
       end
     end # DSL
   end # Pipeline
