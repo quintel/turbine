@@ -42,14 +42,29 @@ describe 'Turbine::Properties' do
   # --------------------------------------------------------------------------
 
   describe '#set' do
-    let!(:result) { model.set(:type, 'Extra-special') }
+    context 'given a key and value' do
+      let!(:result) { model.set(:type, 'Extra-special') }
 
-    it 'sets the value' do
-      expect(model.get(:type)).to eql('Extra-special')
+      it 'sets the value' do
+        expect(model.get(:type)).to eql('Extra-special')
+      end
+
+      it 'returns the value' do
+        expect(result).to eql('Extra-special')
+      end
     end
 
-    it 'returns the value' do
-      expect(result).to eql('Extra-special')
+    context 'given a hash' do
+      let!(:result) { model.set(type: 'Extra-special', today: 'Yes') }
+
+      it 'sets each value' do
+        expect(model.get(:type)).to eql('Extra-special')
+        expect(model.get(:today)).to eql('Yes')
+      end
+
+      it 'returns the hash' do
+        expect(result).to eq(type: 'Extra-special', today: 'Yes')
+      end
     end
   end
 

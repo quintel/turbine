@@ -31,8 +31,12 @@ module Turbine
     # value - The value to be set.
     #
     # Returns the value.
-    def set(key, value)
-      properties[key] = value
+    def set(key, value = nil)
+      if key.is_a?(Hash)
+        properties.merge!(key)
+      else
+        properties[key] = value
+      end
     end
 
     # Public: Returns a single property on the model.
