@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.homepage     = 'http://github.com/quintel/turbine'
   s.summary      = 'An in-memory graph database written in Ruby.'
   s.description  = 'An experiment in graph databases, with Ruby...'
+  s.license      = 'BSD'
 
   s.require_path = 'lib'
 
