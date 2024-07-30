@@ -102,6 +102,17 @@ module Turbine
       Algorithms::Tarjan.new(self, label).strongly_connected_components
     end
 
+    # Public: Uses Johnson's elementary circuit detection algorithm to detect
+    # which nodes form elementary circuits.
+    #
+    # label - A label used to define the starting edges of circuits. Default:
+    #         :circular
+    #
+    # Returns an array of arrays of nodes that form circuits.
+    def circuits(label = :circular)
+      Algorithms::Johnson.new(self, label: label).discover_circuits
+    end
+
     # Public: A human-readable version of the graph.
     #
     # Returns a string.

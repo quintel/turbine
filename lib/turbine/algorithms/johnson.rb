@@ -20,7 +20,7 @@ module Turbine
 
       # Main method for discovering circuits.
       #
-      # Circuits are saved in @discovered
+      # Returns discovered circuits
       def discover_circuits
         start_pairs do |start_node, second_node|
           @start_node = start_node
@@ -33,6 +33,8 @@ module Turbine
           @stack.pop
           @blocked[start_node] = false
         end
+
+        @discovered
       end
 
       # Returns pairs with circular edge between them that serve as
