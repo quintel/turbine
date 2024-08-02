@@ -7,11 +7,11 @@ module Turbine
       # Discovered contains collections of nodes that create a circuit
       attr_reader :discovered
 
-      # Label is the label used to tag circular edges. Circular edges need to be
+      # Filter should use the same tag used to tag circular edges. Circular edges need to be
       # tagged for a directed cyclic graph to pass Tarjan.
-      def initialize(graph, label: :circular)
+      def initialize(graph, &filter)
         @nodes = graph.nodes
-        @label = label
+        @filter = filter
         @stack = []
         @blocked = {}
         @blocked_map = @nodes.each_with_object({}) { |node, h| h[node] = Set.new }
@@ -46,11 +46,11 @@ module Turbine
       # step.
       def start_pairs
         @nodes.each do |node|
-          circ_nodes = node.out(@label)
-          next if circ_nodes.to_a.empty?
+          circ_edges = node.out_edges.select(&@filter)
+          next if circ_edges.to_a.empty?
 
-          circ_nodes.each do |circ_node|
-            yield(node, circ_node)
+          circ_edges.each do |circ_edge|
+            yield(node, circ_edge.nodes(:to))
           end
         end
       end

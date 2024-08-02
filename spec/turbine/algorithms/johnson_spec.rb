@@ -3,7 +3,7 @@ require 'spec_helper'
 module Turbine
   describe Algorithms::Johnson do
     let(:graph) { Turbine::Graph.new }
-    let(:algo)  { Algorithms::Johnson.new(graph, label: :circular) }
+    let(:algo)  { Algorithms::Johnson.new(graph) { |e| e.label == :circular } }
 
     let(:a) { graph.add(Turbine::Node.new(:a)) }
     let(:b) { graph.add(Turbine::Node.new(:b)) }

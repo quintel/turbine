@@ -105,12 +105,12 @@ module Turbine
     # Public: Uses Johnson's elementary circuit detection algorithm to detect
     # which nodes form elementary circuits.
     #
-    # label - A label used to define the starting edges of circuits. Default:
-    #         :circular
+    # filter - A filter used to define the starting edges of circuits. Default:
+    #         should be edges tagged with :circular
     #
     # Returns an array of arrays of nodes that form circuits.
-    def circuits(label = :circular)
-      Algorithms::Johnson.new(self, label: label).discover_circuits
+    def circuits(&filter)
+      Algorithms::Johnson.new(self, &filter).discover_circuits
     end
 
     # Public: A human-readable version of the graph.
