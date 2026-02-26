@@ -23,7 +23,7 @@ module Turbine::Pipeline
         pipe.to_a
         pipe.rewind
 
-        journal.source.should_receive(:next).and_raise(StopIteration)
+        expect(journal.source).to receive(:next).and_raise(StopIteration)
 
         journal.values
       end

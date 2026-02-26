@@ -34,7 +34,7 @@ describe 'Turbine::Properties' do
     end
 
     it 'should raise an error when the argument is not a hash' do
-      expect(->{ model.properties = '' }).to raise_error(
+      expect { model.properties = '' }.to raise_error(
         Turbine::InvalidPropertiesError, /must be a Hash/)
     end
   end

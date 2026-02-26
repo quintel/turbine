@@ -19,7 +19,7 @@ describe 'Turbine::Edge' do
     end
 
     context 'without a "to" node' do
-      it { expect(->{ Turbine::Edge.new }).to raise_error(ArgumentError) }
+      it { expect { Turbine::Edge.new }.to raise_error(ArgumentError) }
     end
 
     context 'without an "from" node' do

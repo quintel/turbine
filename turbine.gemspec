@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake',  '>= 0.9.0'
   s.add_development_dependency 'rspec', '>= 2.11.0'
+  s.add_development_dependency 'rspec-collection_matchers'
 
   s.rdoc_options     = ['--charset=UTF-8']
   s.extra_rdoc_files = %w[LICENSE README.md]

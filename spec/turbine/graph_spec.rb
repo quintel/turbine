@@ -49,7 +49,7 @@ describe 'Turbine::Graph' do
       before { graph.add(node) }
 
       it 'should raise a DuplicateNodeError' do
-        expect(->{ graph.add(Turbine::Node.new(:jay)) }).to raise_error(
+        expect { graph.add(Turbine::Node.new(:jay)) }.to raise_error(
           Turbine::DuplicateNodeError, /Graph already has a node with the key/)
       end
     end # when the key conflicts with an existing node
