@@ -62,16 +62,16 @@ module Turbine::Pipeline
       let(:pipeline)  { pump | transform | finalise }
 
       it 'call each segment the minimum number of times' do
-        transform.should_receive(:next).
-          exactly(2).times.and_return { pump.next }
+        expect(transform).to receive(:next).
+          exactly(2).times.and_invoke(-> { pump.next })
 
         2.times { pipeline.next }
       end
 
       it 'calls each segment when requesting all items' do
         # Once for each item, then once more to check for another...
-        transform.should_receive(:next).
-          exactly(11).times.and_return { pump.next }
+        expect(transform).to receive(:next).
+          exactly(11).times.and_invoke(-> { pump.next })
 
         pipeline.to_a
       end
@@ -91,8 +91,8 @@ module Turbine::Pipeline
       end
 
       it 'executes lazily' do
-        filter.should_receive(:next).
-          exactly(3).times.and_return { pump.next }
+        expect(filter).to receive(:next).
+          exactly(3).times.and_invoke(-> { pump.next })
 
         pipeline.take(3)
       end

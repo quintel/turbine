@@ -25,7 +25,7 @@ describe 'Turbine::Node' do
 
   context 'creating a new node' do
     context 'without providing a key' do
-      it { expect(-> { Turbine::Node.new }).to raise_error(ArgumentError) }
+      it { expect { Turbine::Node.new }.to raise_error(ArgumentError) }
     end
 
     context 'providing no properties' do
@@ -187,7 +187,7 @@ describe 'Turbine::Node' do
       let!(:original) { gloria.connect_to(manny, :child) }
 
       it 'raises DuplicateEdgeError' do
-        expect(-> { gloria.connect_to(manny, :child) }).to raise_error(
+        expect { gloria.connect_to(manny, :child) }.to raise_error(
           Turbine::DuplicateEdgeError, /another edge already exists/i)
       end
     end # when an identical edge already exists

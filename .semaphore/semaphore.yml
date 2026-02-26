@@ -1,0 +1,22 @@
+version: v1.0
+name: Test Turbine
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2404
+blocks:
+  - name: RSpec
+    task:
+      jobs:
+        - name: Test
+          commands:
+            - checkout
+            - sem-version ruby $RUBY_VERSION
+            - gem install bundler -v ">= 2.0"
+            - bundle install
+            - bundle exec rspec
+          matrix:
+            - env_var: RUBY_VERSION
+              values:
+                - '3.3'
+                - '4.0'
