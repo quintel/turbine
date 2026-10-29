@@ -6,6 +6,9 @@ agent:
     os_image: ubuntu2404
 blocks:
   - name: RSpec
+    # Skip the suite on the major-updates dashboard branches — never merged, so don't waste CI.
+    run:
+      when: "branch !~ '^dependabot/.+/major-updates-'"
     task:
       jobs:
         - name: Test
@@ -19,4 +22,4 @@ blocks:
             - env_var: RUBY_VERSION
               values:
                 - '3.3'
-                - '4.0'
+                - '4.0.5'
